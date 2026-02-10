@@ -14,8 +14,6 @@ String wifiSSID = "market_viewer_setup";
 String wifiPassword = "marketViewer321";
 String defaultBackendUrl = "http://localhost:8080/api";
 
-
-
 void init_wifi_config() {
     // Load saved configuration
     preferences.begin("wifi_config", true);  // Read-only
@@ -89,6 +87,9 @@ bool start_wifi_portal() {
     // Configure portal
     wifiManager.setConfigPortalTimeout(180);  // 3 minutes timeout
     wifiManager.setAPClientCheck(true);
+    wifiManager.setClass("invert");
+
+    wifiManager.setShowInfoUpdate(false);
     
     // Start portal - this blocks until configured or timeout
     bool connected = wifiManager.startConfigPortal(wifiSSID.c_str(), wifiPassword.c_str());

@@ -13,6 +13,7 @@ extern "C" {
 // SCREEN: ui_brightnessScreen
 extern void ui_brightnessScreen_screen_init(void);
 extern void ui_brightnessScreen_screen_destroy(void);
+extern void ui_event_brightnessScreen(lv_event_t * e);
 extern lv_obj_t * ui_brightnessScreen;
 extern void ui_event_brightnessArc(lv_event_t * e);
 extern lv_obj_t * ui_brightnessArc;

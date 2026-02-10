@@ -3,6 +3,7 @@
 #include "AudioManager.h"
 #include "GuiManager.h"
 #include "WifiConfig.h"
+#include "startupEvents.h"
 
 void setup() {
   Serial.begin(115200);
@@ -13,11 +14,14 @@ void setup() {
   //Initialize audio 
   init_audio_manager();
   
+  //try to connect to saved wifi
+  init_wifi_config();
+  
   //Initialize LVGL (Buffers, UI)
   init_lvgl_interface();
 
-  //try to connect to saved wifi
-  init_wifi_config();
+  // Load saved hardware settings (brightness, volume, rotation)
+  loadHardwareSettingsFromPreferences();
   
   Serial.println("System Ready!");
 }

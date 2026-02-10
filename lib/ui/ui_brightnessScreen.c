@@ -12,6 +12,15 @@ lv_obj_t * ui_brightnessValueLabel = NULL;
 lv_obj_t * ui_brightnessButtonBack = NULL;
 lv_obj_t * ui_brightnessIcon = NULL;
 // event funtions
+void ui_event_brightnessScreen(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_SCREEN_UNLOAD_START) {
+        saveBrightness(e);
+    }
+}
+
 void ui_event_brightnessArc(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -114,6 +123,7 @@ void ui_brightnessScreen_screen_init(void)
 
     lv_obj_add_event_cb(ui_brightnessArc, ui_event_brightnessArc, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_brightnessButtonBack, ui_event_brightnessButtonBack, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_brightnessScreen, ui_event_brightnessScreen, LV_EVENT_ALL, NULL);
 
 }
 

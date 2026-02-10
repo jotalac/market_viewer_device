@@ -13,6 +13,7 @@ extern "C" {
 // SCREEN: ui_homeScreen
 extern void ui_homeScreen_screen_init(void);
 extern void ui_homeScreen_screen_destroy(void);
+extern void ui_event_homeScreen(lv_event_t * e);
 extern lv_obj_t * ui_homeScreen;
 extern lv_obj_t * ui_homeLabel;
 extern lv_obj_t * ui_homeContainerMain;
@@ -23,11 +24,13 @@ extern void ui_event_brightnessButton(lv_event_t * e);
 extern lv_obj_t * ui_brightnessButton;
 extern void ui_event_volumeButton(lv_event_t * e);
 extern lv_obj_t * ui_volumeButton;
-extern lv_obj_t * ui_homeContainerRow2;
-extern void ui_event_wifiButton(lv_event_t * e);
-extern lv_obj_t * ui_wifiButton;
 extern void ui_event_rotateButton(lv_event_t * e);
 extern lv_obj_t * ui_rotateButton;
+extern lv_obj_t * ui_homeContainerRow2;
+extern void ui_event_screensButton(lv_event_t * e);
+extern lv_obj_t * ui_screensButton;
+extern void ui_event_wifiButton(lv_event_t * e);
+extern lv_obj_t * ui_wifiButton;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

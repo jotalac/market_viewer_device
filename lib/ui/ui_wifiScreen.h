@@ -30,6 +30,12 @@ extern lv_obj_t * ui_wifiResetButton;
 extern lv_obj_t * ui_wifiLabel;
 extern void ui_event_volumeButtonBack2(lv_event_t * e);
 extern lv_obj_t * ui_volumeButtonBack2;
+extern lv_obj_t * ui_overlayWifiContainer;
+extern lv_obj_t * ui_overlayWifiLabel1;
+extern lv_obj_t * ui_overlayWifiSSIDLabel;
+extern lv_obj_t * ui_overlayWifiSSIDLabelValue;
+extern lv_obj_t * ui_overlayWifiPwdLabel;
+extern lv_obj_t * ui_overlayWifiPwdLabelValue;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

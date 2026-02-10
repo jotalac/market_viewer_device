@@ -33,6 +33,7 @@ extern "C" {
 #include "ui_brightnessScreen.h"
 #include "ui_volumeScreen.h"
 #include "ui_wifiScreen.h"
+#include "ui_screensScreen.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -46,15 +47,18 @@ extern lv_obj_t * ui____initial_actions0;
 LV_IMG_DECLARE(ui_img_1314322640);    // assets/power-icon.png
 LV_IMG_DECLARE(ui_img_1826884842);    // assets/brightness-icon.png
 LV_IMG_DECLARE(ui_img_367695115);    // assets/volume-icon.png
-LV_IMG_DECLARE(ui_img_1272477160);    // assets/wifi-icon.png
 LV_IMG_DECLARE(ui_img_871200326);    // assets/rotate-icon.png
+LV_IMG_DECLARE(ui_img_555948897);    // assets/monitor-icon.png
+LV_IMG_DECLARE(ui_img_1272477160);    // assets/wifi-icon.png
 LV_IMG_DECLARE(ui_img_1702299517);    // assets/return-icon.png
 LV_IMG_DECLARE(ui_img_536642073);    // assets/check-icon.png
 LV_IMG_DECLARE(ui_img_9953116);    // assets/wrench-icon.png
 LV_IMG_DECLARE(ui_img_788343386);    // assets/reset-icon.png
+LV_IMG_DECLARE(ui_img_936315526);    // assets/refresh-icon.png
 
 // FONTS
 LV_FONT_DECLARE(ui_font_Mono20);
+LV_FONT_DECLARE(ui_font_mono30);
 LV_FONT_DECLARE(ui_font_Mono40);
 LV_FONT_DECLARE(ui_font_MonoBold100);
 LV_FONT_DECLARE(ui_font_MonoBold60);

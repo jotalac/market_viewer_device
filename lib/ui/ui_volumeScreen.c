@@ -12,6 +12,15 @@ lv_obj_t * ui_volumeValueLabel = NULL;
 lv_obj_t * ui_volumeButtonBack = NULL;
 lv_obj_t * ui_volumeIcon = NULL;
 // event funtions
+void ui_event_volumeScreen(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_SCREEN_UNLOAD_START) {
+        saveVolume(e);
+    }
+}
+
 void ui_event_volumeArc(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -113,6 +122,7 @@ void ui_volumeScreen_screen_init(void)
 
     lv_obj_add_event_cb(ui_volumeArc, ui_event_volumeArc, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_volumeButtonBack, ui_event_volumeButtonBack, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_volumeScreen, ui_event_volumeScreen, LV_EVENT_ALL, NULL);
 
 }
 

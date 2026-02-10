@@ -13,6 +13,7 @@ extern "C" {
 // SCREEN: ui_volumeScreen
 extern void ui_volumeScreen_screen_init(void);
 extern void ui_volumeScreen_screen_destroy(void);
+extern void ui_event_volumeScreen(lv_event_t * e);
 extern lv_obj_t * ui_volumeScreen;
 extern void ui_event_volumeArc(lv_event_t * e);
 extern lv_obj_t * ui_volumeArc;

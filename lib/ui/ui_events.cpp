@@ -9,6 +9,7 @@
 #include "esp32-hal-cpu.h"
 #include "AudioManager.h"
 #include "WifiConfig.h"
+#include "ui_events_helper.h"
 
 //global shield to not control screen when it is off
 lv_obj_t * blackout_shield = NULL;
@@ -31,7 +32,7 @@ void toggleTurnOff(lv_event_t * e)
     } else {
         Serial.println("Screen going to sleep");
 
-        setCpuFrequencyMhz(80); // drop speed when device is 'turned off'
+        setCpuFrequencyMhz(12); // drop speed when device is 'turned off'
         set_brightness(0);
         isScreenOff = true;
 
@@ -51,7 +52,7 @@ void setBrightnessFromArc(lv_event_t * e)
     lv_obj_t * slider = lv_event_get_target(e);
     int32_t percentage = lv_arc_get_value(slider);
         
-    Serial.println("setting brightness to: " + percentage);
+    Serial.println("setting brightness to: " + String(percentage));
     currentBrightness = percentage;
 
     set_brightness_percentage(percentage);
@@ -63,6 +64,8 @@ void setVolumeFromArc(lv_event_t * e)
     int32_t percentage = lv_arc_get_value(arc);
     
     Serial.println("Setting volume to: " + String(percentage));
+    currentVolume = percentage;
+    
     set_volume_percentage(percentage);
 
     // play sound to verify volume
@@ -72,23 +75,29 @@ void setVolumeFromArc(lv_event_t * e)
 void toggleRotationSettings(lv_event_t * e)
 {
     shouldRotate = !shouldRotate;
+    saveHardwaveBoolToPreferences("rotation", shouldRotate);
 }
 
 void openWifiPortal(lv_event_t * e)
 {
     Serial.println("Opening WiFi configuration portal...");
-    
-    // Show a message on screen (optional)
-    // You could create a loading screen here
-    
+
+    //show wifi credentials
+    displayWifiConnectCredentials(true);
+
     bool success = start_wifi_portal();
+
+    //hide credentials
+    displayWifiConnectCredentials(false);
     
     if (success) {
         Serial.println("WiFi configured!");
         play_beep(1000, 100);  // Success beep
+        changeWifiScreenConnected();
     } else {
         Serial.println("WiFi config cancelled/failed");
         play_beep(400, 200);  // Error beep
+        changeWifiScreenNotConnected();
     }
 }
 
@@ -108,19 +117,31 @@ void updateWifiScreenStatusOnLoad(lv_event_t * e) {
     }
 }
 
-void changeWifiScreenNotConnected() {
-    //change the connection status
-    lv_label_set_text(ui_connectionLabel, "NOT CONNECTED");
-    lv_obj_set_style_bg_color(ui_wifiConnectionRoundIndicator, lv_color_hex(_ui_theme_color_redDark[0]), LV_PART_MAIN);
-    //display the current wifif ssid
-    lv_obj_add_flag(ui_connectedWifiContainer, LV_OBJ_FLAG_HIDDEN);
+void setButtonsStatusHomeScreen(lv_event_t * e)
+{
+    changeHomeScreenWifiIcon(is_wifi_connected());
 }
 
-void changeWifiScreenConnected() {
-    //change the connection status
-    lv_label_set_text(ui_connectionLabel, "CONNECTED");
-    lv_obj_set_style_bg_color(ui_wifiConnectionRoundIndicator, lv_color_hex(0x1ec20c), LV_PART_MAIN);
-    //display the current wifif ssid
-    lv_label_set_text(ui_connectedWifiSSIDLabel, get_connected_ssid());
-    lv_obj_clear_flag(ui_connectedWifiContainer, LV_OBJ_FLAG_HIDDEN);
+void saveBrightness(lv_event_t * e)
+{
+	saveHardwaveNumberToPreferences("brightness", currentBrightness);
+}
+
+void saveVolume(lv_event_t * e)
+{
+	saveHardwaveNumberToPreferences("volume", currentVolume);
+}
+
+void handleScreensScreenLoad(lv_event_t * e)
+{
+	if(is_wifi_connected()) {
+        lv_obj_clear_state(ui_screensRefetchButton, LV_STATE_DISABLED);
+    } else {
+        lv_obj_add_state(ui_screensRefetchButton, LV_STATE_DISABLED);
+    }
+}
+
+void refetchScreens(lv_event_t * e)
+{
+	// Your code here
 }
