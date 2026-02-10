@@ -10,6 +10,7 @@
 #include "AudioManager.h"
 #include "WifiConfig.h"
 #include "ui_events_helper.h"
+#include "ScreensManager.h"
 
 //global shield to not control screen when it is off
 lv_obj_t * blackout_shield = NULL;
@@ -143,5 +144,5 @@ void handleScreensScreenLoad(lv_event_t * e)
 
 void refetchScreens(lv_event_t * e)
 {
-	// Your code here
+	fetch_screens_from_backend();
 }

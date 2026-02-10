@@ -12,19 +12,19 @@ struct ScreenInfo {
 };
 
 // Initialize the manager
-// void init_screens_manager();
+void init_screens_manager();
 
 // Fetch screens from backend
 bool fetch_screens_from_backend();
 
 // Get all screens
-std::vector<ScreenInfo>& get_all_screens();
+// std::vector<ScreenInfo>& get_all_screens();
 
 // Get screen by position
-ScreenInfo* get_screen_by_id(const String& position);
+// ScreenInfo* get_screen_by_id(const String& position);
 
 // Get screen count
-int get_screen_count();
+// int get_screen_count();
 
 // Save screens to flash (cache)
 // void save_screens_to_flash();

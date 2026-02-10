@@ -3,10 +3,30 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <Preferences.h>
+#include "screen_types/BaseScreen.h"
 
-static std::vector<ScreenInfo> screens;
+static std::vector<BaseScreen*> screens;
 static Preferences preferences;
 static HTTPClient http;
+static int currentScreenIndex = 0;
+
+void init_screens_manager() {
+    Serial.println("Initializing Screens Manager...");
+    currentScreenIndex = 0;
+    screens.clear();
+}
+
+void clear_all_screens() {
+    // Free memory for all screens
+    for (auto screen : screens) {
+        delete screen;
+    }
+    screens.clear();
+    currentScreenIndex = 0;
+    
+    Serial.println("All screens cleared");
+}
+
 
 
 bool fetch_screens_from_backend() {
@@ -23,7 +43,7 @@ bool fetch_screens_from_backend() {
         return false;
     }
     
-    String url = String(backendUrl) + "hardware/" + String(deviceHash) + "/screens";
+    String url = String(backendUrl) + "hardware/" + String(deviceHash) + "/screen";
     
     Serial.println("Fetching screens from: " + url);
     
@@ -44,7 +64,7 @@ bool fetch_screens_from_backend() {
     Serial.println("Received: " + payload);
     
     // Parse JSON response
-    DynamicJsonDocument doc(4096);
+    JsonDocument doc;
     DeserializationError error = deserializeJson(doc, payload);
     
     if (error) {
@@ -53,26 +73,33 @@ bool fetch_screens_from_backend() {
     }
     
     // Clear existing screens
-    screens.clear();
+    clear_all_screens();
     
     // Parse screens array
-    JsonArray screensArray = doc["screens"].as<JsonArray>();
+    JsonArray screensArray = doc.as<JsonArray>();
     
     for (JsonObject screenObj : screensArray) {
-        ScreenInfo screen;
-        screen.position = screenObj["position"].as<String>();
-        screen.type = screenObj["type"].as<String>();
-        screen.data = screenObj["data"].as<String>();
-        screen.active = screenObj["active"] | true;
+        String type = screenObj["screenType"];
+        JsonObject data = screenObj;
         
-        screens.push_back(screen);
-        // Serial.println("Added screen: " + screen.name);
+        // Add position to data object for factory
+        data["position"] = screenObj["position"];
+        
+        // Create screen using factory
+        BaseScreen* screen = createScreenFromType(type, data);
+        
+        if (screen != nullptr) {
+            screens.push_back(screen);
+            Serial.println("Added screen: " + screen->getDisplayName());
+        } else {
+            Serial.println("Failed to create screen of type: " + type);
+        }
     }
     
     Serial.println("Fetched " + String(screens.size()) + " screens");
     
-    // Cache to flash
-    // save_screens_to_flash();
+    // Reset to first screen
+    currentScreenIndex = 0;
     
     return true;
 }
