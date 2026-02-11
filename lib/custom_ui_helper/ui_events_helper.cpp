@@ -4,6 +4,7 @@
 #include "WifiConfig.h"
 #include "HardwareDriver.h"
 #include "AudioManager.h"
+#include "ScreensManager.h"
 #include <Preferences.h>
 
 static Preferences preferences;
@@ -23,6 +24,9 @@ void changeWifiScreenConnected() {
     //display the current wifif ssid
     lv_label_set_text(ui_connectedWifiSSIDLabel, get_connected_ssid());
     lv_obj_clear_flag(ui_connectedWifiContainer, LV_OBJ_FLAG_HIDDEN);
+    
+    //display the backend url and device hash
+    lv_label_set_text(ui_backendUrlLabel, get_backend_url());
 }
 
 void displayWifiConnectCredentials(bool shouldDisplay) {
@@ -57,4 +61,38 @@ void saveHardwaveBoolToPreferences(String name, bool value) {
     preferences.begin("hardware_config", false);
     preferences.putBool(name.c_str(), value);
     preferences.end();
+}
+
+
+// screens screen
+void updateScreensScreenOnDataFetch(bool successfull) {
+    if (!successfull) {
+        lv_obj_add_flag(ui_screensListPanel, LV_OBJ_FLAG_HIDDEN);
+        lv_label_set_text_fmt(ui_screenNotFetchedLabel, "Fetch error...");
+        lv_obj_clear_flag(ui_screenNotFetchedLabel, LV_OBJ_FLAG_HIDDEN);
+    } else {
+        lv_obj_clear_flag(ui_screensListPanel, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(ui_screenNotFetchedLabel, LV_OBJ_FLAG_HIDDEN);
+
+        // Clear existing children in the list panel (except template if you have one)
+        lv_obj_clean(ui_screensListPanel);
+        
+        std::vector<ScreenInfo> screens = get_all_screens_info();
+        
+        for (int i = 0; i < screens.size(); i++) {
+            // Create a label for each screen
+            lv_obj_t* label = lv_label_create(ui_screensListPanel);
+            
+            String text = String(screens[i].position + 1) + ". " + screens[i].name;
+            lv_label_set_text(label, text.c_str());
+            
+            // Style the label
+            lv_obj_set_width(label, 300);
+            lv_obj_set_height(label, 50);    /// 1
+            lv_obj_set_align(label, LV_ALIGN_CENTER);
+            lv_label_set_long_mode(label, LV_LABEL_LONG_SCROLL);
+            lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN);
+            lv_obj_set_style_text_font(label, &ui_font_mono30, LV_PART_MAIN);
+        }
+    }
 }

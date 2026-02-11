@@ -1,4 +1,5 @@
 #include "ScreensManager.h"
+#include "HttpRequestManager.h"
 #include "WifiConfig.h"
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
@@ -7,14 +8,14 @@
 
 static std::vector<BaseScreen*> screens;
 static Preferences preferences;
-static HTTPClient http;
+
 static int currentScreenIndex = 0;
 
-void init_screens_manager() {
-    Serial.println("Initializing Screens Manager...");
-    currentScreenIndex = 0;
-    screens.clear();
-}
+// void init_screens_manager() {
+//     Serial.println("Initializing Screens Manager...");
+//     currentScreenIndex = 0;
+//     screens.clear();
+// }
 
 void clear_all_screens() {
     // Free memory for all screens
@@ -27,64 +28,44 @@ void clear_all_screens() {
     Serial.println("All screens cleared");
 }
 
+void sortScreens() {
+    std::sort(screens.begin(), screens.end(), [](const BaseScreen* lhs, const BaseScreen* rhs) {
+        return lhs->getPosition() < rhs->getPosition();
+    });
+}
 
 
-bool fetch_screens_from_backend() {
-    if (!is_wifi_connected()) {
-        Serial.println("Cannot fetch screens - WiFi not connected");
+bool get_screens_from_backend() {
+    String jsonPayload = fetch_screens_from_backend();
+
+    //check if we got error fetching the data
+    if (jsonPayload.isEmpty()) {
+        Serial.println("Failed to fetch screens - empty response");
         return false;
     }
-    
-    const char* backendUrl = get_backend_url();
-    const char* deviceHash = get_device_hash();
-    
-    if (strlen(backendUrl) == 0 || strlen(deviceHash) == 0) {
-        Serial.println("Backend URL or device hash not configured");
-        return false;
-    }
-    
-    String url = String(backendUrl) + "hardware/" + String(deviceHash) + "/screen";
-    
-    Serial.println("Fetching screens from: " + url);
-    
-    http.begin(url);
-    http.setTimeout(10000);  // 10 second timeout
-    
-    int httpCode = http.GET();
-    
-    if (httpCode != HTTP_CODE_OK) {
-        Serial.println("HTTP error: " + String(httpCode));
-        http.end();
-        return false;
-    }
-    
-    String payload = http.getString();
-    http.end();
-    
-    Serial.println("Received: " + payload);
-    
-    // Parse JSON response
+
+    // Parse JSON here where the document stays in scope
     JsonDocument doc;
-    DeserializationError error = deserializeJson(doc, payload);
+    DeserializationError error = deserializeJson(doc, jsonPayload);
     
     if (error) {
         Serial.println("JSON parse error: " + String(error.c_str()));
         return false;
     }
     
-    // Clear existing screens
-    clear_all_screens();
-    
-    // Parse screens array
     JsonArray screensArray = doc.as<JsonArray>();
+    
+    if (screensArray.size() == 0) {
+        Serial.println("No screens found in response");
+        return false;
+    }
+    
+    clear_all_screens();
     
     for (JsonObject screenObj : screensArray) {
         String type = screenObj["screenType"];
         JsonObject data = screenObj;
-        
-        // Add position to data object for factory
-        data["position"] = screenObj["position"];
-        
+                
         // Create screen using factory
         BaseScreen* screen = createScreenFromType(type, data);
         
@@ -95,11 +76,21 @@ bool fetch_screens_from_backend() {
             Serial.println("Failed to create screen of type: " + type);
         }
     }
+
+    //sort screens
+    sortScreens();
     
     Serial.println("Fetched " + String(screens.size()) + " screens");
-    
-    // Reset to first screen
     currentScreenIndex = 0;
     
     return true;
+}
+
+std::vector<ScreenInfo> get_all_screens_info() {
+    std::vector<ScreenInfo> allScreenInfo = {};
+    for (auto screen : screens) {
+        allScreenInfo.push_back(ScreenInfo(screen->getPosition(), screen->getDisplayName()));
+    }
+
+    return allScreenInfo;
 }

@@ -6,10 +6,10 @@
 #include "ui.h"
 
 lv_obj_t * ui_screensScreen = NULL;
+lv_obj_t * ui_screenNotFetchedLabel = NULL;
 lv_obj_t * ui_screensLabel = NULL;
 lv_obj_t * ui_screensListPanel = NULL;
 lv_obj_t * ui_screenListItemLabelExample = NULL;
-lv_obj_t * ui_screenNotFetchedLabel = NULL;
 lv_obj_t * ui_volumeButtonBack3 = NULL;
 lv_obj_t * ui_screensRefetchButton = NULL;
 // event funtions
@@ -49,6 +49,19 @@ void ui_screensScreen_screen_init(void)
     lv_obj_set_style_bg_color(ui_screensScreen, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_screensScreen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_screenNotFetchedLabel = lv_label_create(ui_screensScreen);
+    lv_obj_set_width(ui_screenNotFetchedLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_screenNotFetchedLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_screenNotFetchedLabel, 0);
+    lv_obj_set_y(ui_screenNotFetchedLabel, -80);
+    lv_obj_set_align(ui_screenNotFetchedLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_screenNotFetchedLabel, "No screens");
+    ui_object_set_themeable_style_property(ui_screenNotFetchedLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_COLOR,
+                                           _ui_theme_color_redDark);
+    ui_object_set_themeable_style_property(ui_screenNotFetchedLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
+                                           _ui_theme_alpha_redDark);
+    lv_obj_set_style_text_font(ui_screenNotFetchedLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+
     ui_screensLabel = lv_label_create(ui_screensScreen);
     lv_obj_set_width(ui_screensLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_screensLabel, LV_SIZE_CONTENT);    /// 1
@@ -64,39 +77,30 @@ void ui_screensScreen_screen_init(void)
 
     ui_screensListPanel = lv_obj_create(ui_screensScreen);
     lv_obj_set_width(ui_screensListPanel, 320);
-    lv_obj_set_height(ui_screensListPanel, 183);
+    lv_obj_set_height(ui_screensListPanel, 213);
     lv_obj_set_x(ui_screensListPanel, 0);
-    lv_obj_set_y(ui_screensListPanel, -120);
+    lv_obj_set_y(ui_screensListPanel, -100);
     lv_obj_set_align(ui_screensListPanel, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_screensListPanel, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_screensListPanel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_add_flag(ui_screensListPanel, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_set_scroll_dir(ui_screensListPanel, LV_DIR_VER);
     lv_obj_set_style_bg_color(ui_screensListPanel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_screensListPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_color(ui_screensListPanel, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_opa(ui_screensListPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_screenListItemLabelExample = lv_label_create(ui_screensListPanel);
-    lv_obj_set_width(ui_screenListItemLabelExample, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_width(ui_screenListItemLabelExample, 300);
     lv_obj_set_height(ui_screenListItemLabelExample, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_screenListItemLabelExample, 0);
-    lv_obj_set_y(ui_screenListItemLabelExample, -122);
+    lv_obj_set_x(ui_screenListItemLabelExample, 3);
+    lv_obj_set_y(ui_screenListItemLabelExample, -85);
     lv_obj_set_align(ui_screenListItemLabelExample, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_screenListItemLabelExample, "1. Stock screen");
+    lv_label_set_long_mode(ui_screenListItemLabelExample, LV_LABEL_LONG_DOT);
+    lv_label_set_text(ui_screenListItemLabelExample, "1. Stock screens");
     lv_obj_add_flag(ui_screenListItemLabelExample, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_set_style_text_align(ui_screenListItemLabelExample, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_screenListItemLabelExample, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_screenNotFetchedLabel = lv_label_create(ui_screensListPanel);
-    lv_obj_set_width(ui_screenNotFetchedLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_screenNotFetchedLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_screenNotFetchedLabel, 0);
-    lv_obj_set_y(ui_screenNotFetchedLabel, -122);
-    lv_obj_set_align(ui_screenNotFetchedLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_screenNotFetchedLabel, "No screens");
-    ui_object_set_themeable_style_property(ui_screenNotFetchedLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_COLOR,
-                                           _ui_theme_color_redDark);
-    ui_object_set_themeable_style_property(ui_screenNotFetchedLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
-                                           _ui_theme_alpha_redDark);
-    lv_obj_set_style_text_font(ui_screenNotFetchedLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_volumeButtonBack3 = lv_imgbtn_create(ui_screensScreen);
     lv_imgbtn_set_src(ui_volumeButtonBack3, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_1702299517, NULL);
@@ -114,7 +118,7 @@ void ui_screensScreen_screen_init(void)
     lv_obj_set_width(ui_screensRefetchButton, 90);
     lv_obj_set_height(ui_screensRefetchButton, 90);
     lv_obj_set_x(ui_screensRefetchButton, 0);
-    lv_obj_set_y(ui_screensRefetchButton, 40);
+    lv_obj_set_y(ui_screensRefetchButton, 50);
     lv_obj_set_align(ui_screensRefetchButton, LV_ALIGN_CENTER);
     lv_obj_add_state(ui_screensRefetchButton, LV_STATE_DISABLED);       /// States
     lv_obj_add_flag(ui_screensRefetchButton, LV_OBJ_FLAG_SCROLL_ON_FOCUS);     /// Flags
@@ -142,10 +146,10 @@ void ui_screensScreen_screen_destroy(void)
 
     // NULL screen variables
     ui_screensScreen = NULL;
+    ui_screenNotFetchedLabel = NULL;
     ui_screensLabel = NULL;
     ui_screensListPanel = NULL;
     ui_screenListItemLabelExample = NULL;
-    ui_screenNotFetchedLabel = NULL;
     ui_volumeButtonBack3 = NULL;
     ui_screensRefetchButton = NULL;
 

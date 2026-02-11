@@ -5,20 +5,22 @@
 #include <vector>
 
 struct ScreenInfo {
-    String position;
-    String type;
-    String data;  // JSON or other data for the screen
-    bool active;
+    int position;
+    String name;
+
+    ScreenInfo(int pos, String n) : position(pos), name(n) {}
 };
 
 // Initialize the manager
-void init_screens_manager();
+// void init_screens_manager();
 
 // Fetch screens from backend
-bool fetch_screens_from_backend();
+bool get_screens_from_backend();
 
 // Get all screens
-// std::vector<ScreenInfo>& get_all_screens();
+std::vector<ScreenInfo> get_all_screens_info();
+
+void sortScreens();
 
 // Get screen by position
 // ScreenInfo* get_screen_by_id(const String& position);

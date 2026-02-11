@@ -15,4 +15,7 @@ void changeHomeScreenWifiIcon(bool isConnected);
 void saveHardwaveNumberToPreferences(String name, int value);
 void saveHardwaveBoolToPreferences(String name, bool value);
 
+//screens screen dispaly
+void updateScreensScreenOnDataFetch(bool successfull);
+
 #endif

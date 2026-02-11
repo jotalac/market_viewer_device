@@ -11,8 +11,10 @@ lv_obj_t * ui_connectionInfoContainer = NULL;
 lv_obj_t * ui_wifiConnectionRoundIndicator = NULL;
 lv_obj_t * ui_connectionLabel = NULL;
 lv_obj_t * ui_connectedWifiContainer = NULL;
+lv_obj_t * ui_wifiNameContainer = NULL;
 lv_obj_t * ui_connectedWifiSSIDLabel = NULL;
 lv_obj_t * ui_connectedWifiIcon = NULL;
+lv_obj_t * ui_backendUrlLabel = NULL;
 lv_obj_t * ui_wifiContainersButtons = NULL;
 lv_obj_t * ui_wifiConfigButton = NULL;
 lv_obj_t * ui_wifiResetButton = NULL;
@@ -73,9 +75,9 @@ void ui_wifiScreen_screen_init(void)
 
     ui_mainContainerWifi = lv_obj_create(ui_wifiScreen);
     lv_obj_set_width(ui_mainContainerWifi, 400);
-    lv_obj_set_height(ui_mainContainerWifi, 292);
+    lv_obj_set_height(ui_mainContainerWifi, 316);
     lv_obj_set_x(ui_mainContainerWifi, 0);
-    lv_obj_set_y(ui_mainContainerWifi, -30);
+    lv_obj_set_y(ui_mainContainerWifi, -25);
     lv_obj_set_align(ui_mainContainerWifi, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_mainContainerWifi, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_mainContainerWifi, LV_FLEX_ALIGN_SPACE_EVENLY, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
@@ -119,25 +121,34 @@ void ui_wifiScreen_screen_init(void)
     lv_obj_set_style_text_font(ui_connectionLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_connectedWifiContainer = lv_obj_create(ui_mainContainerWifi);
-    lv_obj_set_width(ui_connectedWifiContainer, 250);
-    lv_obj_set_height(ui_connectedWifiContainer, 38);
+    lv_obj_set_width(ui_connectedWifiContainer, 379);
+    lv_obj_set_height(ui_connectedWifiContainer, 102);
     lv_obj_set_x(ui_connectedWifiContainer, -48);
     lv_obj_set_y(ui_connectedWifiContainer, -30);
     lv_obj_set_align(ui_connectedWifiContainer, LV_ALIGN_CENTER);
-    lv_obj_set_flex_flow(ui_connectedWifiContainer, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_flow(ui_connectedWifiContainer, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_connectedWifiContainer, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
     lv_obj_add_flag(ui_connectedWifiContainer, LV_OBJ_FLAG_HIDDEN);     /// Flags
     lv_obj_clear_flag(ui_connectedWifiContainer, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_text_font(ui_connectedWifiContainer, &ui_font_Mono20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_connectedWifiSSIDLabel = lv_label_create(ui_connectedWifiContainer);
+    ui_wifiNameContainer = lv_obj_create(ui_connectedWifiContainer);
+    lv_obj_set_width(ui_wifiNameContainer, 248);
+    lv_obj_set_height(ui_wifiNameContainer, 39);
+    lv_obj_set_align(ui_wifiNameContainer, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_wifiNameContainer, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(ui_wifiNameContainer, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_wifiNameContainer, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_border_width(ui_wifiNameContainer, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_connectedWifiSSIDLabel = lv_label_create(ui_wifiNameContainer);
     lv_obj_set_width(ui_connectedWifiSSIDLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_connectedWifiSSIDLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_connectedWifiSSIDLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_connectedWifiSSIDLabel, "Wifi name");
     lv_obj_set_style_text_font(ui_connectedWifiSSIDLabel, &lv_font_montserrat_28, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_connectedWifiIcon = lv_img_create(ui_connectedWifiContainer);
+    ui_connectedWifiIcon = lv_img_create(ui_wifiNameContainer);
     lv_img_set_src(ui_connectedWifiIcon, &ui_img_536642073);
     lv_obj_set_width(ui_connectedWifiIcon, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_connectedWifiIcon, LV_SIZE_CONTENT);    /// 1
@@ -148,6 +159,17 @@ void ui_wifiScreen_screen_init(void)
     lv_obj_clear_flag(ui_connectedWifiIcon, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_img_recolor(ui_connectedWifiIcon, lv_color_hex(0x2CB60C), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_img_recolor_opa(ui_connectedWifiIcon, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_backendUrlLabel = lv_label_create(ui_connectedWifiContainer);
+    lv_obj_set_width(ui_backendUrlLabel, 367);
+    lv_obj_set_height(ui_backendUrlLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_backendUrlLabel, LV_ALIGN_CENTER);
+    lv_label_set_long_mode(ui_backendUrlLabel, LV_LABEL_LONG_SCROLL);
+    lv_label_set_text(ui_backendUrlLabel, "http://localhost:8080/api");
+    lv_obj_set_style_text_color(ui_backendUrlLabel, lv_color_hex(0x9C9C9C), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_backendUrlLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui_backendUrlLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_backendUrlLabel, &lv_font_montserrat_28, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_wifiContainersButtons = lv_obj_create(ui_mainContainerWifi);
     lv_obj_set_width(ui_wifiContainersButtons, 250);
@@ -198,7 +220,7 @@ void ui_wifiScreen_screen_init(void)
     lv_obj_set_width(ui_wifiLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_wifiLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_wifiLabel, 0);
-    lv_obj_set_y(ui_wifiLabel, 170);
+    lv_obj_set_y(ui_wifiLabel, 200);
     lv_obj_set_align(ui_wifiLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_wifiLabel, "WIFI");
     ui_object_set_themeable_style_property(ui_wifiLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_COLOR,
@@ -212,7 +234,7 @@ void ui_wifiScreen_screen_init(void)
     lv_obj_set_width(ui_volumeButtonBack2, 50);
     lv_obj_set_height(ui_volumeButtonBack2, 50);
     lv_obj_set_x(ui_volumeButtonBack2, 0);
-    lv_obj_set_y(ui_volumeButtonBack2, 120);
+    lv_obj_set_y(ui_volumeButtonBack2, 150);
     lv_obj_set_align(ui_volumeButtonBack2, LV_ALIGN_CENTER);
     ui_object_set_themeable_style_property(ui_volumeButtonBack2, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_IMG_RECOLOR,
                                            _ui_theme_color_grayBright);
@@ -302,8 +324,10 @@ void ui_wifiScreen_screen_destroy(void)
     ui_wifiConnectionRoundIndicator = NULL;
     ui_connectionLabel = NULL;
     ui_connectedWifiContainer = NULL;
+    ui_wifiNameContainer = NULL;
     ui_connectedWifiSSIDLabel = NULL;
     ui_connectedWifiIcon = NULL;
+    ui_backendUrlLabel = NULL;
     ui_wifiContainersButtons = NULL;
     ui_wifiConfigButton = NULL;
     ui_wifiResetButton = NULL;

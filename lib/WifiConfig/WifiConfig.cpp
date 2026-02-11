@@ -88,6 +88,7 @@ bool start_wifi_portal() {
     wifiManager.setConfigPortalTimeout(180);  // 3 minutes timeout
     wifiManager.setAPClientCheck(true);
     wifiManager.setClass("invert");
+    wifiManager.setBreakAfterConfig(true); // exit portal even when wifi is not connected
 
     wifiManager.setShowInfoUpdate(false);
     

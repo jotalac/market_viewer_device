@@ -11,6 +11,7 @@
 #include "WifiConfig.h"
 #include "ui_events_helper.h"
 #include "ScreensManager.h"
+#include "messageDisplay.h"
 
 //global shield to not control screen when it is off
 lv_obj_t * blackout_shield = NULL;
@@ -33,7 +34,6 @@ void toggleTurnOff(lv_event_t * e)
     } else {
         Serial.println("Screen going to sleep");
 
-        setCpuFrequencyMhz(12); // drop speed when device is 'turned off'
         set_brightness(0);
         isScreenOff = true;
 
@@ -45,6 +45,9 @@ void toggleTurnOff(lv_event_t * e)
         lv_obj_add_flag(blackout_shield, LV_OBJ_FLAG_CLICKABLE);
         lv_obj_clear_flag(blackout_shield, LV_OBJ_FLAG_SCROLLABLE);
         lv_obj_add_event_cb(blackout_shield, toggleTurnOff, LV_EVENT_CLICKED, NULL);
+
+        setCpuFrequencyMhz(80); // drop speed when device is 'turned off'
+
     }    
 }
 
@@ -137,12 +140,18 @@ void handleScreensScreenLoad(lv_event_t * e)
 {
 	if(is_wifi_connected()) {
         lv_obj_clear_state(ui_screensRefetchButton, LV_STATE_DISABLED);
+        lv_label_set_text(ui_screenNotFetchedLabel, "No screens");
     } else {
         lv_obj_add_state(ui_screensRefetchButton, LV_STATE_DISABLED);
+        lv_label_set_text(ui_screenNotFetchedLabel, "No wifi...");
     }
 }
 
 void refetchScreens(lv_event_t * e)
 {
-	fetch_screens_from_backend();
+    display_message("Fetching data...");
+    bool successful = get_screens_from_backend();
+    destroyMessage();
+
+    updateScreensScreenOnDataFetch(successful);
 }
