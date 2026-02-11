@@ -34,6 +34,8 @@ extern "C" {
 #include "ui_volumeScreen.h"
 #include "ui_wifiScreen.h"
 #include "ui_screensScreen.h"
+#include "ui_cryptoScreen.h"
+#include "ui_stockScreen.h"
 
 ///////////////////// VARIABLES ////////////////////
 

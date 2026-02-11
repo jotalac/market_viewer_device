@@ -3,6 +3,8 @@ SET(SOURCES ui_homeScreen.c
     ui_volumeScreen.c
     ui_wifiScreen.c
     ui_screensScreen.c
+    ui_cryptoScreen.c
+    ui_stockScreen.c
     ui_theme_manager.cpp
     ui_themes.cpp
     ui.c

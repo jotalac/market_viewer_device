@@ -60,10 +60,7 @@ public:
         }
     }
 
-    void render() override {
-        Serial.println("Rendering Stock Screen: " + symbol);
-        // TODO: Implement stock rendering with LVGL
-    }
+    void render() override;
 
     void update() override {
         // Fetch latest price from API

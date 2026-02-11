@@ -4,12 +4,9 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <Preferences.h>
-#include "screen_types/BaseScreen.h"
 
 static std::vector<BaseScreen*> screens;
 static Preferences preferences;
-
-static int currentScreenIndex = 0;
 
 // void init_screens_manager() {
 //     Serial.println("Initializing Screens Manager...");
@@ -23,7 +20,6 @@ void clear_all_screens() {
         delete screen;
     }
     screens.clear();
-    currentScreenIndex = 0;
     
     Serial.println("All screens cleared");
 }
@@ -80,9 +76,7 @@ bool get_screens_from_backend() {
     //sort screens
     sortScreens();
     
-    Serial.println("Fetched " + String(screens.size()) + " screens");
-    currentScreenIndex = 0;
-    
+    Serial.println("Fetched " + String(screens.size()) + " screens");    
     return true;
 }
 
@@ -93,4 +87,15 @@ std::vector<ScreenInfo> get_all_screens_info() {
     }
 
     return allScreenInfo;
+}
+
+int get_screen_count() {
+    return screens.size();
+}
+
+BaseScreen* get_screen_ptr(int index) {
+    if(index >= 0 && index < screens.size()) {
+        return screens[index];
+    }
+    return nullptr;
 }

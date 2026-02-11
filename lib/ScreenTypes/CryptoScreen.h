@@ -56,10 +56,7 @@ public:
         }
     }
 
-    void render() override {
-        Serial.println("Rendering Crypto Screen: " + assetName);
-        // TODO: Implement crypto rendering with LVGL
-    }
+    void render() override;
 
     void update() override {
         // Fetch latest crypto price from API

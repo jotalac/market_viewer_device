@@ -3,6 +3,8 @@
 #include <pin_config.h>
 #include "lv_conf.h"
 #include "ui.h"
+#include "ScreensManager.h"
+#include "BaseScreen.h"
 
 
 // Double Buffering for smooth UI
@@ -165,4 +167,107 @@ void update_gui() {
 void set_software_rotation(int rotation_code) {
     // 0=0, 1=90, 2=180, 3=270
     lv_disp_set_rotation(NULL, (lv_disp_rot_t)rotation_code);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// temporary copied code
+
+static int activeScreenIndex = -1; // -1 = Home Screen
+static int lastSwitchTime = 0;
+
+// --- NAVIGATION ACTIONS ---
+
+void go_next_screen() {
+
+    if (millis() - lastSwitchTime < 300) return;
+
+    int lastScreenIndex = get_screen_count() - 1;
+    if (activeScreenIndex < lastScreenIndex) {
+        load_screen_by_index(activeScreenIndex + 1);
+        activeScreenIndex++;
+    }
+}
+
+void go_prev_screen() {
+    if (millis() - lastSwitchTime < 300) return;
+
+    if (activeScreenIndex > -1) {
+        load_screen_by_index(activeScreenIndex - 1);
+        activeScreenIndex--;
+    }
+}
+
+// --- SCREEN LOADER ---
+
+void load_screen_by_index(int index) {
+    //if we would change to the same screen
+    if (index == activeScreenIndex) return;
+
+    // handle home screen load
+    if (index == -1) {
+        // lv_scr_load_anim(ui_homeScreen, LV_SCR_LOAD_ANIM_MOVE_RIGHT, 300, 0, false);
+        lv_scr_load(ui_homeScreen);
+        activeScreenIndex = -1;
+        return;
+    }
+
+    BaseScreen* screenObj = get_screen_ptr(index); 
+    if (screenObj == nullptr) return;
+
+    // 3. Determine specific UI Screen to load
+    lv_obj_t* targetScreenUI = nullptr;
+    
+    switch (screenObj->getType()) {
+        case ScreenType::STOCK: targetScreenUI = ui_stockScreen; break;
+        case ScreenType::CRYPTO: targetScreenUI = ui_cryptoScreen; break;
+        // Add others...
+        default: return;
+    }
+
+    // 4. POPULATE DATA
+    // This calls the render() function we wrote in Step 2
+    screenObj->render();
+    lv_scr_load(targetScreenUI);
+
+    // 5. PERFORM TRANSITION
+    // lv_obj_t* currentScreenUI = lv_scr_act();
+    
+    // if (currentScreenUI != targetScreenUI) {
+    //     // If moving to a DIFFERENT UI layout (e.g. Home -> Stock, or Stock -> Crypto)
+    //     // Determine direction
+    //     lv_scr_load_anim_t animType = (index > activeScreenIndex) ? LV_SCR_LOAD_ANIM_MOVE_LEFT : LV_SCR_LOAD_ANIM_MOVE_RIGHT;
+    //     lv_scr_load_anim(targetScreenUI, animType, 300, 0, false);
+    // } else {
+    //     // If moving between SAME UI layouts (Stock A -> Stock B)
+    //     // We are already on the screen, just updated the data in step 4.
+    //     // Optional: Blink to show update
+    //     lv_obj_fade_out(targetScreenUI, 100, 0);
+    //     lv_obj_fade_in(targetScreenUI, 100, 100);
+    // }
 }

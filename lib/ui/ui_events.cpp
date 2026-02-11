@@ -12,6 +12,7 @@
 #include "ui_events_helper.h"
 #include "ScreensManager.h"
 #include "messageDisplay.h"
+#include "GuiManager.h"
 
 //global shield to not control screen when it is off
 lv_obj_t * blackout_shield = NULL;
@@ -154,4 +155,14 @@ void refetchScreens(lv_event_t * e)
     destroyMessage();
 
     updateScreensScreenOnDataFetch(successful);
+}
+
+void swipeNextScreen(lv_event_t * e)
+{
+	go_next_screen();
+}
+
+void swipePrevScreen(lv_event_t * e)
+{
+	go_prev_screen();
 }

@@ -24,6 +24,10 @@ void ui_event_homeScreen(lv_event_t * e)
     if(event_code == LV_EVENT_SCREEN_LOADED) {
         setButtonsStatusHomeScreen(e);
     }
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
+        lv_indev_wait_release(lv_indev_get_act());
+        swipeNextScreen(e);
+    }
 }
 
 void ui_event_turnOffButton(lv_event_t * e)

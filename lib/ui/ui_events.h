@@ -11,6 +11,7 @@ extern "C" {
 #endif
 
 void setButtonsStatusHomeScreen(lv_event_t * e);
+void swipeNextScreen(lv_event_t * e);
 void toggleTurnOff(lv_event_t * e);
 void toggleRotationSettings(lv_event_t * e);
 void saveBrightness(lv_event_t * e);
@@ -22,6 +23,7 @@ void openWifiPortal(lv_event_t * e);
 void resetWifiConfig(lv_event_t * e);
 void handleScreensScreenLoad(lv_event_t * e);
 void refetchScreens(lv_event_t * e);
+void swipePrevScreen(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/
