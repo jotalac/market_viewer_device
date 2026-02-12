@@ -11,3 +11,6 @@ void set_software_rotation(int rotation_code);
 void load_screen_by_index(int index);
 void go_next_screen();
 void go_prev_screen();
+
+//handle screen update
+void updateScreen();

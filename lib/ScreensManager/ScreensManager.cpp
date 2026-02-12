@@ -14,6 +14,11 @@ static Preferences preferences;
 //     screens.clear();
 // }
 
+void add_test_screens() {
+    screens.push_back(createTestScreenFromType(ScreenType::CRYPTO, 0));
+    screens.push_back(createTestScreenFromType(ScreenType::STOCK, 1));
+}
+
 void clear_all_screens() {
     // Free memory for all screens
     for (auto screen : screens) {
@@ -32,7 +37,7 @@ void sortScreens() {
 
 
 bool get_screens_from_backend() {
-    String jsonPayload = fetch_screens_from_backend();
+    String jsonPayload = fetch_screens();
 
     //check if we got error fetching the data
     if (jsonPayload.isEmpty()) {

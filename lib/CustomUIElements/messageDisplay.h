@@ -4,8 +4,19 @@
 #include <Arduino.h>
 #include <vector>
 
-void display_message(String message);
-void destroyMessage();
+enum MessageSeverity {
+    INFO,
+    ERROR
+};
+
+const char* severityToString(MessageSeverity severity);
+int severityToColor(MessageSeverity severity);
+
+void display_message(String message, MessageSeverity severity);
+void destroy_message();
+
+void show_error_message(String message);
+void show_info_message(String message);
 
 
 #endif

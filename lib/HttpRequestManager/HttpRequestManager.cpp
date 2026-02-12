@@ -4,7 +4,7 @@
 
 static HTTPClient http;
 
-String create_fetch_screens_url() {
+String get_base_url() {
     const char* backendUrl = get_backend_url();
     const char* deviceHash = get_device_hash();
     
@@ -13,7 +13,6 @@ String create_fetch_screens_url() {
         Serial.println("Backend URL or device hash not configured");
         return "";
     }
-    
     
     String url = String(backendUrl);
 
@@ -26,24 +25,22 @@ String create_fetch_screens_url() {
     if (!url.endsWith("/")) {
         url += "/";
     }
-    
-    url += "hardware/" + String(deviceHash) + "/screen";
-    
+
+    url += "hardware/" + String(deviceHash);
+
     return url;
 }
 
-
-String fetch_screens_from_backend() {
+String fetch_data(String url) {
     if (!is_wifi_connected()) {
-        Serial.println("Cannot fetch screens - WiFi not connected");
+        Serial.println("Cannot fetch data - WiFi not connected");
         return {};
     }
     
-    String url = create_fetch_screens_url();
     Serial.println("Fetching screens from: " + url);
     
     http.begin(url);
-    http.setTimeout(10000);  // 10 second timeout
+    http.setTimeout(15000);  // 15 second timeout
     
     int httpCode = http.GET();
     
@@ -57,6 +54,31 @@ String fetch_screens_from_backend() {
     http.end();
     
     Serial.println("Received: " + payload);
-    
     return payload;
+}
+
+
+// getting all screen info
+String create_fetch_screens_url() {
+   String url = get_base_url();
+    url += "/screen";
+    return url;
+}
+
+String fetch_screens() {
+    String url = create_fetch_screens_url();
+    return fetch_data(url);
+}
+
+
+//getting single screen data
+String create_fetch_screen_data_url(int screenPosition) {
+    String url = get_base_url();
+    url += "/screen/" + String(screenPosition) + "/data";
+    return url;
+}
+
+String fetch_screen_data(int screenPosition) {
+    String url = create_fetch_screen_data_url(screenPosition);
+    return fetch_data(url);
 }

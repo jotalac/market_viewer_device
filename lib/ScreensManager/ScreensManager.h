@@ -15,6 +15,8 @@ struct ScreenInfo {
 // Initialize the manager
 // void init_screens_manager();
 
+void add_test_screens();
+
 // Fetch screens from backend
 bool get_screens_from_backend();
 
@@ -25,17 +27,7 @@ void sortScreens();
 
 BaseScreen* get_screen_ptr(int index);
 
-// Get screen by position
-// ScreenInfo* get_screen_by_id(const String& position);
-
-// Get screen count
 int get_screen_count();
-
-// Save screens to flash (cache)
-// void save_screens_to_flash();
-
-// Load screens from flash (cache)
-// bool load_screens_from_flash();
 
 // Clear all screens
 void clear_all_screens();

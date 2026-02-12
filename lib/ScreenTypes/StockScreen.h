@@ -16,10 +16,9 @@ private:
     GraphType graphType;
 
     //seted data
-    int refreshInterval;  // minutes
+    int refreshIntervalMinutes;  // minutes
     String symbol;
     String timeFrame;
-    unsigned long lastFetchTime;
 
     //fetched data
     String currency;
@@ -31,7 +30,7 @@ private:
 
 public:
     StockScreen(int pos, int refreshInterval, String symbol, String timeFrame) 
-    : BaseScreen(pos), refreshInterval(refreshInterval), graphType(graphType), symbol(symbol), timeFrame(timeFrame) {
+    : BaseScreen(pos), refreshIntervalMinutes(refreshInterval), graphType(graphType), symbol(symbol), timeFrame(timeFrame) {
         type = ScreenType::STOCK;
         displayGraph = true;
         simpleDisplay = false;
@@ -45,27 +44,9 @@ public:
         stockName = "???";
     }
 
-    void parseData(JsonObject& data) override {
-        currency = data["currency"] | "USD";
-        currentPrice = data["price"] | 0.0f;
-        isMarketOpen = data["isMarketOpen"] | false;
-        stockName = data["name"] | "";
-        priceChange = data["priceChange"] | 0.0f;
-        
-        // Parse graph data array manually
-        graphData.clear();
-        JsonArray graphArray = data["graphData"].as<JsonArray>();
-        for (JsonVariant value : graphArray) {
-            graphData.push_back(value.as<double>());
-        }
-    }
-
+    void parseData(JsonObject& data) override;
     void render() override;
-
-    void update() override {
-        // Fetch latest price from API
-        lastFetchTime = millis();
-    }
+    bool needsUpdate() override;
 
     String getDisplayName() override {
         return "Stock: " + symbol;

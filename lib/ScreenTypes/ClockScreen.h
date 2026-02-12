@@ -24,21 +24,11 @@ public:
         type = ScreenType::CLOCK;
     }
 
-    void parseData(JsonObject& data) override {
-        timezone = data["timezone"] | "Europe/London";
-        timezoneCode = data["timezoneCode"] | "GMT0BST,M3.5.0/1,M10.5.0";
-        clockType = data["clockType"] == "ANALOG" ? ClockType::ANALOG_CLOCK : ClockType::DIGITAL_CLOCK;
-        use24Hour = data["timeFormat"] == "TWENTY_FOUR_HOUR";
-    }
+    void parseData(JsonObject& data) override;
 
-    void render() override {
-        Serial.println("Rendering Clock Screen");
-        // TODO: Implement clock rendering with LVGL
-    }
+    void render() override;
 
-    void update() override {
-        // Update time display
-    }
+    bool needsUpdate() override {return false;}
 
     String getDisplayName() override {
         return "Clock (" + timezone + ")";

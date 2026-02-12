@@ -16,20 +16,15 @@ public:
     : BaseScreen(pos), refreshIntervalHours(refreshIntervalHours), prompt(prompt) {
         type = ScreenType::CLOCK;
         displayText = "";
+        
+        // set to infinity because we dont wanto to fetch automatically for the first time
     }
 
-    void parseData(JsonObject& data) override {
-        displayText = data["displayText"] | "";
-    }
+    void parseData(JsonObject& data) override;
 
-    void render() override {
-        Serial.println("Rendering Clock Screen");
-        // TODO: Implement clock rendering with LVGL
-    }
+    void render() override;
 
-    void update() override {
-        // Update time display
-    }
+    bool needsUpdate() override;
 
     String getDisplayName() override {
         return "Ai text (" + String(position) + ")";

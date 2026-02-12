@@ -24,7 +24,6 @@ void toggleTurnOff(lv_event_t * e)
         Serial.println("Screen waking up!");
         
         setCpuFrequencyMhz(240); // drop speed when device is 'turned on'
-        Serial.println(currentBrightness);
         set_brightness_percentage(currentBrightness);
         isScreenOff = false;
 
@@ -109,6 +108,7 @@ void openWifiPortal(lv_event_t * e)
 void resetWifiConfig(lv_event_t * e)
 {
     Serial.println("Resetting WiFi configuration...");
+    show_info_message("Resetting device config");
     reset_wifi_config();
     changeWifiScreenNotConnected();
     play_beep(600, 100);
@@ -150,9 +150,9 @@ void handleScreensScreenLoad(lv_event_t * e)
 
 void refetchScreens(lv_event_t * e)
 {
-    display_message("Fetching data...");
+    display_message("Fetching screens...", MessageSeverity::INFO);
     bool successful = get_screens_from_backend();
-    destroyMessage();
+    destroy_message();
 
     updateScreensScreenOnDataFetch(successful);
 }

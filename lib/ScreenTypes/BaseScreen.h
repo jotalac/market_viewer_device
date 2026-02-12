@@ -22,16 +22,20 @@ class BaseScreen {
 protected:
     int position;
     ScreenType type;
+    unsigned long lastFetchTime;
 
 public:
-    BaseScreen(int pos) : position(pos) {}
+    BaseScreen(int pos) : position(pos), lastFetchTime(0) {}
     virtual ~BaseScreen() {}
 
     // Pure virtual methods - each screen type must implement
     virtual void parseData(JsonObject& data) = 0;
     virtual void render() = 0;
-    virtual void update() = 0;
     virtual String getDisplayName() = 0;
+    virtual bool needsUpdate() = 0;
+
+    void update();
+    void handleUpdateError(String message);
 
     // Common getters
     int getPosition() const { return position; }
@@ -39,6 +43,8 @@ public:
 };
 
 BaseScreen* createScreenFromType(const String& type, JsonObject& data);
+
+BaseScreen* createTestScreenFromType(const ScreenType& type, int position);
 
 
 #endif

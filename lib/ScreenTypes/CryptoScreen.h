@@ -16,9 +16,8 @@ private:
 
     String assetName;
     String currency;
-    int refreshInterval;
+    int refreshIntervalMinutes;
     String timeFrame;
-    unsigned long lastFetchTime;
 
     //data
     double ath;
@@ -29,7 +28,7 @@ private:
 
 public:
     CryptoScreen(int pos, String assetName, String currency, int refreshInterval, String timeFrame) 
-    : BaseScreen(pos), assetName(assetName), currency(currency), refreshInterval(refreshInterval), timeFrame(timeFrame) {
+    : BaseScreen(pos), assetName(assetName), currency(currency), refreshIntervalMinutes(refreshInterval), timeFrame(timeFrame) {
         type = ScreenType::CRYPTO;
         displayGraph = true;
         simpleDisplay = false;
@@ -42,26 +41,10 @@ public:
         priceChange = 0.0f;
     }
 
-    void parseData(JsonObject& data) override {
-        price = data["price"] | 0.0f;
-        priceChange = data["priceChange"] | 0.0f;
-        ath = data["allTimeHigh"] | 0.0f;
-        athChange = data["allTimeHighChange"] | 0.0f;
-
-       // Parse graph data array manually
-        graphData.clear();
-        JsonArray graphArray = data["graphData"].as<JsonArray>();
-        for (JsonVariant value : graphArray) {
-            graphData.push_back(value.as<double>());
-        }
-    }
-
+    void parseData(JsonObject& data) override;
     void render() override;
+    bool needsUpdate() override;
 
-    void update() override {
-        // Fetch latest crypto price from API
-        lastFetchTime = millis();
-    }
 
     String getDisplayName() override {
         return "Crypto: " + assetName;
