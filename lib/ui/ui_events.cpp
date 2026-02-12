@@ -166,3 +166,8 @@ void swipePrevScreen(lv_event_t * e)
 {
 	go_prev_screen();
 }
+
+void requestScreenDataRefresh(lv_event_t * e)
+{
+	updateScreenForce();
+}

@@ -5,6 +5,10 @@
 
 void CryptoScreen::render() {
     lv_label_set_text(ui_cryptoPriceLabel, String(price).c_str());
+    lv_label_set_text(ui_cryptoAssetNameLabel, assetName.c_str());
+    lv_label_set_text(ui_cryptoCurrencyLabel, currency.c_str());
+    lv_label_set_text(ui_cryptoPriceChangeLabel, String(priceChange).c_str());
+    lv_label_set_text(ui_cryptoTimeFrameLabel, timeFrame.c_str());
 }
 
 void CryptoScreen::parseData(JsonObject& data) {

@@ -30,5 +30,5 @@ bool StockScreen::needsUpdate() {
     // Serial.println(String(millis()) + " current millis");
     // Serial.println("");
 
-    return (millis() - lastFetchTime >= 10000);
+    return (millis() - lastFetchTime >= refreshIntervalMillis);
 }

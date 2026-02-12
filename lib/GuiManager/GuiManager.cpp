@@ -236,3 +236,12 @@ void updateScreen() {
         activeScreen->update();
     }
 }
+
+void updateScreenForce() {
+    if (activeScreenIndex == -1) return;
+
+    Serial.println("Swipe down and force data refresh");
+
+    BaseScreen* activeScreen = get_screen_ptr(activeScreenIndex);
+    activeScreen->resetLastFetchTime();
+}

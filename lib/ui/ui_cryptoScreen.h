@@ -20,6 +20,7 @@ extern lv_obj_t * ui_cryptoAssetNameLabel;
 extern lv_obj_t * ui_cryptoPriceChangeLabel;
 extern lv_obj_t * ui_cryptoCurrencyLabel;
 extern lv_obj_t * ui_cryptoTimeFrameLabel;
+extern lv_obj_t * ui_cryptoATHArc;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

@@ -49,7 +49,7 @@ void BaseScreen::handleUpdateError(String message) {
     show_error_message(message);
 
     // fetch failed try again in a minute
-    lastFetchTime = millis() - 1000 * 60;
+    lastFetchTime = millis();
 }
 
 BaseScreen* createScreenFromType(const String& type, JsonObject& data) {

@@ -14,3 +14,4 @@ void go_prev_screen();
 
 //handle screen update
 void updateScreen();
+void updateScreenForce();

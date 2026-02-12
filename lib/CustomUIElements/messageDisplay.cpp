@@ -14,7 +14,7 @@ void display_message(String message, MessageSeverity severity) {
     lv_obj_set_y(ui_messageContainer, -135);
     lv_obj_set_align(ui_messageContainer, LV_ALIGN_CENTER);
     lv_obj_clear_flag(ui_messageContainer, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_messageContainer, lv_color_hex(0x748501), LV_PART_MAIN);
+    lv_obj_set_style_bg_color(ui_messageContainer, lv_color_hex(0x2e2e2e), LV_PART_MAIN);
     lv_obj_set_style_bg_opa(ui_messageContainer, 200, LV_PART_MAIN);
     lv_obj_set_style_border_color(ui_messageContainer, lv_color_hex(0xD0D0D0), LV_PART_MAIN);
     lv_obj_set_style_border_opa(ui_messageContainer, 255, LV_PART_MAIN);
@@ -35,14 +35,11 @@ void display_message(String message, MessageSeverity severity) {
     lv_obj_set_width(ui_messageInfoLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_messageInfoLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_messageInfoLabel, 0);
-    lv_obj_set_y(ui_messageInfoLabel, -70);
+    lv_obj_set_y(ui_messageInfoLabel, -60);
     lv_obj_set_align(ui_messageInfoLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_messageInfoLabel, severityToString(severity));
-    ui_object_set_themeable_style_property(ui_messageInfoLabel, LV_PART_MAIN, LV_STYLE_TEXT_COLOR,
-                                           _ui_theme_color_yellowDark);
-    ui_object_set_themeable_style_property(ui_messageInfoLabel, LV_PART_MAIN, LV_STYLE_TEXT_OPA,
-                                           _ui_theme_alpha_yellowDark);
-    lv_obj_set_style_text_font(ui_messageInfoLabel, &ui_font_Mono20, LV_PART_MAIN);
+    lv_obj_set_style_text_color(ui_messageInfoLabel, lv_color_hex(severityToColor(severity)), LV_PART_MAIN);
+    lv_obj_set_style_text_font(ui_messageInfoLabel, &ui_font_mono30, LV_PART_MAIN);
 
     // Force LVGL to render now
     lv_refr_now(NULL);
