@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Size: 40 px
  * Bpp: 1
- * Opts: --bpp 1 --size 40 --font Z:/home/jotalac/Documents/squareline_studio_projects/market_viewer/assets/JetBrainsMono-Regular.ttf -o Z:/home/jotalac/Documents/squareline_studio_projects/market_viewer/assets\ui_font_Mono40.c --format lvgl -r 0x20-0x7f --no-compress --no-prefilter
+ * Opts: --bpp 1 --size 40 --font Z:/home/jotalac/Documents/squareline_studio_projects/market_viewer/assets/JetBrainsMono-Regular.ttf -o Z:/home/jotalac/Documents/squareline_studio_projects/market_viewer/assets\ui_font_mono40.c --format lvgl -r 0x20-0x7f --no-compress --no-prefilter
  ******************************************************************************/
 
 #include "ui.h"
@@ -1095,9 +1095,9 @@ static lv_font_fmt_txt_dsc_t font_dsc = {
 
 /*Initialize a public general font descriptor*/
 #if LVGL_VERSION_MAJOR >= 8
-const lv_font_t ui_font_Mono40 = {
+const lv_font_t ui_font_mono40 = {
 #else
-lv_font_t ui_font_Mono40 = {
+lv_font_t ui_font_mono40 = {
 #endif
     .get_glyph_dsc = lv_font_get_glyph_dsc_fmt_txt,    /*Function pointer to get glyph's data*/
     .get_glyph_bitmap = lv_font_get_bitmap_fmt_txt,    /*Function pointer to get glyph's bitmap*/

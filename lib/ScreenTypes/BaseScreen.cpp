@@ -80,12 +80,16 @@ BaseScreen* createScreenFromType(const String& type, JsonObject& data) {
     }
     
     if (type == "CRYPTO") {
+        GraphType graphType = data["graphType"] == "CANDLE" ? GraphType::CANDLE : GraphType::LINE;
         return new CryptoScreen(
             position,
             data["assetName"],
             data["currency"],
             data["fetchInterval"] | 10,
-            data["timeFrame"]
+            data["timeFrame"],
+            data["simpleDisplay"],
+            data["displayGraph"],
+            graphType
         );
     }
     
@@ -103,23 +107,27 @@ BaseScreen* createScreenFromType(const String& type, JsonObject& data) {
 }
 
 
-BaseScreen* createTestScreenFromType(const ScreenType& type, int position) {
-    if (type == ScreenType::CRYPTO) {
-    return new CryptoScreen(
-        position,
-        "bitcoin",
-        "usd",
-        10,
-        "24h"
-    );}
+// BaseScreen* createTestScreenFromType(const ScreenType& type, int position) {
+//     if (type == ScreenType::CRYPTO) {
+//     return new CryptoScreen(
+//         position,
+//         "bitcoin",
+//         "usd",
+//         10,
+//         "24h",
+//         true,
+//         false,
+//         GraphType::LINE
+//     );
+//     }
     
-    if (type == ScreenType::STOCK) {
-        return new StockScreen(
-            position,
-            10,
-            "AAPL",
-            "1day"
-    );}
+//     if (type == ScreenType::STOCK) {
+//         return new StockScreen(
+//             position,
+//             10,
+//             "AAPL",
+//             "1day"
+//     );}
 
-    return nullptr;
-}
+//     return nullptr;
+// }

@@ -6,12 +6,17 @@
 #include "ui.h"
 
 lv_obj_t * ui_cryptoScreen = NULL;
+lv_obj_t * ui_cryptoAthArc = NULL;
 lv_obj_t * ui_cryptoPriceLabel = NULL;
-lv_obj_t * ui_cryptoAssetNameLabel = NULL;
 lv_obj_t * ui_cryptoPriceChangeLabel = NULL;
-lv_obj_t * ui_cryptoCurrencyLabel = NULL;
 lv_obj_t * ui_cryptoTimeFrameLabel = NULL;
-lv_obj_t * ui_cryptoATHArc = NULL;
+lv_obj_t * ui_cryptoAssetCurrencyLabel = NULL;
+lv_obj_t * ui_cryptoAssetCurrencyCont = NULL;
+lv_obj_t * ui_cryptoAssetNameLabel = NULL;
+lv_obj_t * ui_cryptoCurrencyLabel = NULL;
+lv_obj_t * ui_cryptoIcon = NULL;
+lv_obj_t * ui_cryptoAthLabel = NULL;
+lv_obj_t * ui_cryptoZeroLabel1 = NULL;
 // event funtions
 void ui_event_cryptoScreen(lv_event_t * e)
 {
@@ -29,6 +34,10 @@ void ui_event_cryptoScreen(lv_event_t * e)
         lv_indev_wait_release(lv_indev_get_act());
         requestScreenDataRefresh(e);
     }
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_TOP) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_marketDataSettingScreen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_marketDataSettingScreen_screen_init);
+    }
 }
 
 // build funtions
@@ -37,28 +46,42 @@ void ui_cryptoScreen_screen_init(void)
 {
     ui_cryptoScreen = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_cryptoScreen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_cryptoScreen, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_cryptoScreen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_color(ui_cryptoScreen, lv_color_hex(0xA30000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_main_stop(ui_cryptoScreen, 40, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_stop(ui_cryptoScreen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui_cryptoScreen, LV_GRAD_DIR_VER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_cryptoScreen, &ui_img_red_background_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_tiled(ui_cryptoScreen, true, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_cryptoAthArc = lv_arc_create(ui_cryptoScreen);
+    lv_obj_set_width(ui_cryptoAthArc, 430);
+    lv_obj_set_height(ui_cryptoAthArc, 430);
+    lv_obj_set_align(ui_cryptoAthArc, LV_ALIGN_CENTER);
+    lv_obj_add_state(ui_cryptoAthArc, LV_STATE_DISABLED);       /// States
+    lv_arc_set_value(ui_cryptoAthArc, 50);
+    lv_arc_set_bg_angles(ui_cryptoAthArc, 0, 70);
+    lv_arc_set_mode(ui_cryptoAthArc, LV_ARC_MODE_REVERSE);
+    lv_arc_set_rotation(ui_cryptoAthArc, 55);
+    lv_obj_set_style_arc_color(ui_cryptoAthArc, lv_color_hex(0x1E1E1E), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_opa(ui_cryptoAthArc, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_width(ui_cryptoAthArc, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_transform_angle(ui_cryptoAthArc, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(0xFFFFFF), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_cryptoAthArc, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_color(ui_cryptoAthArc, lv_color_hex(0x181C18), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_opa(ui_cryptoAthArc, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_width(ui_cryptoAthArc, 15, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(0xDF0A0A), LV_PART_KNOB | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_cryptoAthArc, 255, LV_PART_KNOB | LV_STATE_DEFAULT);
 
     ui_cryptoPriceLabel = lv_label_create(ui_cryptoScreen);
-    lv_obj_set_width(ui_cryptoPriceLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_width(ui_cryptoPriceLabel, 450);
     lv_obj_set_height(ui_cryptoPriceLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_cryptoPriceLabel, 0);
+    lv_obj_set_y(ui_cryptoPriceLabel, -10);
     lv_obj_set_align(ui_cryptoPriceLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_cryptoPriceLabel, "115 000");
-    lv_obj_set_style_text_font(ui_cryptoPriceLabel, &ui_font_MonoBold100, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_cryptoAssetNameLabel = lv_label_create(ui_cryptoScreen);
-    lv_obj_set_width(ui_cryptoAssetNameLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_cryptoAssetNameLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_cryptoAssetNameLabel, 0);
-    lv_obj_set_y(ui_cryptoAssetNameLabel, -200);
-    lv_obj_set_align(ui_cryptoAssetNameLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_cryptoAssetNameLabel, "BITCOIN");
-    lv_obj_set_style_text_font(ui_cryptoAssetNameLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_label_set_long_mode(ui_cryptoPriceLabel, LV_LABEL_LONG_DOT);
+    lv_label_set_text(ui_cryptoPriceLabel, "999$");
+    lv_obj_set_style_text_align(ui_cryptoPriceLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_cryptoPriceLabel, &ui_font_monoBold100, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_cryptoPriceChangeLabel = lv_label_create(ui_cryptoScreen);
     lv_obj_set_width(ui_cryptoPriceChangeLabel, LV_SIZE_CONTENT);   /// 1
@@ -66,54 +89,103 @@ void ui_cryptoScreen_screen_init(void)
     lv_obj_set_x(ui_cryptoPriceChangeLabel, 0);
     lv_obj_set_y(ui_cryptoPriceChangeLabel, 90);
     lv_obj_set_align(ui_cryptoPriceChangeLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_cryptoPriceChangeLabel, "-20%");
-    lv_obj_set_style_text_font(ui_cryptoPriceChangeLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_label_set_text(ui_cryptoPriceChangeLabel, "-0.75%");
+    lv_obj_set_style_text_font(ui_cryptoPriceChangeLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui_cryptoPriceChangeLabel, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_cryptoPriceChangeLabel, lv_color_hex(0xDF0A0A), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_cryptoPriceChangeLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui_cryptoPriceChangeLabel, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_cryptoPriceChangeLabel, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_cryptoPriceChangeLabel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_cryptoPriceChangeLabel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_cryptoCurrencyLabel = lv_label_create(ui_cryptoScreen);
-    lv_obj_set_width(ui_cryptoCurrencyLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_cryptoCurrencyLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_cryptoCurrencyLabel, 0);
-    lv_obj_set_y(ui_cryptoCurrencyLabel, -160);
-    lv_obj_set_align(ui_cryptoCurrencyLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_cryptoCurrencyLabel, "USD");
-    lv_obj_set_style_text_font(ui_cryptoCurrencyLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_cryptoPriceChangeLabel, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui_cryptoPriceChangeLabel, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_cryptoTimeFrameLabel = lv_label_create(ui_cryptoScreen);
     lv_obj_set_width(ui_cryptoTimeFrameLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_cryptoTimeFrameLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_cryptoTimeFrameLabel, 0);
-    lv_obj_set_y(ui_cryptoTimeFrameLabel, 140);
+    lv_obj_set_y(ui_cryptoTimeFrameLabel, -120);
     lv_obj_set_align(ui_cryptoTimeFrameLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_cryptoTimeFrameLabel, "1day");
+    lv_obj_set_style_text_color(ui_cryptoTimeFrameLabel, lv_color_hex(0xCDCECD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_cryptoTimeFrameLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_cryptoTimeFrameLabel, &ui_font_Mono20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_cryptoATHArc = lv_arc_create(ui_cryptoScreen);
-    lv_obj_set_width(ui_cryptoATHArc, 430);
-    lv_obj_set_height(ui_cryptoATHArc, 430);
-    lv_obj_set_align(ui_cryptoATHArc, LV_ALIGN_CENTER);
-    lv_obj_add_state(ui_cryptoATHArc, LV_STATE_DISABLED);       /// States
-    lv_arc_set_value(ui_cryptoATHArc, 50);
-    lv_arc_set_bg_angles(ui_cryptoATHArc, 0, 90);
-    lv_arc_set_mode(ui_cryptoATHArc, LV_ARC_MODE_REVERSE);
-    lv_arc_set_rotation(ui_cryptoATHArc, 45);
-    lv_obj_set_style_arc_color(ui_cryptoATHArc, lv_color_hex(0x292929), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_arc_opa(ui_cryptoATHArc, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_arc_width(ui_cryptoATHArc, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_transform_angle(ui_cryptoATHArc, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    ui_cryptoAssetCurrencyLabel = lv_label_create(ui_cryptoScreen);
+    lv_obj_set_width(ui_cryptoAssetCurrencyLabel, 280);
+    lv_obj_set_height(ui_cryptoAssetCurrencyLabel, LV_SIZE_CONTENT);    /// 68
+    lv_obj_set_x(ui_cryptoAssetCurrencyLabel, 0);
+    lv_obj_set_y(ui_cryptoAssetCurrencyLabel, -155);
+    lv_obj_set_align(ui_cryptoAssetCurrencyLabel, LV_ALIGN_CENTER);
+    lv_label_set_long_mode(ui_cryptoAssetCurrencyLabel, LV_LABEL_LONG_DOT);
+    lv_label_set_text(ui_cryptoAssetCurrencyLabel, "BITCOIN USD");
+    lv_obj_set_style_text_color(ui_cryptoAssetCurrencyLabel, lv_color_hex(0xCDCDCD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_cryptoAssetCurrencyLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui_cryptoAssetCurrencyLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_cryptoAssetCurrencyLabel, &ui_font_monoLight30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_set_style_arc_color(ui_cryptoATHArc, lv_color_hex(0xEC5213), LV_PART_INDICATOR | LV_STATE_DEFAULT);
-    lv_obj_set_style_arc_opa(ui_cryptoATHArc, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
-    lv_obj_set_style_arc_width(ui_cryptoATHArc, 15, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    ui_cryptoAssetCurrencyCont = lv_obj_create(ui_cryptoScreen);
+    lv_obj_set_width(ui_cryptoAssetCurrencyCont, 276);
+    lv_obj_set_height(ui_cryptoAssetCurrencyCont, 50);
+    lv_obj_set_x(ui_cryptoAssetCurrencyCont, 0);
+    lv_obj_set_y(ui_cryptoAssetCurrencyCont, -160);
+    lv_obj_set_align(ui_cryptoAssetCurrencyCont, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_cryptoAssetCurrencyCont, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(ui_cryptoAssetCurrencyCont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_add_flag(ui_cryptoAssetCurrencyCont, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_clear_flag(ui_cryptoAssetCurrencyCont, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_cryptoAssetCurrencyCont, lv_color_hex(0x282828), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_cryptoAssetCurrencyCont, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    lv_obj_set_style_bg_color(ui_cryptoATHArc, lv_color_hex(0xE81513), LV_PART_KNOB | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_cryptoATHArc, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
+    ui_cryptoAssetNameLabel = lv_label_create(ui_cryptoAssetCurrencyCont);
+    lv_obj_set_width(ui_cryptoAssetNameLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_cryptoAssetNameLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_cryptoAssetNameLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_cryptoAssetNameLabel, "BITCOIN");
+    lv_obj_add_flag(ui_cryptoAssetNameLabel, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_set_style_text_font(ui_cryptoAssetNameLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_cryptoCurrencyLabel = lv_label_create(ui_cryptoAssetCurrencyCont);
+    lv_obj_set_width(ui_cryptoCurrencyLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_cryptoCurrencyLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_cryptoCurrencyLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_cryptoCurrencyLabel, "USD");
+    lv_obj_add_flag(ui_cryptoCurrencyLabel, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_set_style_text_font(ui_cryptoCurrencyLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_cryptoIcon = lv_img_create(ui_cryptoScreen);
+    lv_img_set_src(ui_cryptoIcon, &ui_img_121694436);
+    lv_obj_set_width(ui_cryptoIcon, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_cryptoIcon, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_cryptoIcon, 0);
+    lv_obj_set_y(ui_cryptoIcon, -210);
+    lv_obj_set_align(ui_cryptoIcon, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_cryptoIcon, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_cryptoIcon, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_img_recolor(ui_cryptoIcon, lv_color_hex(0xCDCECD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_img_recolor_opa(ui_cryptoIcon, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_cryptoAthLabel = lv_label_create(ui_cryptoScreen);
+    lv_obj_set_width(ui_cryptoAthLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_cryptoAthLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_cryptoAthLabel, 120);
+    lv_obj_set_y(ui_cryptoAthLabel, 145);
+    lv_obj_set_align(ui_cryptoAthLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_cryptoAthLabel, "ATH");
+    lv_obj_set_style_text_color(ui_cryptoAthLabel, lv_color_hex(0xCDCECD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_cryptoAthLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_cryptoAthLabel, &ui_font_monoBold20, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_cryptoZeroLabel1 = lv_label_create(ui_cryptoScreen);
+    lv_obj_set_width(ui_cryptoZeroLabel1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_cryptoZeroLabel1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_cryptoZeroLabel1, -120);
+    lv_obj_set_y(ui_cryptoZeroLabel1, 145);
+    lv_obj_set_align(ui_cryptoZeroLabel1, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_cryptoZeroLabel1, "-100%");
+    lv_label_set_recolor(ui_cryptoZeroLabel1, "true");
+    lv_obj_set_style_text_color(ui_cryptoZeroLabel1, lv_color_hex(0xCDCECD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_cryptoZeroLabel1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_cryptoZeroLabel1, &ui_font_monoBold20, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_cryptoScreen, ui_event_cryptoScreen, LV_EVENT_ALL, NULL);
 
@@ -125,11 +197,16 @@ void ui_cryptoScreen_screen_destroy(void)
 
     // NULL screen variables
     ui_cryptoScreen = NULL;
+    ui_cryptoAthArc = NULL;
     ui_cryptoPriceLabel = NULL;
-    ui_cryptoAssetNameLabel = NULL;
     ui_cryptoPriceChangeLabel = NULL;
-    ui_cryptoCurrencyLabel = NULL;
     ui_cryptoTimeFrameLabel = NULL;
-    ui_cryptoATHArc = NULL;
+    ui_cryptoAssetCurrencyLabel = NULL;
+    ui_cryptoAssetCurrencyCont = NULL;
+    ui_cryptoAssetNameLabel = NULL;
+    ui_cryptoCurrencyLabel = NULL;
+    ui_cryptoIcon = NULL;
+    ui_cryptoAthLabel = NULL;
+    ui_cryptoZeroLabel1 = NULL;
 
 }

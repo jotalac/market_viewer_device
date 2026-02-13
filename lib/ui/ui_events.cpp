@@ -101,6 +101,7 @@ void openWifiPortal(lv_event_t * e)
     } else {
         Serial.println("WiFi config cancelled/failed");
         play_beep(400, 200);  // Error beep
+        show_error_message("Wifi connection failed");
         changeWifiScreenNotConnected();
     }
 }
@@ -170,4 +171,9 @@ void swipePrevScreen(lv_event_t * e)
 void requestScreenDataRefresh(lv_event_t * e)
 {
 	updateScreenForce();
+}
+
+void exitMarketDataSetting(lv_event_t * e)
+{
+    go_back_from_market_data_setting();
 }

@@ -81,7 +81,7 @@ void ui_volumeScreen_screen_init(void)
                                            _ui_theme_color_grayDark);
     ui_object_set_themeable_style_property(ui_volumeLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
                                            _ui_theme_alpha_grayDark);
-    lv_obj_set_style_text_font(ui_volumeLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_volumeLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_volumeValueLabel = lv_label_create(ui_volumeScreen);
     lv_obj_set_width(ui_volumeValueLabel, LV_SIZE_CONTENT);   /// 1
@@ -92,7 +92,7 @@ void ui_volumeScreen_screen_init(void)
                                            _ui_theme_color_yellowDark);
     ui_object_set_themeable_style_property(ui_volumeValueLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
                                            _ui_theme_alpha_yellowDark);
-    lv_obj_set_style_text_font(ui_volumeValueLabel, &ui_font_MonoBold100, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_volumeValueLabel, &ui_font_monoBold100, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_volumeButtonBack = lv_imgbtn_create(ui_volumeScreen);
     lv_imgbtn_set_src(ui_volumeButtonBack, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_1702299517, NULL);

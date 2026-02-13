@@ -44,7 +44,7 @@ void ui_stockScreen_screen_init(void)
     lv_obj_set_height(ui_stockPriceLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_stockPriceLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_stockPriceLabel, "78952");
-    lv_obj_set_style_text_font(ui_stockPriceLabel, &ui_font_MonoBold60, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_stockPriceLabel, &ui_font_monoBold60, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_stockSymbolLabel = lv_label_create(ui_stockScreen);
     lv_obj_set_width(ui_stockSymbolLabel, LV_SIZE_CONTENT);   /// 1

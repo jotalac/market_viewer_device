@@ -25,6 +25,7 @@ void handleScreensScreenLoad(lv_event_t * e);
 void refetchScreens(lv_event_t * e);
 void swipePrevScreen(lv_event_t * e);
 void requestScreenDataRefresh(lv_event_t * e);
+void exitMarketDataSetting(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

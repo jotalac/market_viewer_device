@@ -36,6 +36,7 @@ extern "C" {
 #include "ui_screensScreen.h"
 #include "ui_cryptoScreen.h"
 #include "ui_stockScreen.h"
+#include "ui_marketDataSettingScreen.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -57,13 +58,23 @@ LV_IMG_DECLARE(ui_img_536642073);    // assets/check-icon.png
 LV_IMG_DECLARE(ui_img_9953116);    // assets/wrench-icon.png
 LV_IMG_DECLARE(ui_img_788343386);    // assets/reset-icon.png
 LV_IMG_DECLARE(ui_img_936315526);    // assets/refresh-icon.png
+LV_IMG_DECLARE(ui_img_red_background_png);    // assets/red_background.png
+LV_IMG_DECLARE(ui_img_121694436);    // assets/crypto-icon.png
+LV_IMG_DECLARE(ui_img_green_background_png);    // assets/green_background.png
 
 // FONTS
 LV_FONT_DECLARE(ui_font_Mono20);
 LV_FONT_DECLARE(ui_font_mono30);
-LV_FONT_DECLARE(ui_font_Mono40);
-LV_FONT_DECLARE(ui_font_MonoBold100);
-LV_FONT_DECLARE(ui_font_MonoBold60);
+LV_FONT_DECLARE(ui_font_mono40);
+LV_FONT_DECLARE(ui_font_mono50);
+LV_FONT_DECLARE(ui_font_monoBold100);
+LV_FONT_DECLARE(ui_font_monoBold20);
+LV_FONT_DECLARE(ui_font_monoBold60);
+LV_FONT_DECLARE(ui_font_monoLight30);
+LV_FONT_DECLARE(ui_font_monoBold80);
+LV_FONT_DECLARE(ui_font_monoBold100);
+LV_FONT_DECLARE(ui_font_monoBold60);
+LV_FONT_DECLARE(ui_font_monoBold50);
 
 // UI INIT
 void ui_init(void);

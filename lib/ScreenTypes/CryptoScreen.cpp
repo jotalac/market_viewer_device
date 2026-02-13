@@ -2,13 +2,46 @@
 #include "CryptoScreen.h"
 #include "messageDisplay.h"
 #include "HttpRequestManager.h"
+#include "utils.h"
+#include "string"
+
+static int redColor = 0xDF0A0A;
+static int redColorKnob = 0xe35252;
+static int greenColor = 0x399c09;
+static int greenColorKnob = 0x7cd154;
+
 
 void CryptoScreen::render() {
-    lv_label_set_text(ui_cryptoPriceLabel, String(price).c_str());
-    lv_label_set_text(ui_cryptoAssetNameLabel, assetName.c_str());
-    lv_label_set_text(ui_cryptoCurrencyLabel, currency.c_str());
-    lv_label_set_text(ui_cryptoPriceChangeLabel, String(priceChange).c_str());
+    std::string formattedPrice = build_price_label(price, currency).c_str();
+    std::string formattedPriceChange = build_price_change_label(priceChange).c_str();
+    double athBarValue = 100 + athChange;
+
+    String tempName = String(assetName.c_str());
+    tempName.toUpperCase();
+    std::string assetPlusCurrency = (tempName + " " + currency).c_str();
+
+    //select right font size based on price label size
+    const lv_font_t* correctFont = select_correct_font_size(formattedPrice, 450);
+    lv_obj_set_style_text_font(ui_cryptoPriceLabel, correctFont, LV_PART_MAIN);
+
+    //set values
+    lv_label_set_text(ui_cryptoPriceLabel, formattedPrice.c_str());
+    lv_label_set_text(ui_cryptoPriceChangeLabel, formattedPriceChange.c_str());
     lv_label_set_text(ui_cryptoTimeFrameLabel, timeFrame.c_str());
+    lv_label_set_text(ui_cryptoAssetCurrencyLabel, assetPlusCurrency.c_str());
+    lv_arc_set_value(ui_cryptoAthArc, (int32_t)athBarValue);
+    
+    //update colors
+    if (priceChange >= 0) {
+        lv_obj_set_style_bg_color(ui_cryptoPriceChangeLabel, lv_color_hex(greenColor), LV_PART_MAIN);
+        lv_obj_set_style_bg_img_src(ui_cryptoScreen, &ui_img_green_background_png, LV_PART_MAIN);
+        lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(greenColorKnob), LV_PART_KNOB);
+    } else {
+        lv_obj_set_style_bg_color(ui_cryptoPriceChangeLabel, lv_color_hex(redColor), LV_PART_MAIN);
+        lv_obj_set_style_bg_img_src(ui_cryptoScreen, &ui_img_red_background_png, LV_PART_MAIN);
+        lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(redColorKnob), LV_PART_KNOB);
+    }
+    
 }
 
 void CryptoScreen::parseData(JsonObject& data) {

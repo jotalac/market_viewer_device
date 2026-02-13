@@ -60,7 +60,7 @@ void ui_screensScreen_screen_init(void)
                                            _ui_theme_color_redDark);
     ui_object_set_themeable_style_property(ui_screenNotFetchedLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
                                            _ui_theme_alpha_redDark);
-    lv_obj_set_style_text_font(ui_screenNotFetchedLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_screenNotFetchedLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_screensLabel = lv_label_create(ui_screensScreen);
     lv_obj_set_width(ui_screensLabel, LV_SIZE_CONTENT);   /// 1
@@ -73,7 +73,7 @@ void ui_screensScreen_screen_init(void)
                                            _ui_theme_color_grayDark);
     ui_object_set_themeable_style_property(ui_screensLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
                                            _ui_theme_alpha_grayDark);
-    lv_obj_set_style_text_font(ui_screensLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_screensLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_screensListPanel = lv_obj_create(ui_screensScreen);
     lv_obj_set_width(ui_screensListPanel, 320);

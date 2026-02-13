@@ -104,7 +104,7 @@ void ui_homeScreen_screen_init(void)
                                            _ui_theme_color_grayDark);
     ui_object_set_themeable_style_property(ui_homeLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
                                            _ui_theme_alpha_grayDark);
-    lv_obj_set_style_text_font(ui_homeLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_homeLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_homeContainerMain = lv_obj_create(ui_homeScreen);
     lv_obj_set_width(ui_homeContainerMain, 400);

@@ -45,7 +45,7 @@ public:
 
 BaseScreen* createScreenFromType(const String& type, JsonObject& data);
 
-BaseScreen* createTestScreenFromType(const ScreenType& type, int position);
+// BaseScreen* createTestScreenFromType(const ScreenType& type, int position);
 
 
 #endif

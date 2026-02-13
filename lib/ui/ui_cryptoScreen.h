@@ -15,12 +15,17 @@ extern void ui_cryptoScreen_screen_init(void);
 extern void ui_cryptoScreen_screen_destroy(void);
 extern void ui_event_cryptoScreen(lv_event_t * e);
 extern lv_obj_t * ui_cryptoScreen;
+extern lv_obj_t * ui_cryptoAthArc;
 extern lv_obj_t * ui_cryptoPriceLabel;
-extern lv_obj_t * ui_cryptoAssetNameLabel;
 extern lv_obj_t * ui_cryptoPriceChangeLabel;
-extern lv_obj_t * ui_cryptoCurrencyLabel;
 extern lv_obj_t * ui_cryptoTimeFrameLabel;
-extern lv_obj_t * ui_cryptoATHArc;
+extern lv_obj_t * ui_cryptoAssetCurrencyLabel;
+extern lv_obj_t * ui_cryptoAssetCurrencyCont;
+extern lv_obj_t * ui_cryptoAssetNameLabel;
+extern lv_obj_t * ui_cryptoCurrencyLabel;
+extern lv_obj_t * ui_cryptoIcon;
+extern lv_obj_t * ui_cryptoAthLabel;
+extern lv_obj_t * ui_cryptoZeroLabel1;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

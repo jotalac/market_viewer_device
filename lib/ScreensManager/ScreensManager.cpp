@@ -14,10 +14,10 @@ static Preferences preferences;
 //     screens.clear();
 // }
 
-void add_test_screens() {
-    screens.push_back(createTestScreenFromType(ScreenType::CRYPTO, 0));
-    screens.push_back(createTestScreenFromType(ScreenType::STOCK, 1));
-}
+// void add_test_screens() {
+//     screens.push_back(createTestScreenFromType(ScreenType::CRYPTO, 0));
+//     screens.push_back(createTestScreenFromType(ScreenType::STOCK, 1));
+// }
 
 void clear_all_screens() {
     // Free memory for all screens

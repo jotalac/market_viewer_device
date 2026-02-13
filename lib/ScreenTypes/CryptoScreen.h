@@ -27,12 +27,17 @@ private:
     double priceChange;
 
 public:
-    CryptoScreen(int pos, String assetName, String currency, int refreshInterval, String timeFrame) 
-    : BaseScreen(pos), assetName(assetName), currency(currency), refreshIntervalMinutes(refreshInterval), timeFrame(timeFrame) {
+    CryptoScreen(int pos, String assetName, String currency, int refreshInterval, String timeFrame, bool displayGraph, bool simpleDisplay, GraphType graphType) 
+    : BaseScreen(pos),
+    assetName(assetName),
+    currency(currency),
+    refreshIntervalMinutes(refreshInterval),
+    timeFrame(timeFrame),
+    simpleDisplay(simpleDisplay),
+    displayGraph(displayGraph),
+    graphType(graphType)
+    {
         type = ScreenType::CRYPTO;
-        displayGraph = true;
-        simpleDisplay = false;
-        graphType = GraphType::LINE;
 
         ath = 0.0f;
         athChange = 0.0f;

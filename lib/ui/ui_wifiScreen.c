@@ -118,7 +118,7 @@ void ui_wifiScreen_screen_init(void)
     lv_obj_set_y(ui_connectionLabel, -82);
     lv_obj_set_align(ui_connectionLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_connectionLabel, "NOT CONNECTED");
-    lv_obj_set_style_text_font(ui_connectionLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_connectionLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_connectedWifiContainer = lv_obj_create(ui_mainContainerWifi);
     lv_obj_set_width(ui_connectedWifiContainer, 379);
@@ -227,7 +227,7 @@ void ui_wifiScreen_screen_init(void)
                                            _ui_theme_color_grayDark);
     ui_object_set_themeable_style_property(ui_wifiLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
                                            _ui_theme_alpha_grayDark);
-    lv_obj_set_style_text_font(ui_wifiLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_wifiLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_volumeButtonBack2 = lv_imgbtn_create(ui_wifiScreen);
     lv_imgbtn_set_src(ui_volumeButtonBack2, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_1702299517, NULL);
@@ -262,7 +262,7 @@ void ui_wifiScreen_screen_init(void)
                                            _ui_theme_color_yellowBright);
     ui_object_set_themeable_style_property(ui_overlayWifiLabel1, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
                                            _ui_theme_alpha_yellowBright);
-    lv_obj_set_style_text_font(ui_overlayWifiLabel1, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_overlayWifiLabel1, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_overlayWifiSSIDLabel = lv_label_create(ui_overlayWifiContainer);
     lv_obj_set_width(ui_overlayWifiSSIDLabel, LV_SIZE_CONTENT);   /// 1
@@ -275,7 +275,7 @@ void ui_wifiScreen_screen_init(void)
                                            _ui_theme_color_yellowDark);
     ui_object_set_themeable_style_property(ui_overlayWifiSSIDLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
                                            _ui_theme_alpha_yellowDark);
-    lv_obj_set_style_text_font(ui_overlayWifiSSIDLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_overlayWifiSSIDLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_overlayWifiSSIDLabelValue = lv_label_create(ui_overlayWifiContainer);
     lv_obj_set_width(ui_overlayWifiSSIDLabelValue, LV_SIZE_CONTENT);   /// 1
@@ -295,7 +295,7 @@ void ui_wifiScreen_screen_init(void)
                                            _ui_theme_color_yellowDark);
     ui_object_set_themeable_style_property(ui_overlayWifiPwdLabel, LV_PART_MAIN | LV_STATE_DEFAULT, LV_STYLE_TEXT_OPA,
                                            _ui_theme_alpha_yellowDark);
-    lv_obj_set_style_text_font(ui_overlayWifiPwdLabel, &ui_font_Mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_overlayWifiPwdLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_overlayWifiPwdLabelValue = lv_label_create(ui_overlayWifiContainer);
     lv_obj_set_width(ui_overlayWifiPwdLabelValue, LV_SIZE_CONTENT);   /// 1

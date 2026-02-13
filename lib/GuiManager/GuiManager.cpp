@@ -181,7 +181,7 @@ void go_next_screen() {
 
     int lastScreenIndex = get_screen_count() - 1;
     if (activeScreenIndex < lastScreenIndex) {
-        load_screen_by_index(activeScreenIndex + 1);
+        load_screen_by_index(activeScreenIndex + 1, false);
         activeScreenIndex++;
     }
 }
@@ -190,16 +190,22 @@ void go_prev_screen() {
     Serial.println("going to previous screen");
 
     if (activeScreenIndex > -1) {
-        load_screen_by_index(activeScreenIndex - 1);
+        load_screen_by_index(activeScreenIndex - 1, false);
         activeScreenIndex--;
     }
 }
 
+void go_back_from_market_data_setting() {
+    Serial.println("going back from settings");
+
+    load_screen_by_index(activeScreenIndex, true);
+}
+
 // --- SCREEN LOADER ---
 
-void load_screen_by_index(int index) {
+void load_screen_by_index(int index, bool goingFromSettings) {
     //if we would change to the same screen
-    if (index == activeScreenIndex) return;
+    if (index == activeScreenIndex && !goingFromSettings) return;
 
     // handle home screen load
     if (index == -1) {

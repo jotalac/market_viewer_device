@@ -5,6 +5,7 @@ SET(SOURCES ui_homeScreen.c
     ui_screensScreen.c
     ui_cryptoScreen.c
     ui_stockScreen.c
+    ui_marketDataSettingScreen.c
     ui_theme_manager.cpp
     ui_themes.cpp
     ui.c
@@ -22,10 +23,20 @@ SET(SOURCES ui_homeScreen.c
     ui_img_9953116.c
     ui_img_788343386.c
     ui_img_936315526.c
+    ui_img_red_background_png.c
+    ui_img_121694436.c
+    ui_img_green_background_png.c
     fonts/ui_font_Mono20.c
     fonts/ui_font_mono30.c
-    fonts/ui_font_Mono40.c
-    fonts/ui_font_MonoBold100.c
-    fonts/ui_font_MonoBold60.c)
+    fonts/ui_font_mono40.c
+    fonts/ui_font_mono50.c
+    fonts/ui_font_monoBold100.c
+    fonts/ui_font_monoBold20.c
+    fonts/ui_font_monoBold60.c
+    fonts/ui_font_monoLight30.c
+    fonts/ui_font_monoBold80.c
+    fonts/ui_font_monoBold100.c
+    fonts/ui_font_monoBold60.c
+    fonts/ui_font_monoBold50.c)
 
 add_library(ui ${SOURCES})
