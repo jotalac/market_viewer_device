@@ -6,6 +6,7 @@
 #include "ui.h"
 
 lv_obj_t * ui_cryptoScreen = NULL;
+lv_obj_t * ui_cryptoGraphPanel = NULL;
 lv_obj_t * ui_cryptoAthArc = NULL;
 lv_obj_t * ui_cryptoPriceLabel = NULL;
 lv_obj_t * ui_cryptoPriceChangeLabel = NULL;
@@ -48,6 +49,19 @@ void ui_cryptoScreen_screen_init(void)
     lv_obj_clear_flag(ui_cryptoScreen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_img_src(ui_cryptoScreen, &ui_img_red_background_png, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_img_tiled(ui_cryptoScreen, true, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_cryptoGraphPanel = lv_obj_create(ui_cryptoScreen);
+    lv_obj_set_width(ui_cryptoGraphPanel, 466);
+    lv_obj_set_height(ui_cryptoGraphPanel, 320);
+    lv_obj_set_align(ui_cryptoGraphPanel, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_cryptoGraphPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_cryptoGraphPanel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_cryptoGraphPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_cryptoGraphPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_border_color(ui_cryptoGraphPanel, lv_color_hex(0x000000), LV_PART_SCROLLBAR | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_cryptoGraphPanel, 0, LV_PART_SCROLLBAR | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_cryptoGraphPanel, 0, LV_PART_SCROLLBAR | LV_STATE_DEFAULT);
 
     ui_cryptoAthArc = lv_arc_create(ui_cryptoScreen);
     lv_obj_set_width(ui_cryptoAthArc, 430);
@@ -197,6 +211,7 @@ void ui_cryptoScreen_screen_destroy(void)
 
     // NULL screen variables
     ui_cryptoScreen = NULL;
+    ui_cryptoGraphPanel = NULL;
     ui_cryptoAthArc = NULL;
     ui_cryptoPriceLabel = NULL;
     ui_cryptoPriceChangeLabel = NULL;

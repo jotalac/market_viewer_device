@@ -69,12 +69,10 @@ LV_FONT_DECLARE(ui_font_mono40);
 LV_FONT_DECLARE(ui_font_mono50);
 LV_FONT_DECLARE(ui_font_monoBold100);
 LV_FONT_DECLARE(ui_font_monoBold20);
-LV_FONT_DECLARE(ui_font_monoBold60);
-LV_FONT_DECLARE(ui_font_monoLight30);
-LV_FONT_DECLARE(ui_font_monoBold80);
-LV_FONT_DECLARE(ui_font_monoBold100);
-LV_FONT_DECLARE(ui_font_monoBold60);
 LV_FONT_DECLARE(ui_font_monoBold50);
+LV_FONT_DECLARE(ui_font_monoBold60);
+LV_FONT_DECLARE(ui_font_monoBold80);
+LV_FONT_DECLARE(ui_font_monoLight30);
 
 // UI INIT
 void ui_init(void);

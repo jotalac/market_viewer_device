@@ -15,6 +15,7 @@ extern void ui_cryptoScreen_screen_init(void);
 extern void ui_cryptoScreen_screen_destroy(void);
 extern void ui_event_cryptoScreen(lv_event_t * e);
 extern lv_obj_t * ui_cryptoScreen;
+extern lv_obj_t * ui_cryptoGraphPanel;
 extern lv_obj_t * ui_cryptoAthArc;
 extern lv_obj_t * ui_cryptoPriceLabel;
 extern lv_obj_t * ui_cryptoPriceChangeLabel;

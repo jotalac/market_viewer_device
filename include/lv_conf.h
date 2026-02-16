@@ -470,6 +470,8 @@
  *================*/
 
 /*Documentation of the widgets: https://docs.lvgl.io/latest/en/html/widgets/index.html*/
+// custom things
+#define LV_USE_DRAW_MASKS 1
 
 #define LV_USE_ARC        1
 

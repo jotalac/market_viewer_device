@@ -41,26 +41,64 @@ void CryptoScreen::render() {
         lv_obj_set_style_bg_img_src(ui_cryptoScreen, &ui_img_red_background_png, LV_PART_MAIN);
         lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(redColorKnob), LV_PART_KNOB);
     }
-    
+
+    lv_obj_clean(graphPanel); 
+    renderGraph();
 }
+
 
 void CryptoScreen::parseData(JsonObject& data) {
     price = data["price"] | 0.0f;
     priceChange = data["priceChange"] | 0.0f;
     ath = data["allTimeHigh"] | 0.0f;
     athChange = data["allTimeHighChange"] | 0.0f;
-
+    
     // Parse graph data array manually
     graphData.clear();
-    JsonArray graphArray = data["graphData"].as<JsonArray>();
-    for (JsonVariant value : graphArray) {
-        graphData.push_back(value.as<double>());
-    }
+    graphData.shrink_to_fit(); // Release memory
 
+    // Parse new graph data
+    JsonArray graphArray = data["graphData"].as<JsonArray>();
+    if (graphArray.size() > 0) {
+        // Reserve memory to prevent reallocation
+        graphData.reserve(graphArray.size());
+        
+        for (JsonVariant value : graphArray) {
+            graphData.push_back(value.as<double>());
+        }        
+    }
 }
 
 bool CryptoScreen::needsUpdate() {
     unsigned long refreshIntervalMillis = refreshIntervalMinutes * 60 * 1000;
-
+    
     return (millis() - lastFetchTime >= refreshIntervalMillis);
+}
+
+void CryptoScreen::initGraph(lv_obj_t* panelObj) {
+    this->graphPanel = panelObj;
+
+    // 1. Configure the Context
+    // We point it to OUR graphData vector. 
+    // This is valid as long as 'CryptoScreen' stays alive.
+    graphContext.data = &this->graphData; 
+    graphContext.color = lv_color_hex(0x00FF00); // Default color (will update in render)
+    graphContext.bgColor = lv_color_hex(0x000000);
+
+    // 2. Call the reusable setup function
+    // setup_graph_panel(graphPanel, &graphContext);
+}
+
+void CryptoScreen::renderGraph() {
+    if (!graphPanel || graphData.empty()) return;
+
+
+    // 1. Update the color based on logic
+    bool isGrowing = (priceChange >= 0);
+    graphContext.color = isGrowing ? lv_color_hex(0x399c09) : lv_color_hex(0xDF0A0A);
+
+    // 2. Trigger Redraw
+    // lv_obj_invalidate(graphPanel);
+    // lv_refr_now(NULL);
+    draw_graph_on_canvas(graphPanel, graphData, graphContext.color);
 }

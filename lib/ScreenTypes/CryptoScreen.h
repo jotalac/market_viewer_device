@@ -5,6 +5,7 @@
 #include <ArduinoJson.h>
 #include "BaseScreen.h"
 #include <vector>
+#include "graphDrawer.h"
 
 // Crypto Screen
 class CryptoScreen : public BaseScreen {
@@ -22,9 +23,14 @@ private:
     //data
     double ath;
     double athChange;
-    std::vector<double> graphData;
     double price;
     double priceChange;
+
+    //graph data
+    std::vector<double> graphData;
+    lv_obj_t* graphPanel;
+    GraphDrawContext graphContext;
+
 
 public:
     CryptoScreen(int pos, String assetName, String currency, int refreshInterval, String timeFrame, bool displayGraph, bool simpleDisplay, GraphType graphType) 
@@ -44,26 +50,31 @@ public:
         graphData = {};
         price = 0.0f;
         priceChange = 0.0f;
+
+        graphPanel = nullptr;
     }
 
     void parseData(JsonObject& data) override;
     void render() override;
     bool needsUpdate() override;
 
+    void initGraph(lv_obj_t* panelObj);
+    void renderGraph();
+
 
     String getDisplayName() override {
         return "Crypto: " + assetName;
     }
 
-    // // Crypto-specific methods
-    // String getCoinId() const { return coinId; }
-    // String getCoinSymbol() const { return coinSymbol; }
-    // float getCurrentPrice() const { return currentPrice; }
-    // float getChange24h() const { return changePercent24h; }
-    // void setPrice(float price, float change) {
-    //     currentPrice = price;
-    //     changePercent24h = change;
-    // }
+    // Add method to clear graph data when needed
+    void clearGraphData() {
+        graphData.clear();
+        graphData.shrink_to_fit();
+        if (graphPanel) {
+            lv_obj_invalidate(graphPanel);
+        }
+    }
+
 };
 
 

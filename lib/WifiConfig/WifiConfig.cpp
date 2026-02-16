@@ -7,8 +7,10 @@ static Preferences preferences;
 static WifiConfig wifiConfig;
 
 // Custom parameters
-static WiFiManagerParameter* backendUrlParam;
-static WiFiManagerParameter* deviceHashParam;
+static WiFiManagerParameter backendUrlParam("backend_url", "Backend URL", "", 256);
+static WiFiManagerParameter deviceHashParam("device_hash", "Device hash", "", 256);
+
+static bool paramsAdded = false;
 
 String wifiSSID = "market_viewer_setup";
 String wifiPassword = "marketViewer321";
@@ -52,10 +54,11 @@ void init_wifi_config() {
 
 void save_config_callback() {
     Serial.println("Saving configuration...");
+
     
     // Get values from parameters
-    strncpy(wifiConfig.backendUrl, backendUrlParam->getValue(), sizeof(wifiConfig.backendUrl) - 1);
-    strncpy(wifiConfig.deviceHash, deviceHashParam->getValue(), sizeof(wifiConfig.deviceHash) - 1);
+    strncpy(wifiConfig.backendUrl, backendUrlParam.getValue(), sizeof(wifiConfig.backendUrl) - 1);
+    strncpy(wifiConfig.deviceHash, deviceHashParam.getValue(), sizeof(wifiConfig.deviceHash) - 1);
     wifiConfig.configured = true;
     
     // Save to flash
@@ -74,13 +77,17 @@ bool start_wifi_portal() {
     Serial.println("Starting WiFi configuration portal...");
     
     // Create custom parameters
-    backendUrlParam = new WiFiManagerParameter("backend_url", "Backend URL", wifiConfig.backendUrl, 256);
-    deviceHashParam = new WiFiManagerParameter("device_hash", "Device hash", wifiConfig.deviceHash, 256);
-    
-    // Add parameters to WiFiManager
-    wifiManager.addParameter(backendUrlParam);
-    wifiManager.addParameter(deviceHashParam);
-    
+    // backendUrlParam = new WiFiManagerParameter("backend_url", "Backend URL", wifiConfig.backendUrl, 256);
+    // deviceHashParam = new WiFiManagerParameter("device_hash", "Device hash", wifiConfig.deviceHash, 256);
+    backendUrlParam.setValue(wifiConfig.backendUrl, 256);
+    deviceHashParam.setValue(wifiConfig.deviceHash, 256);
+
+    if (!paramsAdded) {
+        wifiManager.addParameter(&backendUrlParam);
+        wifiManager.addParameter(&deviceHashParam);
+        paramsAdded = true; 
+    }
+        
     // Set save callback
     wifiManager.setSaveConfigCallback(save_config_callback);
     
@@ -89,23 +96,13 @@ bool start_wifi_portal() {
     wifiManager.setAPClientCheck(true);
     wifiManager.setClass("invert");
     wifiManager.setBreakAfterConfig(true); // exit portal even when wifi is not connected
-
     wifiManager.setShowInfoUpdate(false);
+
     
     // Start portal - this blocks until configured or timeout
     bool connected = wifiManager.startConfigPortal(wifiSSID.c_str(), wifiPassword.c_str());
     
-    // Clean up
-    delete backendUrlParam;
-    delete deviceHashParam;
-    
-    if (connected) {
-        Serial.println("WiFi configured successfully!");
-        return true;
-    } else {
-        Serial.println("WiFi configuration failed or timed out.");
-        return false;
-    }
+    return connected;    
 }
 
 bool is_wifi_connected() {
@@ -147,10 +144,9 @@ void reset_wifi_config() {
     preferences.begin("wifi_config", false);
     preferences.clear();
     preferences.end();
-    
-    // Clear WiFi credentials
+
     wifiManager.resetSettings();
-    
+
     // Reset struct
     memset(&wifiConfig, 0, sizeof(wifiConfig));
     strcpy(wifiConfig.backendUrl, defaultBackendUrl.c_str());

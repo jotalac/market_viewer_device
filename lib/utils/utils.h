@@ -12,4 +12,6 @@ std::string build_price_change_label(double priceChange);
 
 const lv_font_t* select_correct_font_size(std::string priceLabel, int labelWidth);
 
+
+
 #endif

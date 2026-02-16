@@ -32,11 +32,9 @@ SET(SOURCES ui_homeScreen.c
     fonts/ui_font_mono50.c
     fonts/ui_font_monoBold100.c
     fonts/ui_font_monoBold20.c
+    fonts/ui_font_monoBold50.c
     fonts/ui_font_monoBold60.c
-    fonts/ui_font_monoLight30.c
     fonts/ui_font_monoBold80.c
-    fonts/ui_font_monoBold100.c
-    fonts/ui_font_monoBold60.c
-    fonts/ui_font_monoBold50.c)
+    fonts/ui_font_monoLight30.c)
 
 add_library(ui ${SOURCES})
