@@ -44,11 +44,14 @@ std::string format_market_price(double price) {
 }
 
 std::string currency_symbol_convertor(const String &currency) {
-    if (currency == "USD") return "$";  // US Dollar
-    if (currency == "EUR") return "€";  // Euro
-    if (currency == "GBP") return "£";  // British Pound
-    if (currency == "JPY") return "¥";  // Japanese Yen
-    if (currency == "CNY") return "¥";  // Chinese Yuan (Renminbi)
+    String currencyUpper = currency;
+    currencyUpper.toUpperCase();
+
+    if (currencyUpper == "USD") return "$";  // US Dollar
+    if (currencyUpper == "EUR") return "€";  // Euro
+    if (currencyUpper == "GBP") return "£";  // British Pound
+    if (currencyUpper == "JPY") return "¥";  // Japanese Yen
+    if (currencyUpper == "CNY") return "¥";  // Chinese Yuan (Renminbi)
     
     return std::string(currency.c_str()); // Return original code if no symbol found
     // return ""; // Return original code if no symbol found

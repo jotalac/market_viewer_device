@@ -18,4 +18,7 @@ void saveHardwaveBoolToPreferences(String name, bool value);
 //screens screen dispaly
 void updateScreensScreenOnDataFetch(bool successfull);
 
+// market data settings screen
+void updateMarketDataScreenOnLoad();
+
 #endif

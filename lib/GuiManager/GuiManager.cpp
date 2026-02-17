@@ -4,7 +4,6 @@
 #include "lv_conf.h"
 #include "ui.h"
 #include "ScreensManager.h"
-#include "BaseScreen.h"
 
 
 // Double Buffering for smooth UI
@@ -250,4 +249,8 @@ void updateScreenForce() {
 
     BaseScreen* activeScreen = get_screen_ptr(activeScreenIndex);
     activeScreen->resetLastFetchTime();
+}
+
+BaseScreen* get_active_screen() {
+    return get_screen_ptr(activeScreenIndex);
 }

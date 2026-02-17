@@ -6,9 +6,12 @@
 // 400 points is enough for any screen width on ESP32.
 static lv_point_t pointBuffer[400]; 
 
-void draw_graph_on_canvas(lv_obj_t* panel, const std::vector<double>& rawData, lv_color_t color) {
+void draw_graph_on_canvas(ScreenType screenType, const std::vector<double>& rawData, lv_color_t color) {
     // 1. Safety Checks
-    if (!panel || rawData.size() < 2) return;
+    if (rawData.size() < 2) return;
+
+    lv_obj_t* panel = get_screen_panel_from_type(screenType);
+    if (panel == nullptr) return;
 
     // 3. Get Dimensions
     int32_t w = lv_obj_get_width(panel);
@@ -67,7 +70,6 @@ void draw_graph_on_canvas(lv_obj_t* panel, const std::vector<double>& rawData, l
         pointBuffer[pointCount].y = y;
         pointCount++;
     }
-
     // 7. Create the Line Object (The Widget)
     lv_obj_t* line = lv_line_create(panel);
     
@@ -75,7 +77,17 @@ void draw_graph_on_canvas(lv_obj_t* panel, const std::vector<double>& rawData, l
     lv_line_set_points(line, pointBuffer, pointCount);
 
     // 8. Style the Line
-    lv_obj_set_style_line_width(line, 5, LV_PART_MAIN);
+    lv_obj_set_style_line_width(line, 4, LV_PART_MAIN);
     lv_obj_set_style_line_color(line, color, LV_PART_MAIN);
     lv_obj_set_style_line_rounded(line, true, LV_PART_MAIN);
+}
+
+lv_obj_t* get_screen_panel_from_type(ScreenType screenType) {
+    if (screenType == ScreenType::CRYPTO) {
+        return ui_cryptoGraphPanel;
+    } else if (screenType == ScreenType::STOCK) {
+        return nullptr; // TODO return crypto graph data
+    }
+
+    return nullptr;
 }

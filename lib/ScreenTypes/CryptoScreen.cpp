@@ -10,6 +10,9 @@ static int redColorKnob = 0xe35252;
 static int greenColor = 0x399c09;
 static int greenColorKnob = 0x7cd154;
 
+static int redColorGraph = 0xb54b2d;
+static int greenColorGraph = 0x249c36;
+
 
 void CryptoScreen::render() {
     std::string formattedPrice = build_price_label(price, currency).c_str();
@@ -42,7 +45,8 @@ void CryptoScreen::render() {
         lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(redColorKnob), LV_PART_KNOB);
     }
 
-    lv_obj_clean(graphPanel); 
+    //clear graph data
+    lv_obj_clean(get_screen_panel_from_type(ScreenType::CRYPTO));
     renderGraph();
 }
 
@@ -75,30 +79,10 @@ bool CryptoScreen::needsUpdate() {
     return (millis() - lastFetchTime >= refreshIntervalMillis);
 }
 
-void CryptoScreen::initGraph(lv_obj_t* panelObj) {
-    this->graphPanel = panelObj;
-
-    // 1. Configure the Context
-    // We point it to OUR graphData vector. 
-    // This is valid as long as 'CryptoScreen' stays alive.
-    graphContext.data = &this->graphData; 
-    graphContext.color = lv_color_hex(0x00FF00); // Default color (will update in render)
-    graphContext.bgColor = lv_color_hex(0x000000);
-
-    // 2. Call the reusable setup function
-    // setup_graph_panel(graphPanel, &graphContext);
-}
-
 void CryptoScreen::renderGraph() {
-    if (!graphPanel || graphData.empty()) return;
-
+    if (graphData.empty()) return;
 
     // 1. Update the color based on logic
-    bool isGrowing = (priceChange >= 0);
-    graphContext.color = isGrowing ? lv_color_hex(0x399c09) : lv_color_hex(0xDF0A0A);
-
-    // 2. Trigger Redraw
-    // lv_obj_invalidate(graphPanel);
-    // lv_refr_now(NULL);
-    draw_graph_on_canvas(graphPanel, graphData, graphContext.color);
+    lv_color_t graphColor = priceChange >= 0 ? lv_color_hex(greenColorGraph) : lv_color_hex(redColorGraph);
+    draw_graph_on_canvas(ScreenType::CRYPTO, graphData, graphColor);
 }

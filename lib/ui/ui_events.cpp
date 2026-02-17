@@ -177,3 +177,23 @@ void exitMarketDataSetting(lv_event_t * e)
 {
     go_back_from_market_data_setting();
 }
+
+void marketDataSettingScreenLoad(lv_event_t * e)
+{
+	updateMarketDataScreenOnLoad();
+}
+
+void simpleDisplaySwitchToggle(lv_event_t * e)
+{
+	// Your code here
+}
+
+void displayGraphSwitchToggle(lv_event_t * e)
+{
+	// Your code here
+}
+
+void candleChartSwitchToggle(lv_event_t * e)
+{
+	// Your code here
+}

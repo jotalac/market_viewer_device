@@ -6,6 +6,9 @@
 #include "AudioManager.h"
 #include "ScreensManager.h"
 #include <Preferences.h>
+#include "GuiManager.h"
+#include "CryptoScreen.h"
+#include "StockScreen.h"
 
 static Preferences preferences;
 
@@ -95,4 +98,48 @@ void updateScreensScreenOnDataFetch(bool successfull) {
             lv_obj_set_style_text_font(label, &ui_font_mono30, LV_PART_MAIN);
         }
     }
+}
+
+
+//market data screen
+void updateMarketDataScreenOnLoad() {
+    BaseScreen* activeScreen = get_active_screen();
+    
+    bool displayGraph = true;
+    bool simpleDisplay = false;
+    GraphType graphType = GraphType::LINE;
+
+    ScreenType screenType = activeScreen->getType();
+
+    //set the states
+    if(screenType == ScreenType::CRYPTO) {
+        CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
+
+        displayGraph = crypto->shouldDisplayGraph();
+        simpleDisplay = crypto->isSimpleDisplay();
+        graphType = crypto->getGraphType();
+    }
+
+
+
+    //update the ui
+    if (simpleDisplay) {
+        lv_obj_add_state(ui_simpleDisplaySwitch, LV_STATE_CHECKED);
+    } else {
+        lv_obj_clear_state(ui_simpleDisplaySwitch, LV_STATE_CHECKED);
+    } 
+
+    if (displayGraph) {
+        lv_obj_add_state(ui_displayGraphSwitch, LV_STATE_CHECKED);
+    } else {
+        lv_obj_clear_state(ui_displayGraphSwitch, LV_STATE_CHECKED);
+    } 
+
+    if (graphType == GraphType::CANDLE) {
+        lv_obj_add_state(ui_candleChartSwitch, LV_STATE_CHECKED);
+    } else {
+        lv_obj_clear_state(ui_candleChartSwitch, LV_STATE_CHECKED);
+    } 
+
+
 }
