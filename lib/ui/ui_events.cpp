@@ -185,15 +185,21 @@ void marketDataSettingScreenLoad(lv_event_t * e)
 
 void simpleDisplaySwitchToggle(lv_event_t * e)
 {
-	// Your code here
+    lv_obj_t * sw = lv_event_get_target(e);
+    bool isSwitchedOn = lv_obj_has_state(sw, LV_STATE_CHECKED);
+    updateSimpleDisplay(isSwitchedOn);
 }
 
 void displayGraphSwitchToggle(lv_event_t * e)
 {
-	// Your code here
+    lv_obj_t * sw = lv_event_get_target(e);
+    bool isSwitchedOn = lv_obj_has_state(sw, LV_STATE_CHECKED);
+    updateDispalyGraph(isSwitchedOn);
 }
 
 void candleChartSwitchToggle(lv_event_t * e)
 {
-	// Your code here
+    lv_obj_t * sw = lv_event_get_target(e);
+    bool isSwitchedOn = lv_obj_has_state(sw, LV_STATE_CHECKED);
+    updateCandleGraph(isSwitchedOn);
 }

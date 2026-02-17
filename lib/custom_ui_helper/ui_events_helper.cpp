@@ -140,6 +140,32 @@ void updateMarketDataScreenOnLoad() {
     } else {
         lv_obj_clear_state(ui_candleChartSwitch, LV_STATE_CHECKED);
     } 
+}
 
+void updateSimpleDisplay(bool isSimpleDisplay) {
+    BaseScreen* activeScreen = get_active_screen(); 
 
+    if (activeScreen->getType() == ScreenType::CRYPTO) {
+        CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
+
+        crypto->setDisplayGraph(isSimpleDisplay);
+    }
+}
+void updateDispalyGraph(bool displayGraph) {
+    BaseScreen* activeScreen = get_active_screen(); 
+
+    if (activeScreen->getType() == ScreenType::CRYPTO) {
+        CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
+
+        crypto->setDisplayGraph(displayGraph);
+    }
+}
+void updateCandleGraph(bool isCandleGraph) {
+    BaseScreen* activeScreen = get_active_screen(); 
+
+    if (activeScreen->getType() == ScreenType::CRYPTO) {
+        CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
+
+        crypto->setGraphType(isCandleGraph);
+    }
 }

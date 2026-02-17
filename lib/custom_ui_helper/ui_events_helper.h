@@ -21,4 +21,9 @@ void updateScreensScreenOnDataFetch(bool successfull);
 // market data settings screen
 void updateMarketDataScreenOnLoad();
 
+// market data screen update data
+void updateSimpleDisplay(bool isSimpleDisplay);
+void updateDispalyGraph(bool displayGraph);
+void updateCandleGraph(bool isCandleGraph);
+
 #endif

@@ -54,21 +54,15 @@ public:
 
     void renderGraph();
 
-    String getDisplayName() override {
-        return "Crypto: " + assetName;
-    }
+    String getDisplayName() override {return "Crypto: " + assetName;}
+    
+    bool isSimpleDisplay() {return simpleDisplay;}
+    bool shouldDisplayGraph() {return displayGraph;}
+    GraphType getGraphType() {return graphType;}
 
-    bool isSimpleDisplay() {
-        return simpleDisplay;
-    }
-
-    bool shouldDisplayGraph() {
-        return displayGraph;
-    }
-
-    GraphType getGraphType() {
-        return graphType;
-    }
+    void setSimpleDisplay(bool simpleDisplay) {this->simpleDisplay = simpleDisplay;}
+    void setDisplayGraph(bool displayGraph) {this->displayGraph = displayGraph;}
+    void setGraphType(bool isCandle) {this->graphType = isCandle ? GraphType::CANDLE : GraphType::LINE;}
 };
 
 
