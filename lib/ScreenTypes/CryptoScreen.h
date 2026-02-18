@@ -26,11 +26,7 @@ private:
     double price;
     double priceChange;
 
-    //graph data
     std::vector<double> graphData;
-    lv_obj_t* graphPanel;
-    GraphDrawContext graphContext;
-
 
 public:
     CryptoScreen(int pos, String assetName, String currency, int refreshInterval, String timeFrame, bool displayGraph, bool simpleDisplay, GraphType graphType) 
@@ -50,31 +46,23 @@ public:
         graphData = {};
         price = 0.0f;
         priceChange = 0.0f;
-
-        graphPanel = nullptr;
     }
 
     void parseData(JsonObject& data) override;
     void render() override;
     bool needsUpdate() override;
 
-    void initGraph(lv_obj_t* panelObj);
     void renderGraph();
 
+    String getDisplayName() override {return "Crypto: " + assetName;}
+    
+    bool isSimpleDisplay() {return simpleDisplay;}
+    bool shouldDisplayGraph() {return displayGraph;}
+    GraphType getGraphType() {return graphType;}
 
-    String getDisplayName() override {
-        return "Crypto: " + assetName;
-    }
-
-    // Add method to clear graph data when needed
-    void clearGraphData() {
-        graphData.clear();
-        graphData.shrink_to_fit();
-        if (graphPanel) {
-            lv_obj_invalidate(graphPanel);
-        }
-    }
-
+    void setSimpleDisplay(bool simpleDisplay) {this->simpleDisplay = simpleDisplay;}
+    void setDisplayGraph(bool displayGraph) {this->displayGraph = displayGraph;}
+    void setGraphType(bool isCandle) {this->graphType = isCandle ? GraphType::CANDLE : GraphType::LINE;}
 };
 
 

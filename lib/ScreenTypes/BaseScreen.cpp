@@ -81,19 +81,16 @@ BaseScreen* createScreenFromType(const String& type, JsonObject& data) {
     
     if (type == "CRYPTO") {
         GraphType graphType = data["graphType"] == "CANDLE" ? GraphType::CANDLE : GraphType::LINE;
-        CryptoScreen* newScreen = new CryptoScreen(
+        return new CryptoScreen(
             position,
             data["assetName"],
             data["currency"],
             data["fetchInterval"] | 10,
             data["timeFrame"],
-            data["simpleDisplay"],
             data["displayGraph"],
+            data["simpleDisplay"],
             graphType
         );
-
-        newScreen->initGraph(ui_cryptoGraphPanel);
-        return newScreen;
     }
     
     if (type == "STOCK") {

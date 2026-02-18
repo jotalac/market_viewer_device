@@ -177,3 +177,29 @@ void exitMarketDataSetting(lv_event_t * e)
 {
     go_back_from_market_data_setting();
 }
+
+void marketDataSettingScreenLoad(lv_event_t * e)
+{
+	updateMarketDataSettingsScreenOnLoad(get_active_screen());
+}
+
+void simpleDisplaySwitchToggle(lv_event_t * e)
+{
+    lv_obj_t * sw = lv_event_get_target(e);
+    bool isSwitchedOn = lv_obj_has_state(sw, LV_STATE_CHECKED);
+    updateSimpleDisplay(isSwitchedOn, get_active_screen());
+}
+
+void displayGraphSwitchToggle(lv_event_t * e)
+{
+    lv_obj_t * sw = lv_event_get_target(e);
+    bool isSwitchedOn = lv_obj_has_state(sw, LV_STATE_CHECKED);
+    updateDispalyGraph(isSwitchedOn, get_active_screen());
+}
+
+void candleChartSwitchToggle(lv_event_t * e)
+{
+    lv_obj_t * sw = lv_event_get_target(e);
+    bool isSwitchedOn = lv_obj_has_state(sw, LV_STATE_CHECKED);
+    updateCandleGraph(isSwitchedOn, get_active_screen());
+}

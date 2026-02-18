@@ -6,6 +6,7 @@
 #include "AudioManager.h"
 #include "ScreensManager.h"
 #include <Preferences.h>
+#include "CryptoScreen.h"
 
 static Preferences preferences;
 
@@ -94,5 +95,68 @@ void updateScreensScreenOnDataFetch(bool successfull) {
             lv_obj_set_style_text_align(label, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN);
             lv_obj_set_style_text_font(label, &ui_font_mono30, LV_PART_MAIN);
         }
+    }
+}
+
+void updateMarketDataSettingsScreenOnLoad(BaseScreen* activeScreen) {    
+    bool displayGraph = true;
+    bool simpleDisplay = false;
+    GraphType graphType = GraphType::LINE;
+
+    ScreenType screenType = activeScreen->getType();
+
+    //set the states
+    if(screenType == ScreenType::CRYPTO) {
+        CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
+
+        displayGraph = crypto->shouldDisplayGraph();
+        simpleDisplay = crypto->isSimpleDisplay();
+        graphType = crypto->getGraphType();
+    }
+
+    Serial.println("Display graph: " + displayGraph);
+    Serial.println("Simple display: " + simpleDisplay);
+    Serial.println("Candle graph: " + (graphType == GraphType::CANDLE));
+
+
+    //update the ui
+    if (simpleDisplay) {
+        lv_obj_add_state(ui_simpleDisplaySwitch, LV_STATE_CHECKED);
+    } else {
+        lv_obj_clear_state(ui_simpleDisplaySwitch, LV_STATE_CHECKED);
+    } 
+
+    if (displayGraph) {
+        lv_obj_add_state(ui_displayGraphSwitch, LV_STATE_CHECKED);
+    } else {
+        lv_obj_clear_state(ui_displayGraphSwitch, LV_STATE_CHECKED);
+    } 
+
+    if (graphType == GraphType::CANDLE) {
+        lv_obj_add_state(ui_candleChartSwitch, LV_STATE_CHECKED);
+    } else {
+        lv_obj_clear_state(ui_candleChartSwitch, LV_STATE_CHECKED);
+    } 
+}
+
+void updateSimpleDisplay(bool isSimpleDisplay, BaseScreen* activeScreen) {
+    if (activeScreen->getType() == ScreenType::CRYPTO) {
+        CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
+
+        crypto->setSimpleDisplay(isSimpleDisplay);
+    }
+}
+void updateDispalyGraph(bool displayGraph, BaseScreen* activeScreen) {
+    if (activeScreen->getType() == ScreenType::CRYPTO) {
+        CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
+
+        crypto->setDisplayGraph(displayGraph);
+    }
+}
+void updateCandleGraph(bool isCandleGraph, BaseScreen* activeScreen) {
+    if (activeScreen->getType() == ScreenType::CRYPTO) {
+        CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
+
+        crypto->setGraphType(isCandleGraph);
     }
 }

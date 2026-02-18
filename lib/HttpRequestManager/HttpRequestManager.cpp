@@ -39,8 +39,8 @@ String fetch_data(String url) {
     
     Serial.println("Fetching screens from: " + url);
     
-    http.begin(url);
     http.setTimeout(15000);  // 15 second timeout
+    http.begin(url);
     
     int httpCode = http.GET();
     

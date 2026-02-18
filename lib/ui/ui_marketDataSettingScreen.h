@@ -19,12 +19,15 @@ extern lv_obj_t * ui_marketDataSettingsLabel;
 extern lv_obj_t * ui_marketDataSettingMainPanel;
 extern lv_obj_t * ui_simpleDispalyCont;
 extern lv_obj_t * ui_simpleDisplayLabel;
+extern void ui_event_simpleDisplaySwitch(lv_event_t * e);
 extern lv_obj_t * ui_simpleDisplaySwitch;
 extern lv_obj_t * ui_displayGraphCont;
 extern lv_obj_t * ui_displayChartLabel;
+extern void ui_event_displayGraphSwitch(lv_event_t * e);
 extern lv_obj_t * ui_displayGraphSwitch;
 extern lv_obj_t * ui_candleChartCont;
 extern lv_obj_t * ui_candleChartLabel;
+extern void ui_event_candleChartSwitch(lv_event_t * e);
 extern lv_obj_t * ui_candleChartSwitch;
 // CUSTOM VARIABLES
 

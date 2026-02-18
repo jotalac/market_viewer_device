@@ -26,6 +26,36 @@ void ui_event_marketDataSettingScreen(lv_event_t * e)
         lv_indev_wait_release(lv_indev_get_act());
         exitMarketDataSetting(e);
     }
+    if(event_code == LV_EVENT_SCREEN_LOAD_START) {
+        marketDataSettingScreenLoad(e);
+    }
+}
+
+void ui_event_simpleDisplaySwitch(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        simpleDisplaySwitchToggle(e);
+    }
+}
+
+void ui_event_displayGraphSwitch(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        displayGraphSwitchToggle(e);
+    }
+}
+
+void ui_event_candleChartSwitch(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+
+    if(event_code == LV_EVENT_CLICKED) {
+        candleChartSwitchToggle(e);
+    }
 }
 
 // build funtions
@@ -125,7 +155,6 @@ void ui_marketDataSettingScreen_screen_init(void)
     lv_obj_set_align(ui_displayGraphSwitch, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_displayGraphSwitch, LV_FLEX_FLOW_ROW);
     lv_obj_set_flex_align(ui_displayGraphSwitch, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
-    lv_obj_add_state(ui_displayGraphSwitch, LV_STATE_CHECKED);       /// States
 
     ui_object_set_themeable_style_property(ui_displayGraphSwitch, LV_PART_INDICATOR | LV_STATE_CHECKED, LV_STYLE_BG_COLOR,
                                            _ui_theme_color_yellowDark);
@@ -170,6 +199,9 @@ void ui_marketDataSettingScreen_screen_init(void)
     lv_obj_set_style_bg_color(ui_candleChartSwitch, lv_color_hex(0xECECEC), LV_PART_KNOB | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_candleChartSwitch, 255, LV_PART_KNOB | LV_STATE_DEFAULT);
 
+    lv_obj_add_event_cb(ui_simpleDisplaySwitch, ui_event_simpleDisplaySwitch, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_displayGraphSwitch, ui_event_displayGraphSwitch, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_candleChartSwitch, ui_event_candleChartSwitch, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_marketDataSettingScreen, ui_event_marketDataSettingScreen, LV_EVENT_ALL, NULL);
 
 }

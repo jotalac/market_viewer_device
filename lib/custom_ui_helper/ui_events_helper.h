@@ -2,6 +2,7 @@
 #define UI_EVENTS_HELPER_H
 
 #include <Arduino.h>
+#include "BaseScreen.h"
 
 //wifi screen
 void changeWifiScreenNotConnected();
@@ -17,5 +18,13 @@ void saveHardwaveBoolToPreferences(String name, bool value);
 
 //screens screen dispaly
 void updateScreensScreenOnDataFetch(bool successfull);
+
+//market data settings screen
+void updateMarketDataSettingsScreenOnLoad(BaseScreen* activeScreen);
+
+// market data screen update data
+void updateSimpleDisplay(bool isSimpleDisplay, BaseScreen* activeScreen);
+void updateDispalyGraph(bool displayGraph, BaseScreen* activeScreen);
+void updateCandleGraph(bool isCandleGraph, BaseScreen* activeScreen);
 
 #endif
