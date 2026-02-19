@@ -52,6 +52,8 @@ public:
     void render() override;
     bool needsUpdate() override;
 
+    void renderNormal();
+    void renderSimple();
     void renderGraph();
 
     String getDisplayName() override {return "Crypto: " + assetName;}

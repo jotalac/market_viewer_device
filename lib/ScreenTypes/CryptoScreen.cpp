@@ -15,9 +15,8 @@ static int greenColorGraph = 0x249c36;
 
 
 void CryptoScreen::render() {
+    //update current price and asset name (same for simple display and normal)
     std::string formattedPrice = build_price_label(price, currency).c_str();
-    std::string formattedPriceChange = build_price_change_label(priceChange).c_str();
-    double athBarValue = 100 + athChange;
 
     String tempName = String(assetName.c_str());
     tempName.toUpperCase();
@@ -29,28 +28,61 @@ void CryptoScreen::render() {
 
     //set values
     lv_label_set_text(ui_cryptoPriceLabel, formattedPrice.c_str());
-    lv_label_set_text(ui_cryptoPriceChangeLabel, formattedPriceChange.c_str());
     lv_label_set_text(ui_cryptoTimeFrameLabel, timeFrame.c_str());
     lv_label_set_text(ui_cryptoAssetCurrencyLabel, assetPlusCurrency.c_str());
-    lv_arc_set_value(ui_cryptoAthArc, (int32_t)athBarValue);
     
     //update colors
     if (priceChange >= 0) {
-        lv_obj_set_style_bg_color(ui_cryptoPriceChangeLabel, lv_color_hex(greenColor), LV_PART_MAIN);
         lv_obj_set_style_bg_img_src(ui_cryptoScreen, &ui_img_green_background_png, LV_PART_MAIN);
-        lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(greenColorKnob), LV_PART_KNOB);
     } else {
-        lv_obj_set_style_bg_color(ui_cryptoPriceChangeLabel, lv_color_hex(redColor), LV_PART_MAIN);
         lv_obj_set_style_bg_img_src(ui_cryptoScreen, &ui_img_red_background_png, LV_PART_MAIN);
-        lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(redColorKnob), LV_PART_KNOB);
+    }
+
+    //handle simple display and normal display
+    if (simpleDisplay) {
+        renderSimple();
+    } else { 
+        renderNormal();
     }
 
     //clear graph data
     lv_obj_clean(get_screen_panel_from_type(ScreenType::CRYPTO));
 
+    //display graph data
     if (displayGraph) {
         renderGraph();
     }
+}
+
+void CryptoScreen::renderNormal() {
+    //show all widgets
+    lv_obj_clear_flag(ui_cryptoPriceChangeLabel, LV_OBJ_FLAG_HIDDEN);    
+    lv_obj_clear_flag(ui_cryptoAthArc, LV_OBJ_FLAG_HIDDEN);    
+    lv_obj_clear_flag(ui_cryptoAthLabel, LV_OBJ_FLAG_HIDDEN);    
+    lv_obj_clear_flag(ui_cryptoZeroLabel1, LV_OBJ_FLAG_HIDDEN);   
+
+    //update widgets values
+    std::string formattedPriceChange = build_price_change_label(priceChange).c_str();
+    double athBarValue = 100 + athChange;
+
+    lv_label_set_text(ui_cryptoPriceChangeLabel, formattedPriceChange.c_str());
+    lv_arc_set_value(ui_cryptoAthArc, (int32_t)athBarValue);    
+
+    if (priceChange >= 0) {
+        lv_obj_set_style_bg_color(ui_cryptoPriceChangeLabel, lv_color_hex(greenColor), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(greenColorKnob), LV_PART_KNOB);
+    } else {
+        lv_obj_set_style_bg_color(ui_cryptoPriceChangeLabel, lv_color_hex(redColor), LV_PART_MAIN);
+        lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(redColorKnob), LV_PART_KNOB);
+    }
+ 
+}
+void CryptoScreen::renderSimple() {
+    //hide widgets for simple display
+    lv_obj_add_flag(ui_cryptoPriceChangeLabel, LV_OBJ_FLAG_HIDDEN);    
+    lv_obj_add_flag(ui_cryptoAthArc, LV_OBJ_FLAG_HIDDEN);    
+    lv_obj_add_flag(ui_cryptoAthLabel, LV_OBJ_FLAG_HIDDEN);    
+    lv_obj_add_flag(ui_cryptoZeroLabel1, LV_OBJ_FLAG_HIDDEN);    
 }
 
 
@@ -87,5 +119,5 @@ void CryptoScreen::renderGraph() {
 
     // 1. Update the color based on logic
     lv_color_t graphColor = priceChange >= 0 ? lv_color_hex(greenColorGraph) : lv_color_hex(redColorGraph);
-    draw_graph_on_canvas(ScreenType::CRYPTO, graphData, graphColor);
+    draw_graph_on_canvas(ScreenType::CRYPTO, graphData, graphColor, graphType == GraphType::CANDLE);
 }

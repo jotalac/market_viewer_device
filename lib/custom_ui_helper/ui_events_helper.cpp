@@ -118,7 +118,6 @@ void updateMarketDataSettingsScreenOnLoad(BaseScreen* activeScreen) {
     Serial.println("Simple display: " + simpleDisplay);
     Serial.println("Candle graph: " + (graphType == GraphType::CANDLE));
 
-
     //update the ui
     if (simpleDisplay) {
         lv_obj_add_state(ui_simpleDisplaySwitch, LV_STATE_CHECKED);
@@ -128,8 +127,14 @@ void updateMarketDataSettingsScreenOnLoad(BaseScreen* activeScreen) {
 
     if (displayGraph) {
         lv_obj_add_state(ui_displayGraphSwitch, LV_STATE_CHECKED);
+        
+        //enable char switch
+        lv_obj_clear_state(ui_candleChartSwitch, LV_STATE_DISABLED);
     } else {
         lv_obj_clear_state(ui_displayGraphSwitch, LV_STATE_CHECKED);
+        
+        //disable editing candle graph
+        lv_obj_add_state(ui_candleChartSwitch, LV_STATE_DISABLED);
     } 
 
     if (graphType == GraphType::CANDLE) {
@@ -137,6 +142,7 @@ void updateMarketDataSettingsScreenOnLoad(BaseScreen* activeScreen) {
     } else {
         lv_obj_clear_state(ui_candleChartSwitch, LV_STATE_CHECKED);
     } 
+
 }
 
 void updateSimpleDisplay(bool isSimpleDisplay, BaseScreen* activeScreen) {
@@ -152,6 +158,13 @@ void updateDispalyGraph(bool displayGraph, BaseScreen* activeScreen) {
 
         crypto->setDisplayGraph(displayGraph);
     }
+
+    if(displayGraph) {
+        lv_obj_clear_state(ui_candleChartSwitch, LV_STATE_DISABLED);    
+    } else {
+        lv_obj_add_state(ui_candleChartSwitch, LV_STATE_DISABLED);
+    }
+
 }
 void updateCandleGraph(bool isCandleGraph, BaseScreen* activeScreen) {
     if (activeScreen->getType() == ScreenType::CRYPTO) {
