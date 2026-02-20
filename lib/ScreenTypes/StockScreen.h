@@ -6,7 +6,6 @@
 #include "BaseScreen.h"
 #include <vector>
 
-
 // Stock Screen
 class StockScreen : public BaseScreen {
 private:
@@ -22,22 +21,27 @@ private:
 
     //fetched data
     String currency;
-    std::vector<double> graphData;
     bool isMarketOpen;
     String stockName;
-    double currentPrice;
+    double price;
     double priceChange;
 
+    std::vector<double> graphData;
+
 public:
-    StockScreen(int pos, int refreshInterval, String symbol, String timeFrame) 
-    : BaseScreen(pos), refreshIntervalMinutes(refreshInterval), graphType(graphType), symbol(symbol), timeFrame(timeFrame) {
+    StockScreen(int pos, String symbol, int refreshInterval, String timeFrame, bool displayGraph, bool simpleDisplay, GraphType graphType) 
+    : BaseScreen(pos),
+    symbol(symbol),
+    refreshIntervalMinutes(refreshInterval),
+    timeFrame(timeFrame),
+    simpleDisplay(simpleDisplay),
+    displayGraph(displayGraph),
+    graphType(graphType)
+    {
         type = ScreenType::STOCK;
-        displayGraph = true;
-        simpleDisplay = false;
-        graphType = GraphType::LINE;
 
         currency = "???";
-        currentPrice = 0.0f;
+        price = 0.0f;
         priceChange = 0.0f;
         graphData = {};
         isMarketOpen = false;
@@ -48,19 +52,19 @@ public:
     void render() override;
     bool needsUpdate() override;
 
-    String getDisplayName() override {
-        return "Stock: " + symbol;
-    }
+    void renderNormal();
+    void renderSimple();
+    void renderGraph();
 
-    // Stock-specific methods
-    String getSymbol() const { return symbol; }
-    // String getCompanyName() const { return companyName; }
-    float getCurrentPrice() const { return currentPrice; }
-    // float getChangePercent() const { return changePercent; }
-    // void setPrice(float price, float change) { 
-        // currentPrice = price; 
-        // changePercent = change; 
-    // }
+    String getDisplayName() override {return "Stock: " + symbol;}
+
+    bool isSimpleDisplay() {return simpleDisplay;}
+    bool shouldDisplayGraph() {return displayGraph;}
+    GraphType getGraphType() {return graphType;}
+
+    void setSimpleDisplay(bool simpleDisplay) {this->simpleDisplay = simpleDisplay;}
+    void setDisplayGraph(bool displayGraph) {this->displayGraph = displayGraph;}
+    void setGraphType(bool isCandle) {this->graphType = isCandle ? GraphType::CANDLE : GraphType::LINE;}
 };
 
 

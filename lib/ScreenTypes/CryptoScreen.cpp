@@ -4,14 +4,8 @@
 #include "HttpRequestManager.h"
 #include "utils.h"
 #include "string"
-
-static int redColor = 0xDF0A0A;
-static int redColorKnob = 0xe35252;
-static int greenColor = 0x399c09;
-static int greenColorKnob = 0x7cd154;
-
-static int redColorGraph = 0xb54b2d;
-static int greenColorGraph = 0x249c36;
+#include "graphDrawer.h"
+#include "colors.h"
 
 
 void CryptoScreen::render() {

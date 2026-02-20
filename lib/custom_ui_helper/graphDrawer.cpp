@@ -1,10 +1,53 @@
 #include "graphDrawer.h"
 #include <algorithm>
+#include "colors.h"
 
 static lv_point_t pointBuffer[400]; 
 
-static int redColorGraph = 0xb54b2d;
-static int greenColorGraph = 0x249c36;
+void draw_candle_graph(lv_obj_t* panel, size_t pointCount) {
+    Serial.println("Rendering candle graph");
+    // --- 2. SAFE CANDLE GRAPH ---
+    lv_color_t colorGreen = lv_color_hex(redColorGraph);
+    lv_color_t colorRed = lv_color_hex(greenColorGraph);
+
+    for (size_t i = 1; i < pointCount; i++) {
+        int32_t prev_x = pointBuffer[i-1].x;
+        int32_t prev_y = pointBuffer[i-1].y;
+        int32_t current_x = pointBuffer[i].x;
+        int32_t current_y = pointBuffer[i].y;
+
+        // Width with a safe 2px gap
+        int32_t rect_w = current_x - prev_x - 2; 
+        if (rect_w < 2) rect_w = 2; // Prevent zero-width crash
+
+        int32_t rect_y = std::min(prev_y, current_y);
+        int32_t rect_h = std::abs(prev_y - current_y);
+        if (rect_h < 3) rect_h = 3; // Ensure visible dash for flat prices
+
+        lv_color_t candleColor = (current_y <= prev_y) ? colorGreen : colorRed;
+
+        lv_obj_t* candle = lv_obj_create(panel);
+        lv_obj_remove_style_all(candle); 
+        
+        lv_obj_set_size(candle, rect_w, rect_h);
+        lv_obj_set_pos(candle, prev_x, rect_y);
+        
+        lv_obj_set_style_bg_color(candle, candleColor, 0);
+        lv_obj_set_style_bg_opa(candle, LV_OPA_COVER, 0);
+        lv_obj_set_style_radius(candle, 5, LV_PART_MAIN);
+    }
+
+}
+
+void draw_line_graph(lv_obj_t* panel, size_t pointCount, lv_color_t color) {
+    // --- Render Line Graph ---
+    lv_obj_t* line = lv_line_create(panel);
+    lv_line_set_points(line, pointBuffer, pointCount);
+    lv_obj_set_style_line_width(line, 4, LV_PART_MAIN);
+    lv_obj_set_style_line_color(line, color, LV_PART_MAIN);
+    lv_obj_set_style_line_rounded(line, true, LV_PART_MAIN);
+}
+
 
 void draw_graph_on_canvas(ScreenType screenType, const std::vector<double>& rawData, lv_color_t color, bool isCandleGraph) {
     // 1. Safety Checks
@@ -67,57 +110,11 @@ void draw_graph_on_canvas(ScreenType screenType, const std::vector<double>& rawD
     }
 }
 
-
-void draw_candle_graph(lv_obj_t* panel, size_t pointCount) {
-    Serial.println("Rendering candle graph");
-    // --- 2. SAFE CANDLE GRAPH ---
-    lv_color_t colorGreen = lv_color_hex(redColorGraph);
-    lv_color_t colorRed = lv_color_hex(greenColorGraph);
-
-    for (size_t i = 1; i < pointCount; i++) {
-        int32_t prev_x = pointBuffer[i-1].x;
-        int32_t prev_y = pointBuffer[i-1].y;
-        int32_t current_x = pointBuffer[i].x;
-        int32_t current_y = pointBuffer[i].y;
-
-        // Width with a safe 2px gap
-        int32_t rect_w = current_x - prev_x - 2; 
-        if (rect_w < 2) rect_w = 2; // Prevent zero-width crash
-
-        int32_t rect_y = std::min(prev_y, current_y);
-        int32_t rect_h = std::abs(prev_y - current_y);
-        if (rect_h < 3) rect_h = 3; // Ensure visible dash for flat prices
-
-        lv_color_t candleColor = (current_y <= prev_y) ? colorGreen : colorRed;
-
-        lv_obj_t* candle = lv_obj_create(panel);
-        lv_obj_remove_style_all(candle); 
-        
-        lv_obj_set_size(candle, rect_w, rect_h);
-        lv_obj_set_pos(candle, prev_x, rect_y);
-        
-        lv_obj_set_style_bg_color(candle, candleColor, 0);
-        lv_obj_set_style_bg_opa(candle, LV_OPA_COVER, 0);
-        lv_obj_set_style_radius(candle, 5, LV_PART_MAIN);
-    }
-
-}
-
-
-void draw_line_graph(lv_obj_t* panel, size_t pointCount, lv_color_t color) {
-    // --- Render Line Graph ---
-    lv_obj_t* line = lv_line_create(panel);
-    lv_line_set_points(line, pointBuffer, pointCount);
-    lv_obj_set_style_line_width(line, 4, LV_PART_MAIN);
-    lv_obj_set_style_line_color(line, color, LV_PART_MAIN);
-    lv_obj_set_style_line_rounded(line, true, LV_PART_MAIN);
-}
-
 lv_obj_t* get_screen_panel_from_type(ScreenType screenType) {
     if (screenType == ScreenType::CRYPTO) {
         return ui_cryptoGraphPanel;
     } else if (screenType == ScreenType::STOCK) {
-        return nullptr; // TODO return crypto graph data
+        return ui_stockGraphPanel; // TODO return crypto graph data
     }
 
     return nullptr;

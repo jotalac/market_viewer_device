@@ -4,8 +4,8 @@ SET(SOURCES ui_homeScreen.c
     ui_wifiScreen.c
     ui_screensScreen.c
     ui_cryptoScreen.c
-    ui_stockScreen.c
     ui_marketDataSettingScreen.c
+    ui_stockScreen.c
     ui_theme_manager.cpp
     ui_themes.cpp
     ui.c
@@ -26,6 +26,7 @@ SET(SOURCES ui_homeScreen.c
     ui_img_red_background_png.c
     ui_img_121694436.c
     ui_img_green_background_png.c
+    ui_img_1458903039.c
     fonts/ui_font_Mono20.c
     fonts/ui_font_mono30.c
     fonts/ui_font_mono40.c

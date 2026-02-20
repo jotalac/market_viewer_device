@@ -5,7 +5,6 @@
 #include <ArduinoJson.h>
 #include "BaseScreen.h"
 #include <vector>
-#include "graphDrawer.h"
 
 // Crypto Screen
 class CryptoScreen : public BaseScreen {

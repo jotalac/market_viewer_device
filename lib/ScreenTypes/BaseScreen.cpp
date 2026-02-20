@@ -94,11 +94,15 @@ BaseScreen* createScreenFromType(const String& type, JsonObject& data) {
     }
     
     if (type == "STOCK") {
+        GraphType graphType = data["graphType"] == "CANDLE" ? GraphType::CANDLE : GraphType::LINE;
         return new StockScreen(
             position,
-            data["fetchInterval"] | 10,
             data["symbol"],
-            data["timeFrame"]
+            data["fetchInterval"] | 10,
+            data["timeFrame"],
+            data["displayGraph"],
+            data["simpleDisplay"],
+            graphType
         );
     }
 

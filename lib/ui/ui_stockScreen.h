@@ -15,11 +15,19 @@ extern void ui_stockScreen_screen_init(void);
 extern void ui_stockScreen_screen_destroy(void);
 extern void ui_event_stockScreen(lv_event_t * e);
 extern lv_obj_t * ui_stockScreen;
+extern lv_obj_t * ui_stockGraphPanel;
 extern lv_obj_t * ui_stockPriceLabel;
-extern lv_obj_t * ui_stockSymbolLabel;
 extern lv_obj_t * ui_stockPriceChangeLabel;
-extern lv_obj_t * ui_stockCurrencyLabel;
 extern lv_obj_t * ui_stockTimeFrameLabel;
+extern lv_obj_t * ui_stockSymbolCurrencyLabel;
+extern lv_obj_t * ui_cryptoAssetCurrencyCont1;
+extern lv_obj_t * ui_cryptoAssetNameLabel1;
+extern lv_obj_t * ui_cryptoCurrencyLabel1;
+extern lv_obj_t * ui_stockIcon;
+extern lv_obj_t * ui_stockMarketOpenCont;
+extern lv_obj_t * ui_stockMarketOpenIcon;
+extern lv_obj_t * ui_stockMarketOpenLabel;
+extern lv_obj_t * ui_stockNameLabel;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

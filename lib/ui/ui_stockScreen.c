@@ -6,11 +6,19 @@
 #include "ui.h"
 
 lv_obj_t * ui_stockScreen = NULL;
+lv_obj_t * ui_stockGraphPanel = NULL;
 lv_obj_t * ui_stockPriceLabel = NULL;
-lv_obj_t * ui_stockSymbolLabel = NULL;
 lv_obj_t * ui_stockPriceChangeLabel = NULL;
-lv_obj_t * ui_stockCurrencyLabel = NULL;
 lv_obj_t * ui_stockTimeFrameLabel = NULL;
+lv_obj_t * ui_stockSymbolCurrencyLabel = NULL;
+lv_obj_t * ui_cryptoAssetCurrencyCont1 = NULL;
+lv_obj_t * ui_cryptoAssetNameLabel1 = NULL;
+lv_obj_t * ui_cryptoCurrencyLabel1 = NULL;
+lv_obj_t * ui_stockIcon = NULL;
+lv_obj_t * ui_stockMarketOpenCont = NULL;
+lv_obj_t * ui_stockMarketOpenIcon = NULL;
+lv_obj_t * ui_stockMarketOpenLabel = NULL;
+lv_obj_t * ui_stockNameLabel = NULL;
 // event funtions
 void ui_event_stockScreen(lv_event_t * e)
 {
@@ -24,6 +32,14 @@ void ui_event_stockScreen(lv_event_t * e)
         lv_indev_wait_release(lv_indev_get_act());
         swipeNextScreen(e);
     }
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_BOTTOM) {
+        lv_indev_wait_release(lv_indev_get_act());
+        requestScreenDataRefresh(e);
+    }
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_TOP) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_marketDataSettingScreen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_marketDataSettingScreen_screen_init);
+    }
 }
 
 // build funtions
@@ -32,62 +48,163 @@ void ui_stockScreen_screen_init(void)
 {
     ui_stockScreen = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_stockScreen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_color(ui_stockScreen, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui_stockScreen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_color(ui_stockScreen, lv_color_hex(0xA30000), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_main_stop(ui_stockScreen, 40, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_stop(ui_stockScreen, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui_stockScreen, LV_GRAD_DIR_VER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_stockScreen, &ui_img_red_background_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_tiled(ui_stockScreen, true, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_stockGraphPanel = lv_obj_create(ui_stockScreen);
+    lv_obj_set_width(ui_stockGraphPanel, 466);
+    lv_obj_set_height(ui_stockGraphPanel, 320);
+    lv_obj_set_align(ui_stockGraphPanel, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_stockGraphPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_stockGraphPanel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_stockGraphPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_stockGraphPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_border_color(ui_stockGraphPanel, lv_color_hex(0x000000), LV_PART_SCROLLBAR | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui_stockGraphPanel, 0, LV_PART_SCROLLBAR | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_stockGraphPanel, 0, LV_PART_SCROLLBAR | LV_STATE_DEFAULT);
 
     ui_stockPriceLabel = lv_label_create(ui_stockScreen);
-    lv_obj_set_width(ui_stockPriceLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_width(ui_stockPriceLabel, 450);
     lv_obj_set_height(ui_stockPriceLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_stockPriceLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_stockPriceLabel, "78952");
-    lv_obj_set_style_text_font(ui_stockPriceLabel, &ui_font_monoBold60, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_stockSymbolLabel = lv_label_create(ui_stockScreen);
-    lv_obj_set_width(ui_stockSymbolLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_stockSymbolLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_stockSymbolLabel, 1);
-    lv_obj_set_y(ui_stockSymbolLabel, -200);
-    lv_obj_set_align(ui_stockSymbolLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_stockSymbolLabel, "AAPL");
-    lv_obj_set_style_text_font(ui_stockSymbolLabel, &ui_font_Mono20, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_label_set_long_mode(ui_stockPriceLabel, LV_LABEL_LONG_DOT);
+    lv_label_set_text(ui_stockPriceLabel, "999$");
+    lv_obj_set_style_text_align(ui_stockPriceLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_stockPriceLabel, &ui_font_monoBold100, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui_stockPriceLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui_stockPriceLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_stockPriceLabel, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui_stockPriceLabel, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_stockPriceChangeLabel = lv_label_create(ui_stockScreen);
     lv_obj_set_width(ui_stockPriceChangeLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_stockPriceChangeLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_stockPriceChangeLabel, 0);
-    lv_obj_set_y(ui_stockPriceChangeLabel, 60);
+    lv_obj_set_y(ui_stockPriceChangeLabel, 90);
     lv_obj_set_align(ui_stockPriceChangeLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_stockPriceChangeLabel, "-20%");
-    lv_obj_set_style_text_font(ui_stockPriceChangeLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui_stockPriceChangeLabel, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_label_set_text(ui_stockPriceChangeLabel, "-0.75%");
+    lv_obj_set_style_text_font(ui_stockPriceChangeLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui_stockPriceChangeLabel, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_stockPriceChangeLabel, lv_color_hex(0xDF0A0A), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_stockPriceChangeLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui_stockPriceChangeLabel, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_stockPriceChangeLabel, 15, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_stockPriceChangeLabel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui_stockPriceChangeLabel, 5, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_stockCurrencyLabel = lv_label_create(ui_stockScreen);
-    lv_obj_set_width(ui_stockCurrencyLabel, LV_SIZE_CONTENT);   /// 1
-    lv_obj_set_height(ui_stockCurrencyLabel, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_stockCurrencyLabel, 0);
-    lv_obj_set_y(ui_stockCurrencyLabel, -171);
-    lv_obj_set_align(ui_stockCurrencyLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_stockCurrencyLabel, "USD");
-    lv_obj_set_style_text_font(ui_stockCurrencyLabel, &ui_font_Mono20, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_stockPriceChangeLabel, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui_stockPriceChangeLabel, 10, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_stockTimeFrameLabel = lv_label_create(ui_stockScreen);
     lv_obj_set_width(ui_stockTimeFrameLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_stockTimeFrameLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_stockTimeFrameLabel, 0);
-    lv_obj_set_y(ui_stockTimeFrameLabel, 200);
+    lv_obj_set_y(ui_stockTimeFrameLabel, -120);
     lv_obj_set_align(ui_stockTimeFrameLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_stockTimeFrameLabel, "1day");
+    lv_obj_set_style_text_color(ui_stockTimeFrameLabel, lv_color_hex(0xCDCECD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_stockTimeFrameLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_stockTimeFrameLabel, &ui_font_Mono20, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_stockSymbolCurrencyLabel = lv_label_create(ui_stockScreen);
+    lv_obj_set_width(ui_stockSymbolCurrencyLabel, 280);
+    lv_obj_set_height(ui_stockSymbolCurrencyLabel, LV_SIZE_CONTENT);    /// 68
+    lv_obj_set_x(ui_stockSymbolCurrencyLabel, 0);
+    lv_obj_set_y(ui_stockSymbolCurrencyLabel, -155);
+    lv_obj_set_align(ui_stockSymbolCurrencyLabel, LV_ALIGN_CENTER);
+    lv_label_set_long_mode(ui_stockSymbolCurrencyLabel, LV_LABEL_LONG_DOT);
+    lv_label_set_text(ui_stockSymbolCurrencyLabel, "AAPL USD");
+    lv_obj_set_style_text_color(ui_stockSymbolCurrencyLabel, lv_color_hex(0xCDCDCD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_stockSymbolCurrencyLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui_stockSymbolCurrencyLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_stockSymbolCurrencyLabel, &ui_font_monoLight30, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_cryptoAssetCurrencyCont1 = lv_obj_create(ui_stockScreen);
+    lv_obj_set_width(ui_cryptoAssetCurrencyCont1, 276);
+    lv_obj_set_height(ui_cryptoAssetCurrencyCont1, 50);
+    lv_obj_set_x(ui_cryptoAssetCurrencyCont1, 0);
+    lv_obj_set_y(ui_cryptoAssetCurrencyCont1, -160);
+    lv_obj_set_align(ui_cryptoAssetCurrencyCont1, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_cryptoAssetCurrencyCont1, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(ui_cryptoAssetCurrencyCont1, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_add_flag(ui_cryptoAssetCurrencyCont1, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_clear_flag(ui_cryptoAssetCurrencyCont1, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_cryptoAssetCurrencyCont1, lv_color_hex(0x282828), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_cryptoAssetCurrencyCont1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_cryptoAssetNameLabel1 = lv_label_create(ui_cryptoAssetCurrencyCont1);
+    lv_obj_set_width(ui_cryptoAssetNameLabel1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_cryptoAssetNameLabel1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_cryptoAssetNameLabel1, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_cryptoAssetNameLabel1, "BITCOIN");
+    lv_obj_add_flag(ui_cryptoAssetNameLabel1, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_set_style_text_font(ui_cryptoAssetNameLabel1, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_cryptoCurrencyLabel1 = lv_label_create(ui_cryptoAssetCurrencyCont1);
+    lv_obj_set_width(ui_cryptoCurrencyLabel1, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_cryptoCurrencyLabel1, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_cryptoCurrencyLabel1, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_cryptoCurrencyLabel1, "USD");
+    lv_obj_add_flag(ui_cryptoCurrencyLabel1, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_set_style_text_font(ui_cryptoCurrencyLabel1, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_stockIcon = lv_img_create(ui_stockScreen);
+    lv_img_set_src(ui_stockIcon, &ui_img_1458903039);
+    lv_obj_set_width(ui_stockIcon, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_stockIcon, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_stockIcon, 0);
+    lv_obj_set_y(ui_stockIcon, -210);
+    lv_obj_set_align(ui_stockIcon, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_stockIcon, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_stockIcon, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_img_recolor(ui_stockIcon, lv_color_hex(0xCDCECD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_img_recolor_opa(ui_stockIcon, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_stockMarketOpenCont = lv_obj_create(ui_stockScreen);
+    lv_obj_set_height(ui_stockMarketOpenCont, 32);
+    lv_obj_set_width(ui_stockMarketOpenCont, LV_SIZE_CONTENT);   /// 100
+    lv_obj_set_x(ui_stockMarketOpenCont, 0);
+    lv_obj_set_y(ui_stockMarketOpenCont, 200);
+    lv_obj_set_align(ui_stockMarketOpenCont, LV_ALIGN_CENTER);
+    lv_obj_set_flex_flow(ui_stockMarketOpenCont, LV_FLEX_FLOW_ROW);
+    lv_obj_set_flex_align(ui_stockMarketOpenCont, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_stockMarketOpenCont, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_color(ui_stockMarketOpenCont, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_stockMarketOpenCont, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_stockMarketOpenCont, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_stockMarketOpenCont, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_stockMarketOpenIcon = lv_obj_create(ui_stockMarketOpenCont);
+    lv_obj_set_width(ui_stockMarketOpenIcon, 20);
+    lv_obj_set_height(ui_stockMarketOpenIcon, 20);
+    lv_obj_set_x(ui_stockMarketOpenIcon, -22);
+    lv_obj_set_y(ui_stockMarketOpenIcon, 186);
+    lv_obj_set_align(ui_stockMarketOpenIcon, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_stockMarketOpenIcon, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_radius(ui_stockMarketOpenIcon, 50, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_stockMarketOpenIcon, lv_color_hex(0xFF1C00), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_stockMarketOpenIcon, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_stockMarketOpenIcon, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_stockMarketOpenLabel = lv_label_create(ui_stockMarketOpenCont);
+    lv_obj_set_width(ui_stockMarketOpenLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_stockMarketOpenLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_stockMarketOpenLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_stockMarketOpenLabel, "CLOSED");
+    lv_obj_set_style_text_color(ui_stockMarketOpenLabel, lv_color_hex(0xCDCECD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_stockMarketOpenLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_stockMarketOpenLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_stockNameLabel = lv_label_create(ui_stockScreen);
+    lv_obj_set_width(ui_stockNameLabel, 282);
+    lv_obj_set_height(ui_stockNameLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_stockNameLabel, 0);
+    lv_obj_set_y(ui_stockNameLabel, 160);
+    lv_obj_set_align(ui_stockNameLabel, LV_ALIGN_CENTER);
+    lv_label_set_long_mode(ui_stockNameLabel, LV_LABEL_LONG_DOT);
+    lv_label_set_text(ui_stockNameLabel, "AAPL Inc.");
+    lv_obj_set_style_text_color(ui_stockNameLabel, lv_color_hex(0xCDCECD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_stockNameLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui_stockNameLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_stockNameLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_stockScreen, ui_event_stockScreen, LV_EVENT_ALL, NULL);
 
@@ -99,10 +216,18 @@ void ui_stockScreen_screen_destroy(void)
 
     // NULL screen variables
     ui_stockScreen = NULL;
+    ui_stockGraphPanel = NULL;
     ui_stockPriceLabel = NULL;
-    ui_stockSymbolLabel = NULL;
     ui_stockPriceChangeLabel = NULL;
-    ui_stockCurrencyLabel = NULL;
     ui_stockTimeFrameLabel = NULL;
+    ui_stockSymbolCurrencyLabel = NULL;
+    ui_cryptoAssetCurrencyCont1 = NULL;
+    ui_cryptoAssetNameLabel1 = NULL;
+    ui_cryptoCurrencyLabel1 = NULL;
+    ui_stockIcon = NULL;
+    ui_stockMarketOpenCont = NULL;
+    ui_stockMarketOpenIcon = NULL;
+    ui_stockMarketOpenLabel = NULL;
+    ui_stockNameLabel = NULL;
 
 }
