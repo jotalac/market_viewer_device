@@ -14,6 +14,8 @@
 #include "messageDisplay.h"
 #include "GuiManager.h"
 
+#include "AudioManager.h"
+
 //global shield to not control screen when it is off
 lv_obj_t * blackout_shield = NULL;
 
@@ -202,4 +204,9 @@ void candleChartSwitchToggle(lv_event_t * e)
     lv_obj_t * sw = lv_event_get_target(e);
     bool isSwitchedOn = lv_obj_has_state(sw, LV_STATE_CHECKED);
     updateCandleGraph(isSwitchedOn, get_active_screen());
+}
+void aiReadButtonClicked(lv_event_t * e)
+{
+	// Your code here
+    play_test();
 }
