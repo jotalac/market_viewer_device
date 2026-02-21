@@ -208,5 +208,5 @@ void candleChartSwitchToggle(lv_event_t * e)
 void aiReadButtonClicked(lv_event_t * e)
 {
 	// Your code here
-    play_test();
+    // play_test();
 }
