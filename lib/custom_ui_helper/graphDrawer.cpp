@@ -66,9 +66,8 @@ void draw_graph_on_canvas(ScreenType screenType, const std::vector<double>& rawD
     size_t totalDataPoints = rawData.size();
     size_t step = 1;
     
-    int minPixelsPerPoint = isCandleGraph ? 15 : 1; 
+    int minPixelsPerPoint = isCandleGraph ? 20 : 1; 
     size_t maxPoints = w / minPixelsPerPoint;
-    if (maxPoints < 2) maxPoints = 2;
     if (totalDataPoints > maxPoints) step = totalDataPoints / maxPoints;
 
     double minVal = rawData[0];

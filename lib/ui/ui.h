@@ -37,6 +37,7 @@ extern "C" {
 #include "ui_cryptoScreen.h"
 #include "ui_marketDataSettingScreen.h"
 #include "ui_stockScreen.h"
+#include "ui_aiTextScreen.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -62,6 +63,9 @@ LV_IMG_DECLARE(ui_img_red_background_png);    // assets/red_background.png
 LV_IMG_DECLARE(ui_img_121694436);    // assets/crypto-icon.png
 LV_IMG_DECLARE(ui_img_green_background_png);    // assets/green_background.png
 LV_IMG_DECLARE(ui_img_1458903039);    // assets/stock-icon.png
+LV_IMG_DECLARE(ui_img_purple_background_png);    // assets/purple_background.png
+LV_IMG_DECLARE(ui_img_1028167261);    // assets/voice-icon.png
+LV_IMG_DECLARE(ui_img_768942523);    // assets/robot-icon.png
 
 // FONTS
 LV_FONT_DECLARE(ui_font_Mono20);

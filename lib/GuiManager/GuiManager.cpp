@@ -222,6 +222,7 @@ void load_screen_by_index(int index, bool goingFromSettings) {
     switch (screenObj->getType()) {
         case ScreenType::STOCK: targetScreenUI = ui_stockScreen; break;
         case ScreenType::CRYPTO: targetScreenUI = ui_cryptoScreen; break;
+        case ScreenType::AI_TEXT: targetScreenUI = ui_aiTextScreen; break;
         // Add others...
         default: return;
     }

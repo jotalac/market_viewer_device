@@ -53,8 +53,8 @@ std::string currency_symbol_convertor(const String &currency) {
     if (currencyUpper == "JPY") return "¥";  // Japanese Yen
     if (currencyUpper == "CNY") return "¥";  // Chinese Yuan (Renminbi)
     
-    return std::string(currency.c_str()); // Return original code if no symbol found
-    // return ""; // Return original code if no symbol found
+    // return std::string(currency.c_str()); // Return original code if no symbol found
+    return ""; // Return original code if no symbol found
 }
 
 std::string build_price_label(double price, String currency) {

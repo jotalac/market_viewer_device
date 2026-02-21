@@ -7,6 +7,7 @@
 #include "ScreensManager.h"
 #include <Preferences.h>
 #include "CryptoScreen.h"
+#include "StockScreen.h"
 
 static Preferences preferences;
 
@@ -112,6 +113,12 @@ void updateMarketDataSettingsScreenOnLoad(BaseScreen* activeScreen) {
         displayGraph = crypto->shouldDisplayGraph();
         simpleDisplay = crypto->isSimpleDisplay();
         graphType = crypto->getGraphType();
+    } else {
+        StockScreen* stock = static_cast<StockScreen*>(activeScreen);
+
+        displayGraph = stock->shouldDisplayGraph();
+        simpleDisplay = stock->isSimpleDisplay();
+        graphType = stock->getGraphType();
     }
 
     Serial.println("Display graph: " + displayGraph);
@@ -148,15 +155,21 @@ void updateMarketDataSettingsScreenOnLoad(BaseScreen* activeScreen) {
 void updateSimpleDisplay(bool isSimpleDisplay, BaseScreen* activeScreen) {
     if (activeScreen->getType() == ScreenType::CRYPTO) {
         CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
-
+        
         crypto->setSimpleDisplay(isSimpleDisplay);
+    } else {
+        StockScreen* stock = static_cast<StockScreen*>(activeScreen);
+        stock->setSimpleDisplay(isSimpleDisplay);
+
     }
 }
 void updateDispalyGraph(bool displayGraph, BaseScreen* activeScreen) {
     if (activeScreen->getType() == ScreenType::CRYPTO) {
         CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
-
         crypto->setDisplayGraph(displayGraph);
+    } else {
+        StockScreen* stock = static_cast<StockScreen*>(activeScreen);
+        stock->setDisplayGraph(displayGraph);
     }
 
     if(displayGraph) {
@@ -169,7 +182,10 @@ void updateDispalyGraph(bool displayGraph, BaseScreen* activeScreen) {
 void updateCandleGraph(bool isCandleGraph, BaseScreen* activeScreen) {
     if (activeScreen->getType() == ScreenType::CRYPTO) {
         CryptoScreen* crypto = static_cast<CryptoScreen*>(activeScreen);
-
+        
         crypto->setGraphType(isCandleGraph);
+    } else {
+        StockScreen* stock = static_cast<StockScreen*>(activeScreen);
+        stock->setGraphType(isCandleGraph);
     }
 }

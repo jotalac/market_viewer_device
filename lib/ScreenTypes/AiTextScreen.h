@@ -14,7 +14,7 @@ private:
 public:
     AiTextScreen(int pos, int refreshIntervalHours, String prompt) 
     : BaseScreen(pos), refreshIntervalHours(refreshIntervalHours), prompt(prompt) {
-        type = ScreenType::CLOCK;
+        type = ScreenType::AI_TEXT;
         displayText = "";
         
         // set to infinity because we dont wanto to fetch automatically for the first time
@@ -23,11 +23,13 @@ public:
     void parseData(JsonObject& data) override;
 
     void render() override;
+    void renderNoData();
+    void renderData();
 
     bool needsUpdate() override;
 
     String getDisplayName() override {
-        return "Ai text (" + String(position) + ")";
+        return "AI text (" + String(position) + ")";
     }
 
 };
