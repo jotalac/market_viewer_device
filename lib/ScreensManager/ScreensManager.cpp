@@ -8,17 +8,6 @@
 static std::vector<BaseScreen*> screens;
 static Preferences preferences;
 
-// void init_screens_manager() {
-//     Serial.println("Initializing Screens Manager...");
-//     currentScreenIndex = 0;
-//     screens.clear();
-// }
-
-// void add_test_screens() {
-//     screens.push_back(createTestScreenFromType(ScreenType::CRYPTO, 0));
-//     screens.push_back(createTestScreenFromType(ScreenType::STOCK, 1));
-// }
-
 void clear_all_screens() {
     // Free memory for all screens
     for (auto screen : screens) {

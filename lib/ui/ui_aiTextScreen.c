@@ -61,7 +61,6 @@ void ui_aiTextScreen_screen_init(void)
     lv_obj_set_align(ui_aiTextPanel, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_aiTextPanel, LV_FLEX_FLOW_ROW);
     lv_obj_set_flex_align(ui_aiTextPanel, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_START);
-    lv_obj_add_flag(ui_aiTextPanel, LV_OBJ_FLAG_HIDDEN);     /// Flags
     lv_obj_set_style_bg_color(ui_aiTextPanel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_aiTextPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui_aiTextPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -80,7 +79,7 @@ void ui_aiTextScreen_screen_init(void)
     lv_obj_set_align(ui_aiTextLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_aiTextLabel,
                       "Bitcoin is trading around $68,000 today, showing modest gains amid market consolidation. Sentiment is currently in \\\"extreme fear\\\" as it attempts to stabilize after a volatile start to 2026. Institutional outflows from Bitcoin ETFs and ongoing regulatory uncertainty are weighing on the market.");
-    lv_obj_set_style_text_color(ui_aiTextLabel, lv_color_hex(0xE0E0E0), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui_aiTextLabel, lv_color_hex(0x9CD6E7), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_aiTextLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui_aiTextLabel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_aiTextLabel, &ui_font_monoLight30, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -102,11 +101,11 @@ void ui_aiTextScreen_screen_init(void)
     lv_obj_set_style_bg_img_src(ui_aiTextReadButton, &ui_img_1028167261, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_robotIcon = lv_img_create(ui_aiTextScreen);
-    lv_img_set_src(ui_robotIcon, &ui_img_768942523);
+    lv_img_set_src(ui_robotIcon, &ui_img_1748131633);
     lv_obj_set_width(ui_robotIcon, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_robotIcon, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_robotIcon, 0);
-    lv_obj_set_y(ui_robotIcon, -215);
+    lv_obj_set_y(ui_robotIcon, -210);
     lv_obj_set_align(ui_robotIcon, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_robotIcon, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
     lv_obj_clear_flag(ui_robotIcon, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
@@ -121,6 +120,7 @@ void ui_aiTextScreen_screen_init(void)
     lv_obj_set_align(ui_aiTextScreenPromptPanel, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_aiTextScreenPromptPanel, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_aiTextScreenPromptPanel, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
+    lv_obj_add_flag(ui_aiTextScreenPromptPanel, LV_OBJ_FLAG_HIDDEN);     /// Flags
     lv_obj_set_style_bg_color(ui_aiTextScreenPromptPanel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_aiTextScreenPromptPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui_aiTextScreenPromptPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);

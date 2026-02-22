@@ -162,8 +162,6 @@ void init_lvgl_interface() {
 void update_gui() {
     lv_timer_handler();
     handle_screen_rotation();
-
-    updateScreen();
 }
 
 void set_software_rotation(int rotation_code) {

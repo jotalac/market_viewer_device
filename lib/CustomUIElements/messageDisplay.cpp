@@ -52,6 +52,12 @@ void show_error_message(String message) {
     destroy_message();
 }
 
+void show_success_message(String message) {
+    display_message(message, MessageSeverity::SUCCESS);
+    delay(500);
+    destroy_message();
+}
+
 void show_info_message(String message) {
     display_message(message, MessageSeverity::INFO);
     delay(500);
@@ -73,6 +79,7 @@ const char* severityToString(MessageSeverity severity) {
     switch (severity) {
         case MessageSeverity::INFO:    return "info";
         case MessageSeverity::ERROR:   return "error";
+        case MessageSeverity::SUCCESS:   return "success";
         default:                       return "unknown";
     }
 }
@@ -81,6 +88,7 @@ int severityToColor(MessageSeverity severity) {
     switch (severity) {
         case MessageSeverity::INFO:    return 0xe8e8e8;
         case MessageSeverity::ERROR:   return 0xff6721;
+        case MessageSeverity::SUCCESS:   return 0x1bc42c;
         default:                       return 0xFFFFFF;
     }
 }

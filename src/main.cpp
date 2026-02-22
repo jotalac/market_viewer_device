@@ -32,6 +32,7 @@ void loop() {
     // 1. Update GUI
     update_gui();
   
+    updateScreen();
 
     delay(5);
 }

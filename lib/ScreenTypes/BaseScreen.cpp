@@ -38,6 +38,8 @@ void BaseScreen::update() {
     }
 
     destroy_message();
+    show_success_message("Screen data updated");
+
     parseData(screenData);
     render();
 

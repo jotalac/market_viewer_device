@@ -30,7 +30,7 @@ ui_img_green_background_png.c
 ui_img_1458903039.c
 ui_img_purple_background_png.c
 ui_img_1028167261.c
-ui_img_768942523.c
+ui_img_1748131633.c
 fonts/ui_font_Mono20.c
 fonts/ui_font_mono30.c
 fonts/ui_font_mono40.c
