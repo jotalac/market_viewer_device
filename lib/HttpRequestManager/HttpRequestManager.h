@@ -3,14 +3,15 @@
 
 #include <Arduino.h>
 #include <vector>
+#include <ArduinoJson.h>
 
 String get_base_url();
-String fetch_data(String url);
+bool fetch_data(String url, JsonDocument& doc);
 
-String fetch_screens();
+bool fetch_screens(JsonDocument& doc);
 String create_fetch_screens_url();
 
-String fetch_screen_data(int screenPosition);
+bool fetch_screen_data(int screenPosition, JsonDocument& doc);
 String create_fetch_screen_data_url(int screenPosition);
 
 

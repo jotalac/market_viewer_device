@@ -66,7 +66,7 @@ void ui_init(void)
     ui_cryptoScreen_screen_init();
     ui_marketDataSettingScreen_screen_init();
     ui_stockScreen_screen_init();
-    ui_aiTextScreen_screen_init();
+    ui_clockScreen_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_disp_load_scr(ui_homeScreen);
 }
@@ -81,5 +81,5 @@ void ui_destroy(void)
     ui_cryptoScreen_screen_destroy();
     ui_marketDataSettingScreen_screen_destroy();
     ui_stockScreen_screen_destroy();
-    ui_aiTextScreen_screen_destroy();
+    ui_clockScreen_screen_destroy();
 }

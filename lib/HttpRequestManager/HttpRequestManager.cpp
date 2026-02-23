@@ -2,7 +2,7 @@
 #include "WifiConfig.h"
 #include <HTTPClient.h>
 
-static HTTPClient http;
+// static HTTPClient http;
 
 String get_base_url() {
     const char* backendUrl = get_backend_url();
@@ -31,30 +31,35 @@ String get_base_url() {
     return url;
 }
 
-String fetch_data(String url) {
-    if (!is_wifi_connected()) {
-        Serial.println("Cannot fetch data - WiFi not connected");
-        return {};
-    }
+bool fetch_data(String url, JsonDocument& doc) {
+if (!is_wifi_connected()) return false;
     
-    Serial.println("Fetching screens from: " + url);
+    HTTPClient http; 
+    http.setTimeout(15000); 
+
+    //force HTTP/1.0 to disable chunked transfer encoding.
+    // This guarantees the stream will contain pure JSON without hex headers.
+    http.useHTTP10(true); 
     
-    http.setTimeout(15000);  // 15 second timeout
     http.begin(url);
-    
     int httpCode = http.GET();
     
-    if (httpCode != HTTP_CODE_OK) {
-        Serial.println("HTTP error: " + String(httpCode));
-        http.end();
-        return {};
+    if (httpCode == HTTP_CODE_OK) {
+        // Parse directly from the clean stream
+        DeserializationError error = deserializeJson(doc, http.getStream());
+        
+        http.end(); 
+        
+        if (error) {
+            Serial.println("JSON parse error: " + String(error.c_str()));
+            return false;
+        }
+        return true;
     }
     
-    String payload = http.getString();
+    Serial.println("HTTP error: " + String(httpCode));
     http.end();
-    
-    Serial.println("Received: " + payload);
-    return payload;
+    return false;
 }
 
 
@@ -65,9 +70,9 @@ String create_fetch_screens_url() {
     return url;
 }
 
-String fetch_screens() {
+bool fetch_screens(JsonDocument& doc) {
     String url = create_fetch_screens_url();
-    return fetch_data(url);
+    return fetch_data(url, doc);
 }
 
 
@@ -78,7 +83,7 @@ String create_fetch_screen_data_url(int screenPosition) {
     return url;
 }
 
-String fetch_screen_data(int screenPosition) {
+bool fetch_screen_data(int screenPosition, JsonDocument& doc) {
     String url = create_fetch_screen_data_url(screenPosition);
-    return fetch_data(url);
+    return fetch_data(url, doc);
 }

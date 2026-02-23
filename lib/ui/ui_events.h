@@ -30,7 +30,6 @@ void marketDataSettingScreenLoad(lv_event_t * e);
 void simpleDisplaySwitchToggle(lv_event_t * e);
 void displayGraphSwitchToggle(lv_event_t * e);
 void candleChartSwitchToggle(lv_event_t * e);
-void aiReadButtonClicked(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

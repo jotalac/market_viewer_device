@@ -26,23 +26,11 @@ void sortScreens() {
 
 
 bool get_screens_from_backend() {
-    String jsonPayload = fetch_screens();
-
-    //check if we got error fetching the data
-    if (jsonPayload.isEmpty()) {
-        Serial.println("Failed to fetch screens - empty response");
-        return false;
-    }
-
-    // Parse JSON here where the document stays in scope
     JsonDocument doc;
-    DeserializationError error = deserializeJson(doc, jsonPayload);
-    
-    if (error) {
-        Serial.println("JSON parse error: " + String(error.c_str()));
+
+    if (!fetch_screens(doc)) {
         return false;
     }
-    
     JsonArray screensArray = doc.as<JsonArray>();
     
     if (screensArray.size() == 0) {
@@ -66,6 +54,8 @@ bool get_screens_from_backend() {
             Serial.println("Failed to create screen of type: " + type);
         }
     }
+
+    
 
     //sort screens
     sortScreens();

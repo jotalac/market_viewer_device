@@ -157,7 +157,9 @@ void refetchScreens(lv_event_t * e)
     bool successful = get_screens_from_backend();
     destroy_message();
 
-    show_success_message("Screens updated");
+    if (successful) {
+        show_success_message("Screens updated");
+    }
 
     updateScreensScreenOnDataFetch(successful);
 }

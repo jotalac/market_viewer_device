@@ -10,29 +10,16 @@
 void BaseScreen::update() {
     display_message("Fetching new data...", MessageSeverity::INFO);
 
-    String jsonPayload = fetch_screen_data(position);
+    JsonDocument doc;
 
-    //check if we got error fetching the data
-    if (jsonPayload.isEmpty()) {
-        Serial.println("Failed to fetch screens - empty response");
+    if (!fetch_screen_data(position, doc)) {
         handleUpdateError("Error fetching data...");
         return;
     }
 
-    // Parse JSON here where the document stays in scope
-    JsonDocument doc;
-    DeserializationError error = deserializeJson(doc, jsonPayload);
-    
-    if (error) {
-        Serial.println("JSON parse error: " + String(error.c_str()));
-        handleUpdateError("Failed to parse response...");
-        return;
-    }
-    
     JsonObject screenData = doc.as<JsonObject>();
-    
+
     if (screenData.size() == 0) {
-        Serial.println("No screen data found");
         handleUpdateError("Error - empty response...");
         return;
     }
@@ -57,13 +44,13 @@ void BaseScreen::handleUpdateError(String message) {
 BaseScreen* createScreenFromType(const String& type, JsonObject& data) {
     int position = data["position"];
 
-    if (type == "AI_TEXT") {
-        return new AiTextScreen(
-            position,
-            data["fetchIntervalHours"],
-            data["prompt"]
-        );
-    }
+    // if (type == "AI_TEXT") {
+    //     return new AiTextScreen(
+    //         position,
+    //         data["fetchIntervalHours"],
+    //         data["prompt"]
+    //     );
+    // }
     
     if (type == "CLOCK") {
         ClockType clockType = ClockType::ANALOG_CLOCK;

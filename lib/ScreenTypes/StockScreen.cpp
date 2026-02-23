@@ -72,8 +72,7 @@ void StockScreen::renderNormal() {
     if (priceChange >= 0) {
         lv_obj_set_style_bg_color(ui_stockPriceChangeLabel, lv_color_hex(greenColor), LV_PART_MAIN);
     } else {
-        lv_obj_set_style_bg_color(ui_cryptoPriceChangeLabel, lv_color_hex(redColor), LV_PART_MAIN);
-        lv_obj_set_style_bg_color(ui_cryptoAthArc, lv_color_hex(redColorKnob), LV_PART_KNOB);
+        lv_obj_set_style_bg_color(ui_stockPriceChangeLabel, lv_color_hex(redColor), LV_PART_MAIN);
     }
  
 }
