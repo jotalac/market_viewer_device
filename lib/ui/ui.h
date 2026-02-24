@@ -63,9 +63,9 @@ LV_IMG_DECLARE(ui_img_red_background_png);    // assets/red_background.png
 LV_IMG_DECLARE(ui_img_121694436);    // assets/crypto-icon.png
 LV_IMG_DECLARE(ui_img_green_background_png);    // assets/green_background.png
 LV_IMG_DECLARE(ui_img_1458903039);    // assets/stock-icon.png
-LV_IMG_DECLARE(ui_img_gauge_background_test_png);    // assets/gauge_background.test.png
-LV_IMG_DECLARE(ui_img_big_needle_test_png);    // assets/big_needle.test.png
-LV_IMG_DECLARE(ui_img_small_needle_test_png);    // assets/small_needle.test.png
+LV_IMG_DECLARE(ui_img_gauge_background_png);    // assets/gauge_background.png
+LV_IMG_DECLARE(ui_img_needle_small_png);    // assets/needle_small.png
+LV_IMG_DECLARE(ui_img_needle_big_png);    // assets/needle_big.png
 
 // FONTS
 LV_FONT_DECLARE(ui_font_Mono20);
@@ -78,6 +78,7 @@ LV_FONT_DECLARE(ui_font_monoBold50);
 LV_FONT_DECLARE(ui_font_monoBold60);
 LV_FONT_DECLARE(ui_font_monoBold80);
 LV_FONT_DECLARE(ui_font_monoLight30);
+LV_FONT_DECLARE(ui_font_digitsFont);
 
 // UI INIT
 void ui_init(void);

@@ -40,7 +40,7 @@ void ClockScreen::updateClockNeedles() {
         second = timeinfo.tm_sec;
 
         char timeText[16]; 
-        snprintf(timeText, sizeof(timeText), "%02d:%02d:%02d", hour, minute, second);
+        snprintf(timeText, sizeof(timeText), "%02d:%02d", hour, minute);
 
         // calculate angles for needles
         int32_t second_angle = second * 60; 
@@ -48,7 +48,6 @@ void ClockScreen::updateClockNeedles() {
         int32_t hour_angle = ((hour % 12) * 300) + (minute * 5); 
         
         // update all needles
-        lv_img_set_angle(ui_clockNeedleHour, hour_angle);
         lv_img_set_angle(ui_clockNeedleMinute, minute_angle);        
         lv_img_set_angle(ui_clockNeedleSecond, second_angle);
 
@@ -61,4 +60,7 @@ void ClockScreen::render() {
     //set the timezone for the specific clock
     setenv("TZ", timezoneCode.c_str(), 1);
     tzset();
+
+    //set timezone text
+    lv_label_set_text(ui_timezoneLabel, timezone.c_str());
 }

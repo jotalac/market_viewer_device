@@ -31,8 +31,14 @@ public:
         minute = 0;
         second = 0;
 
-        // get the current time
-        configTime(0, 0, "pool.ntp.org", "time.nist.gov");
+        // dont request the time for every clock screen, do it only once
+        static bool ntpRequested = false;
+
+        if (!ntpRequested) {
+            // get the current time
+            configTime(0, 0, "pool.ntp.org", "time.nist.gov");
+            ntpRequested = true;
+        }
     }
 
     void parseData(JsonObject& data) override {}

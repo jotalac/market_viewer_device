@@ -6,9 +6,9 @@
 #include "ui.h"
 
 lv_obj_t * ui_clockScreen = NULL;
+lv_obj_t * ui_timezoneLabel = NULL;
 lv_obj_t * ui_timeLabel = NULL;
 lv_obj_t * ui_clockNeedleSecond = NULL;
-lv_obj_t * ui_clockNeedleHour = NULL;
 lv_obj_t * ui_clockNeedleMinute = NULL;
 // event funtions
 void ui_event_clockScreen(lv_event_t * e)
@@ -31,51 +31,51 @@ void ui_clockScreen_screen_init(void)
 {
     ui_clockScreen = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_clockScreen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_img_src(ui_clockScreen, &ui_img_gauge_background_test_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_src(ui_clockScreen, &ui_img_gauge_background_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_timezoneLabel = lv_label_create(ui_clockScreen);
+    lv_obj_set_width(ui_timezoneLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_timezoneLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_timezoneLabel, 0);
+    lv_obj_set_y(ui_timezoneLabel, -32);
+    lv_obj_set_align(ui_timezoneLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_timezoneLabel, "Europe/London");
+    lv_obj_set_style_text_color(ui_timezoneLabel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_timezoneLabel, 200, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_timezoneLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_timeLabel = lv_label_create(ui_clockScreen);
     lv_obj_set_width(ui_timeLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_timeLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_timeLabel, 0);
-    lv_obj_set_y(ui_timeLabel, -59);
+    lv_obj_set_y(ui_timeLabel, -90);
     lv_obj_set_align(ui_timeLabel, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_timeLabel, "14:20");
-    lv_obj_set_style_text_font(ui_timeLabel, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_label_set_text(ui_timeLabel, "12:34");
+    lv_obj_set_style_text_color(ui_timeLabel, lv_color_hex(0xDDDDDD), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_timeLabel, 240, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_timeLabel, &ui_font_digitsFont, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui_timeLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui_timeLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_timeLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui_timeLabel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_clockNeedleSecond = lv_img_create(ui_clockScreen);
-    lv_img_set_src(ui_clockNeedleSecond, &ui_img_big_needle_test_png);
-    lv_obj_set_width(ui_clockNeedleSecond, LV_SIZE_CONTENT);   /// 24
-    lv_obj_set_height(ui_clockNeedleSecond, LV_SIZE_CONTENT);    /// 162
-    lv_obj_set_x(ui_clockNeedleSecond, 0);
-    lv_obj_set_y(ui_clockNeedleSecond, -70);
+    lv_img_set_src(ui_clockNeedleSecond, &ui_img_needle_small_png);
+    lv_obj_set_width(ui_clockNeedleSecond, LV_SIZE_CONTENT);   /// 18
+    lv_obj_set_height(ui_clockNeedleSecond, LV_SIZE_CONTENT);    /// 70
     lv_obj_set_align(ui_clockNeedleSecond, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_clockNeedleSecond, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
     lv_obj_clear_flag(ui_clockNeedleSecond, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_img_set_pivot(ui_clockNeedleSecond, 12, 150);
-    lv_obj_set_style_img_recolor(ui_clockNeedleSecond, lv_color_hex(0xD4E757), LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_img_recolor_opa(ui_clockNeedleSecond, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    ui_clockNeedleHour = lv_img_create(ui_clockScreen);
-    lv_img_set_src(ui_clockNeedleHour, &ui_img_big_needle_test_png);
-    lv_obj_set_width(ui_clockNeedleHour, LV_SIZE_CONTENT);   /// 24
-    lv_obj_set_height(ui_clockNeedleHour, LV_SIZE_CONTENT);    /// 162
-    lv_obj_set_x(ui_clockNeedleHour, 0);
-    lv_obj_set_y(ui_clockNeedleHour, -70);
-    lv_obj_set_align(ui_clockNeedleHour, LV_ALIGN_CENTER);
-    lv_obj_add_flag(ui_clockNeedleHour, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
-    lv_obj_clear_flag(ui_clockNeedleHour, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_img_set_pivot(ui_clockNeedleHour, 12, 150);
+    lv_img_set_pivot(ui_clockNeedleSecond, 233, 346);
 
     ui_clockNeedleMinute = lv_img_create(ui_clockScreen);
-    lv_img_set_src(ui_clockNeedleMinute, &ui_img_small_needle_test_png);
-    lv_obj_set_width(ui_clockNeedleMinute, LV_SIZE_CONTENT);   /// 18
-    lv_obj_set_height(ui_clockNeedleMinute, LV_SIZE_CONTENT);    /// 70
-    lv_obj_set_x(ui_clockNeedleMinute, 0);
-    lv_obj_set_y(ui_clockNeedleMinute, 80);
+    lv_img_set_src(ui_clockNeedleMinute, &ui_img_needle_big_png);
+    lv_obj_set_width(ui_clockNeedleMinute, LV_SIZE_CONTENT);   /// 24
+    lv_obj_set_height(ui_clockNeedleMinute, LV_SIZE_CONTENT);    /// 162
     lv_obj_set_align(ui_clockNeedleMinute, LV_ALIGN_CENTER);
     lv_obj_add_flag(ui_clockNeedleMinute, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
     lv_obj_clear_flag(ui_clockNeedleMinute, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_img_set_pivot(ui_clockNeedleMinute, 9, 60);
+    lv_img_set_pivot(ui_clockNeedleMinute, 233, 233);
 
     lv_obj_add_event_cb(ui_clockScreen, ui_event_clockScreen, LV_EVENT_ALL, NULL);
 
@@ -87,9 +87,9 @@ void ui_clockScreen_screen_destroy(void)
 
     // NULL screen variables
     ui_clockScreen = NULL;
+    ui_timezoneLabel = NULL;
     ui_timeLabel = NULL;
     ui_clockNeedleSecond = NULL;
-    ui_clockNeedleHour = NULL;
     ui_clockNeedleMinute = NULL;
 
 }

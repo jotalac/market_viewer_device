@@ -15,9 +15,9 @@ extern void ui_clockScreen_screen_init(void);
 extern void ui_clockScreen_screen_destroy(void);
 extern void ui_event_clockScreen(lv_event_t * e);
 extern lv_obj_t * ui_clockScreen;
+extern lv_obj_t * ui_timezoneLabel;
 extern lv_obj_t * ui_timeLabel;
 extern lv_obj_t * ui_clockNeedleSecond;
-extern lv_obj_t * ui_clockNeedleHour;
 extern lv_obj_t * ui_clockNeedleMinute;
 // CUSTOM VARIABLES
 

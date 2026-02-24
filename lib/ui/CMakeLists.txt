@@ -28,9 +28,9 @@ SET(SOURCES ui_homeScreen.c
     ui_img_121694436.c
     ui_img_green_background_png.c
     ui_img_1458903039.c
-    ui_img_gauge_background_test_png.c
-    ui_img_big_needle_test_png.c
-    ui_img_small_needle_test_png.c
+    ui_img_gauge_background_png.c
+    ui_img_needle_small_png.c
+    ui_img_needle_big_png.c
     fonts/ui_font_Mono20.c
     fonts/ui_font_mono30.c
     fonts/ui_font_mono40.c
@@ -40,6 +40,7 @@ SET(SOURCES ui_homeScreen.c
     fonts/ui_font_monoBold50.c
     fonts/ui_font_monoBold60.c
     fonts/ui_font_monoBold80.c
-    fonts/ui_font_monoLight30.c)
+    fonts/ui_font_monoLight30.c
+    fonts/ui_font_digitsFont.c)
 
 add_library(ui ${SOURCES})
