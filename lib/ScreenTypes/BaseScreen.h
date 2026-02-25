@@ -40,7 +40,7 @@ public:
     // Common getters
     int getPosition() const { return position; }
     ScreenType getType() const { return type; }
-    void resetLastFetchTime() {lastFetchTime = millis()+10000000;} // needs to be fixed and doen proper
+    void resetLastFetchTime() {lastFetchTime = millis()+10000000;} // it will overflow in the needs update check
 };
 
 BaseScreen* createScreenFromType(const String& type, JsonObject& data);

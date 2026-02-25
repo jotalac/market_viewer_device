@@ -44,6 +44,8 @@ public:
     void parseData(JsonObject& data) override {}
 
     void render() override;
+    void renderDigital();
+    void renderAnalog();
 
     bool needsUpdate() override;
 
@@ -51,7 +53,7 @@ public:
         return "Clock (" + timezone + ")";
     }
 
-    void updateClockNeedles();
+    void updateClockTimeDisplay();
 
 
     // Clock-specific getters

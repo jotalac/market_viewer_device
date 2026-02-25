@@ -15,10 +15,15 @@ extern void ui_clockScreen_screen_init(void);
 extern void ui_clockScreen_screen_destroy(void);
 extern void ui_event_clockScreen(lv_event_t * e);
 extern lv_obj_t * ui_clockScreen;
+extern lv_obj_t * ui_clockGaugeImage;
 extern lv_obj_t * ui_timezoneLabel;
 extern lv_obj_t * ui_timeLabel;
 extern lv_obj_t * ui_clockNeedleSecond;
 extern lv_obj_t * ui_clockNeedleMinute;
+extern lv_obj_t * ui_digitalClockBackground;
+extern lv_obj_t * ui_digitalTimeLabel;
+extern lv_obj_t * ui_digitalTimezoneLabel;
+extern lv_obj_t * ui_digitalDateLabel;
 // CUSTOM VARIABLES
 
 #ifdef __cplusplus

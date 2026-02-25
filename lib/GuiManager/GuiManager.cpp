@@ -246,7 +246,7 @@ void updateScreen() {
     // updale clock every tick
     if (activeScreen->getType() == ScreenType::CLOCK) {
         ClockScreen* clock = static_cast<ClockScreen*>(activeScreen);
-        clock->updateClockNeedles();
+        clock->updateClockTimeDisplay();
     }
 }
 

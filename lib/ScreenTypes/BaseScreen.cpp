@@ -98,29 +98,3 @@ BaseScreen* createScreenFromType(const String& type, JsonObject& data) {
     Serial.println("Unknown screen type: " + type);
     return nullptr;
 }
-
-
-// BaseScreen* createTestScreenFromType(const ScreenType& type, int position) {
-//     if (type == ScreenType::CRYPTO) {
-//     return new CryptoScreen(
-//         position,
-//         "bitcoin",
-//         "usd",
-//         10,
-//         "24h",
-//         true,
-//         false,
-//         GraphType::LINE
-//     );
-//     }
-    
-//     if (type == ScreenType::STOCK) {
-//         return new StockScreen(
-//             position,
-//             10,
-//             "AAPL",
-//             "1day"
-//     );}
-
-//     return nullptr;
-// }

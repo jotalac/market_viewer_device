@@ -68,6 +68,7 @@ LV_IMG_DECLARE(ui_img_needle_small_png);    // assets/needle_small.png
 LV_IMG_DECLARE(ui_img_needle_big_png);    // assets/needle_big.png
 
 // FONTS
+LV_FONT_DECLARE(ui_font_digitsFont);
 LV_FONT_DECLARE(ui_font_Mono20);
 LV_FONT_DECLARE(ui_font_mono30);
 LV_FONT_DECLARE(ui_font_mono40);
@@ -78,7 +79,7 @@ LV_FONT_DECLARE(ui_font_monoBold50);
 LV_FONT_DECLARE(ui_font_monoBold60);
 LV_FONT_DECLARE(ui_font_monoBold80);
 LV_FONT_DECLARE(ui_font_monoLight30);
-LV_FONT_DECLARE(ui_font_digitsFont);
+LV_FONT_DECLARE(ui_font_digitsFont100);
 
 // UI INIT
 void ui_init(void);

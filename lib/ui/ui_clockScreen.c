@@ -6,10 +6,15 @@
 #include "ui.h"
 
 lv_obj_t * ui_clockScreen = NULL;
+lv_obj_t * ui_clockGaugeImage = NULL;
 lv_obj_t * ui_timezoneLabel = NULL;
 lv_obj_t * ui_timeLabel = NULL;
 lv_obj_t * ui_clockNeedleSecond = NULL;
 lv_obj_t * ui_clockNeedleMinute = NULL;
+lv_obj_t * ui_digitalClockBackground = NULL;
+lv_obj_t * ui_digitalTimeLabel = NULL;
+lv_obj_t * ui_digitalTimezoneLabel = NULL;
+lv_obj_t * ui_digitalDateLabel = NULL;
 // event funtions
 void ui_event_clockScreen(lv_event_t * e)
 {
@@ -31,7 +36,14 @@ void ui_clockScreen_screen_init(void)
 {
     ui_clockScreen = lv_obj_create(NULL);
     lv_obj_clear_flag(ui_clockScreen, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
-    lv_obj_set_style_bg_img_src(ui_clockScreen, &ui_img_gauge_background_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_clockGaugeImage = lv_img_create(ui_clockScreen);
+    lv_img_set_src(ui_clockGaugeImage, &ui_img_gauge_background_png);
+    lv_obj_set_width(ui_clockGaugeImage, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_clockGaugeImage, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_clockGaugeImage, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_clockGaugeImage, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
+    lv_obj_clear_flag(ui_clockGaugeImage, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_timezoneLabel = lv_label_create(ui_clockScreen);
     lv_obj_set_width(ui_timezoneLabel, LV_SIZE_CONTENT);   /// 1
@@ -77,6 +89,41 @@ void ui_clockScreen_screen_init(void)
     lv_obj_clear_flag(ui_clockNeedleMinute, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_img_set_pivot(ui_clockNeedleMinute, 233, 233);
 
+    ui_digitalClockBackground = lv_obj_create(ui_clockScreen);
+    lv_obj_set_width(ui_digitalClockBackground, 466);
+    lv_obj_set_height(ui_digitalClockBackground, 466);
+    lv_obj_set_align(ui_digitalClockBackground, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_digitalClockBackground, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_set_style_bg_img_src(ui_digitalClockBackground, &ui_img_green_background_png, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_img_tiled(ui_digitalClockBackground, true, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_digitalTimeLabel = lv_label_create(ui_clockScreen);
+    lv_obj_set_width(ui_digitalTimeLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_digitalTimeLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_align(ui_digitalTimeLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_digitalTimeLabel, "12:32:59");
+    lv_obj_set_style_text_color(ui_digitalTimeLabel, lv_color_hex(0xFAFAFA), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_digitalTimeLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_digitalTimeLabel, &ui_font_digitsFont100, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_digitalTimezoneLabel = lv_label_create(ui_clockScreen);
+    lv_obj_set_width(ui_digitalTimezoneLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_digitalTimezoneLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_digitalTimezoneLabel, 0);
+    lv_obj_set_y(ui_digitalTimezoneLabel, 80);
+    lv_obj_set_align(ui_digitalTimezoneLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_digitalTimezoneLabel, "Europe/London");
+    lv_obj_set_style_text_font(ui_digitalTimezoneLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_digitalDateLabel = lv_label_create(ui_clockScreen);
+    lv_obj_set_width(ui_digitalDateLabel, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_digitalDateLabel, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_digitalDateLabel, 0);
+    lv_obj_set_y(ui_digitalDateLabel, -80);
+    lv_obj_set_align(ui_digitalDateLabel, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_digitalDateLabel, "1 Jan 2026");
+    lv_obj_set_style_text_font(ui_digitalDateLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
+
     lv_obj_add_event_cb(ui_clockScreen, ui_event_clockScreen, LV_EVENT_ALL, NULL);
 
 }
@@ -87,9 +134,14 @@ void ui_clockScreen_screen_destroy(void)
 
     // NULL screen variables
     ui_clockScreen = NULL;
+    ui_clockGaugeImage = NULL;
     ui_timezoneLabel = NULL;
     ui_timeLabel = NULL;
     ui_clockNeedleSecond = NULL;
     ui_clockNeedleMinute = NULL;
+    ui_digitalClockBackground = NULL;
+    ui_digitalTimeLabel = NULL;
+    ui_digitalTimezoneLabel = NULL;
+    ui_digitalDateLabel = NULL;
 
 }

@@ -20,7 +20,7 @@ bool ClockScreen::needsUpdate() {
 }
 
 
-void ClockScreen::updateClockNeedles() {
+void ClockScreen::updateClockTimeDisplay() {
     static uint32_t last_tick = 0;
     
     // Only update the math once a second to save CPU
@@ -40,19 +40,33 @@ void ClockScreen::updateClockNeedles() {
         second = timeinfo.tm_sec;
 
         char timeText[16]; 
-        snprintf(timeText, sizeof(timeText), "%02d:%02d", hour, minute);
 
-        // calculate angles for needles
-        int32_t second_angle = second * 60; 
-        int32_t minute_angle = minute * 60; 
-        int32_t hour_angle = ((hour % 12) * 300) + (minute * 5); 
-        
-        // update all needles
-        lv_img_set_angle(ui_clockNeedleMinute, minute_angle);        
-        lv_img_set_angle(ui_clockNeedleSecond, second_angle);
+        //check the clock type
+        if (clockType == ClockType::ANALOG_CLOCK) {
+            snprintf(timeText, sizeof(timeText), "%02d:%02d", hour, minute);
+    
+            // calculate angles for needles
+            int32_t second_angle = second * 60; 
+            int32_t minute_angle = minute * 60; 
+            int32_t hour_angle = ((hour % 12) * 300) + (minute * 5); 
+            
+            // update all needles
+            lv_img_set_angle(ui_clockNeedleMinute, minute_angle);        
+            lv_img_set_angle(ui_clockNeedleSecond, second_angle);
+    
+            //update digial clock
+            lv_label_set_text(ui_timeLabel, timeText);
+        } else {
+            snprintf(timeText, sizeof(timeText), "%02d:%02d:%02d", hour, minute, second);
 
-        //update digial clock
-        lv_label_set_text(ui_timeLabel, timeText);
+            //update date
+            char dateText[32];
+            strftime(dateText, sizeof(dateText), "%d %b %Y", &timeinfo);
+
+            lv_label_set_text(ui_digitalTimeLabel, timeText);
+            lv_label_set_text(ui_digitalDateLabel, dateText);
+        }
+
     }
 }
 
@@ -61,6 +75,46 @@ void ClockScreen::render() {
     setenv("TZ", timezoneCode.c_str(), 1);
     tzset();
 
-    //set timezone text
+    if (clockType == ClockType::ANALOG_CLOCK) {
+        renderAnalog();
+    } else {
+        renderDigital();
+    }
+}
+
+void ClockScreen::renderDigital() {
+    //hide analog parts
+    lv_obj_add_flag(ui_clockGaugeImage, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui_timezoneLabel, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui_timeLabel, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui_clockNeedleSecond, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui_clockNeedleMinute, LV_OBJ_FLAG_HIDDEN);
+    
+    //show digital parts
+    lv_obj_clear_flag(ui_digitalClockBackground, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(ui_digitalTimeLabel, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(ui_digitalTimezoneLabel, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(ui_digitalDateLabel, LV_OBJ_FLAG_HIDDEN);
+
+    //set the values
+    lv_label_set_text(ui_digitalTimezoneLabel, timezone.c_str());
+}
+
+
+void ClockScreen::renderAnalog() {
+    //hide digital parts
+    lv_obj_add_flag(ui_digitalClockBackground, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui_digitalTimeLabel, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui_digitalTimezoneLabel, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui_digitalDateLabel, LV_OBJ_FLAG_HIDDEN);
+    
+    //show analog parts
+    lv_obj_clear_flag(ui_clockGaugeImage, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(ui_timezoneLabel, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(ui_timeLabel, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(ui_clockNeedleSecond, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_clear_flag(ui_clockNeedleMinute, LV_OBJ_FLAG_HIDDEN);
+
+    //set the values
     lv_label_set_text(ui_timezoneLabel, timezone.c_str());
 }
