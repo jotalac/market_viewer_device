@@ -116,7 +116,7 @@ void init_lvgl_interface() {
     lv_init();
 
     // 1. Buffer Setup (Double Buffering in Fast RAM)
-    uint32_t buf_size = LCD_WIDTH * LCD_HEIGHT / 10;
+    uint32_t buf_size = LCD_WIDTH * LCD_HEIGHT / 20;
     
     // Allocate Buffer 1
     lv_color_t *buf1 = (lv_color_t *)heap_caps_malloc(buf_size * sizeof(lv_color_t), MALLOC_CAP_DMA);
