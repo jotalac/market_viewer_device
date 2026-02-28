@@ -28,6 +28,9 @@ void ui_event_clockScreen(lv_event_t * e)
         lv_indev_wait_release(lv_indev_get_act());
         swipePrevScreen(e);
     }
+    if(event_code == LV_EVENT_LONG_PRESSED) {
+        switchToHomeScreen(e);
+    }
 }
 
 // build funtions
@@ -93,6 +96,7 @@ void ui_clockScreen_screen_init(void)
     lv_obj_set_width(ui_digitalClockBackground, 466);
     lv_obj_set_height(ui_digitalClockBackground, 466);
     lv_obj_set_align(ui_digitalClockBackground, LV_ALIGN_CENTER);
+    lv_obj_add_flag(ui_digitalClockBackground, LV_OBJ_FLAG_HIDDEN);     /// Flags
     lv_obj_clear_flag(ui_digitalClockBackground, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_img_src(ui_digitalClockBackground, &ui_img_green_background_png, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_img_tiled(ui_digitalClockBackground, true, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -102,6 +106,7 @@ void ui_clockScreen_screen_init(void)
     lv_obj_set_height(ui_digitalTimeLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_digitalTimeLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_digitalTimeLabel, "12:32:59");
+    lv_obj_add_flag(ui_digitalTimeLabel, LV_OBJ_FLAG_HIDDEN);     /// Flags
     lv_obj_set_style_text_color(ui_digitalTimeLabel, lv_color_hex(0xFAFAFA), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_digitalTimeLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_digitalTimeLabel, &ui_font_digitsFont100, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -110,18 +115,24 @@ void ui_clockScreen_screen_init(void)
     lv_obj_set_width(ui_digitalTimezoneLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_digitalTimezoneLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_digitalTimezoneLabel, 0);
-    lv_obj_set_y(ui_digitalTimezoneLabel, 80);
+    lv_obj_set_y(ui_digitalTimezoneLabel, 90);
     lv_obj_set_align(ui_digitalTimezoneLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_digitalTimezoneLabel, "Europe/London");
+    lv_obj_add_flag(ui_digitalTimezoneLabel, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_set_style_text_color(ui_digitalTimezoneLabel, lv_color_hex(0xCACACA), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_digitalTimezoneLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_digitalTimezoneLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_digitalDateLabel = lv_label_create(ui_clockScreen);
     lv_obj_set_width(ui_digitalDateLabel, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_digitalDateLabel, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_x(ui_digitalDateLabel, 0);
-    lv_obj_set_y(ui_digitalDateLabel, -80);
+    lv_obj_set_y(ui_digitalDateLabel, -90);
     lv_obj_set_align(ui_digitalDateLabel, LV_ALIGN_CENTER);
     lv_label_set_text(ui_digitalDateLabel, "1 Jan 2026");
+    lv_obj_add_flag(ui_digitalDateLabel, LV_OBJ_FLAG_HIDDEN);     /// Flags
+    lv_obj_set_style_text_color(ui_digitalDateLabel, lv_color_hex(0xCACACA), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_digitalDateLabel, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_digitalDateLabel, &ui_font_mono30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_clockScreen, ui_event_clockScreen, LV_EVENT_ALL, NULL);

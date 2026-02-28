@@ -13,7 +13,9 @@ struct ScreenInfo {
 };
 
 // Initialize the manager
-// void init_screens_manager();
+void init_screens_manager();
+
+void add_default_screens();
 
 // void add_test_screens();
 
@@ -31,5 +33,11 @@ int get_screen_count();
 
 // Clear all screens
 void clear_all_screens();
+
+//update clock and timer screens
+void updateActiveScreen(int activeScreenIndex);
+
+//updates all timers, that are not currently visible, if some timer ended returns its index, otherwise returns -1
+int updateAllTimers();
 
 #endif

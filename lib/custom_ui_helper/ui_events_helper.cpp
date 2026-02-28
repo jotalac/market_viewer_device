@@ -8,6 +8,7 @@
 #include <Preferences.h>
 #include "CryptoScreen.h"
 #include "StockScreen.h"
+#include "TimerScreen.h"
 
 static Preferences preferences;
 
@@ -188,4 +189,24 @@ void updateCandleGraph(bool isCandleGraph, BaseScreen* activeScreen) {
         StockScreen* stock = static_cast<StockScreen*>(activeScreen);
         stock->setGraphType(isCandleGraph);
     }
+}
+
+//Timer actions
+void resetTimer(BaseScreen* activeTimerScreen) {
+    if (activeTimerScreen->getType() != ScreenType::TIMER) return;
+    
+    TimerScreen* timerScreen = static_cast<TimerScreen*>(activeTimerScreen);
+    timerScreen->resetTimer();
+
+}
+
+void startTimerToggle(BaseScreen* activeTimerScreen) {
+    if (activeTimerScreen->getType() != ScreenType::TIMER) return;
+    
+    TimerScreen* timerScreen = static_cast<TimerScreen*>(activeTimerScreen);
+    if (timerScreen->isTimerRunning()) {
+        timerScreen->togglePauseTimer();
+    } else {
+        timerScreen->startTimer();
+    }        
 }

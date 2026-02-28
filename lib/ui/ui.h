@@ -38,6 +38,7 @@ extern "C" {
 #include "ui_marketDataSettingScreen.h"
 #include "ui_stockScreen.h"
 #include "ui_clockScreen.h"
+#include "ui_timerScreen.h"
 
 ///////////////////// VARIABLES ////////////////////
 
@@ -66,9 +67,13 @@ LV_IMG_DECLARE(ui_img_1458903039);    // assets/stock-icon.png
 LV_IMG_DECLARE(ui_img_gauge_background_png);    // assets/gauge_background.png
 LV_IMG_DECLARE(ui_img_needle_small_png);    // assets/needle_small.png
 LV_IMG_DECLARE(ui_img_needle_big_png);    // assets/needle_big.png
+LV_IMG_DECLARE(ui_img_1970864515);    // assets/play-icon.png
+LV_IMG_DECLARE(ui_img_461506120);    // assets/timer-icon.png
+LV_IMG_DECLARE(ui_img_81954201);    // assets/pause-icon.png
 
 // FONTS
 LV_FONT_DECLARE(ui_font_digitsFont);
+LV_FONT_DECLARE(ui_font_digitsFont100);
 LV_FONT_DECLARE(ui_font_Mono20);
 LV_FONT_DECLARE(ui_font_mono30);
 LV_FONT_DECLARE(ui_font_mono40);
@@ -79,7 +84,6 @@ LV_FONT_DECLARE(ui_font_monoBold50);
 LV_FONT_DECLARE(ui_font_monoBold60);
 LV_FONT_DECLARE(ui_font_monoBold80);
 LV_FONT_DECLARE(ui_font_monoLight30);
-LV_FONT_DECLARE(ui_font_digitsFont100);
 
 // UI INIT
 void ui_init(void);

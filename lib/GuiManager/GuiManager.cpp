@@ -6,6 +6,7 @@
 #include "ScreensManager.h"
 #include "BaseScreen.h"
 #include "ClockScreen.h"
+#include "TimerScreen.h"
 
 
 // Double Buffering for smooth UI
@@ -158,6 +159,8 @@ void init_lvgl_interface() {
     lv_disp_set_rotation(NULL, (lv_disp_rot_t)1); // rotate by default that the usb port is a top
 
     ui_init();
+
+    init_screens_manager();
 }
 
 void update_gui() {
@@ -200,6 +203,14 @@ void go_back_from_market_data_setting() {
     load_screen_by_index(activeScreenIndex, true);
 }
 
+void go_to_home_screen() {
+    load_screen_by_index(-1, false);
+    activeScreenIndex = -1;
+
+    //delay to not accidently click on the menu items
+    delay(400);
+}
+
 // --- SCREEN LOADER ---
 
 void load_screen_by_index(int index, bool goingFromSettings) {
@@ -222,6 +233,7 @@ void load_screen_by_index(int index, bool goingFromSettings) {
         case ScreenType::STOCK: targetScreenUI = ui_stockScreen; break;
         case ScreenType::CRYPTO: targetScreenUI = ui_cryptoScreen; break;
         case ScreenType::CLOCK: targetScreenUI = ui_clockScreen; break;
+        case ScreenType::TIMER: targetScreenUI = ui_timerScreen; break;
         // case ScreenType::AI_TEXT: targetScreenUI = ui_aiTextScreen; break;
         // Add others...
         default: return;
@@ -235,18 +247,14 @@ void load_screen_by_index(int index, bool goingFromSettings) {
 
 
 void updateScreen() {
-    if (activeScreenIndex == -1) return; // home screen
-
-    BaseScreen* activeScreen = get_screen_ptr(activeScreenIndex);
-
-    if (activeScreen->needsUpdate()) {
-        activeScreen->update();
-    }
-
-    // updale clock every tick
-    if (activeScreen->getType() == ScreenType::CLOCK) {
-        ClockScreen* clock = static_cast<ClockScreen*>(activeScreen);
-        clock->updateClockTimeDisplay();
+    //update current active screen
+    updateActiveScreen(activeScreenIndex);
+    
+    //update all running timers
+    int endedTimerScreenIndex = updateAllTimers();
+    if(endedTimerScreenIndex != -1) {
+        load_screen_by_index(endedTimerScreenIndex, false);
+        activeScreenIndex = endedTimerScreenIndex;
     }
 }
 

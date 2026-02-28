@@ -15,6 +15,7 @@ void go_prev_screen();
 
 void go_back_from_market_data_setting();
 BaseScreen* get_active_screen();
+void go_to_home_screen();
 
 //handle screen update
 void updateScreen();

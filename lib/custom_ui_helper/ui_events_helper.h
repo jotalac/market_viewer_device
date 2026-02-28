@@ -27,4 +27,8 @@ void updateSimpleDisplay(bool isSimpleDisplay, BaseScreen* activeScreen);
 void updateDispalyGraph(bool displayGraph, BaseScreen* activeScreen);
 void updateCandleGraph(bool isCandleGraph, BaseScreen* activeScreen);
 
+//timer screen
+void resetTimer(BaseScreen* activeTimerScreen);
+void startTimerToggle(BaseScreen* activeTimerScreen);
+
 #endif

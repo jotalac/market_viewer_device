@@ -209,8 +209,21 @@ void candleChartSwitchToggle(lv_event_t * e)
     bool isSwitchedOn = lv_obj_has_state(sw, LV_STATE_CHECKED);
     updateCandleGraph(isSwitchedOn, get_active_screen());
 }
-void aiReadButtonClicked(lv_event_t * e)
+
+void switchToHomeScreen(lv_event_t * e)
 {
 	// Your code here
-    // play_test();
+    go_to_home_screen();
+    Serial.println("Long pressed screen - switching to home screen!");
+
+}
+
+void timerResetPressed(lv_event_t * e)
+{
+    resetTimer(get_active_screen());
+}
+
+void timerStartPressed(lv_event_t * e)
+{
+	startTimerToggle(get_active_screen());
 }

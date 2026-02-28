@@ -9,7 +9,8 @@ enum class ScreenType {
     CLOCK,
     STOCK,
     CRYPTO,
-    AI_TEXT
+    AI_TEXT,
+    TIMER
 };
 
 enum class GraphType {
@@ -25,7 +26,7 @@ protected:
     unsigned long lastFetchTime;
 
 public:
-    BaseScreen(int pos) : position(pos), lastFetchTime(0) {}
+    BaseScreen(int pos) : position(pos), lastFetchTime(millis()) {}
     virtual ~BaseScreen() {}
 
     // Pure virtual methods - each screen type must implement

@@ -4,9 +4,23 @@
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <Preferences.h>
+#include "ClockScreen.h"
+#include "TimerScreen.h"
 
 static std::vector<BaseScreen*> screens;
 static Preferences preferences;
+
+void init_screens_manager() {
+    clear_all_screens();
+
+    //default screens (clock and timer), when none are fetched
+    add_default_screens();
+}
+
+void add_default_screens() {
+    screens.push_back(new ClockScreen(0, "Europe/London", "GMT0BST,M3.5.0/1,M10.5.0", true, ClockType::ANALOG_CLOCK));
+    screens.push_back(new TimerScreen(1, "Timer 1"));
+}
 
 void clear_all_screens() {
     // Free memory for all screens
@@ -82,4 +96,45 @@ BaseScreen* get_screen_ptr(int index) {
         return screens[index];
     }
     return nullptr;
+}
+
+void updateActiveScreen(int activeScreenIndex) {
+    if (activeScreenIndex == -1) return; // home screen
+
+    BaseScreen* activeScreen = get_screen_ptr(activeScreenIndex);
+    if (!activeScreen) return;
+
+    if (activeScreen->needsUpdate()) {
+        activeScreen->update();
+    }
+
+    // updale clock
+    if (activeScreen->getType() == ScreenType::CLOCK) {
+        ClockScreen* clock = static_cast<ClockScreen*>(activeScreen);
+        clock->updateClockTimeDisplay();
+    }
+
+    // update active timer
+    if (activeScreen->getType() == ScreenType::TIMER) {
+        TimerScreen* timerScreen = static_cast<TimerScreen*>(activeScreen);
+        timerScreen->updateTimerScreen(true);
+    }
+}
+
+int updateAllTimers() {
+    int timerEndIndex = -1;
+    for (int i = 0; i < screens.size(); ++i) {
+        BaseScreen* screen = screens[i];
+        if (!screen) return -1; //if we fetched new screens 
+
+        if (screen->getType() == ScreenType::TIMER) {
+            TimerScreen* timer = static_cast<TimerScreen*>(screen);
+            //update the timer screen and check if the timer ends -> go the the timer screen
+            if(timer->updateTimerScreen(false)) {
+                timerEndIndex = i;
+            }
+        }
+    }
+
+    return timerEndIndex;
 }

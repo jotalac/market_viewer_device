@@ -25,11 +25,14 @@ void handleScreensScreenLoad(lv_event_t * e);
 void refetchScreens(lv_event_t * e);
 void swipePrevScreen(lv_event_t * e);
 void requestScreenDataRefresh(lv_event_t * e);
+void switchToHomeScreen(lv_event_t * e);
 void exitMarketDataSetting(lv_event_t * e);
 void marketDataSettingScreenLoad(lv_event_t * e);
 void simpleDisplaySwitchToggle(lv_event_t * e);
 void displayGraphSwitchToggle(lv_event_t * e);
 void candleChartSwitchToggle(lv_event_t * e);
+void timerResetPressed(lv_event_t * e);
+void timerStartPressed(lv_event_t * e);
 
 #ifdef __cplusplus
 } /*extern "C"*/

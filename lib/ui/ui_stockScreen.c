@@ -40,6 +40,9 @@ void ui_event_stockScreen(lv_event_t * e)
         lv_indev_wait_release(lv_indev_get_act());
         _ui_screen_change(&ui_marketDataSettingScreen, LV_SCR_LOAD_ANIM_NONE, 0, 0, &ui_marketDataSettingScreen_screen_init);
     }
+    if(event_code == LV_EVENT_LONG_PRESSED) {
+        switchToHomeScreen(e);
+    }
 }
 
 // build funtions
@@ -55,7 +58,7 @@ void ui_stockScreen_screen_init(void)
     lv_obj_set_width(ui_stockGraphPanel, 466);
     lv_obj_set_height(ui_stockGraphPanel, 320);
     lv_obj_set_align(ui_stockGraphPanel, LV_ALIGN_CENTER);
-    lv_obj_clear_flag(ui_stockGraphPanel, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
+    lv_obj_clear_flag(ui_stockGraphPanel, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(ui_stockGraphPanel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_stockGraphPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui_stockGraphPanel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
