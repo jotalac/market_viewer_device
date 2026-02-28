@@ -15,6 +15,8 @@ private:
     int hour, minute, second;
     int timerTotalSeconds;
 
+    uint32_t last_tick;
+
 
 public:
     TimerScreen(int pos, String name) : BaseScreen(pos), name(name) {

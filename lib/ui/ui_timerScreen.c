@@ -125,8 +125,11 @@ void ui_timerScreen_screen_init(void)
     lv_obj_set_style_text_color(ui_hourRoller, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_hourRoller, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_hourRoller, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_hourRoller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_hourRoller, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui_hourRoller, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    lv_obj_set_style_radius(ui_hourRoller, 10, LV_PART_SELECTED | LV_STATE_DEFAULT);
     ui_object_set_themeable_style_property(ui_hourRoller, LV_PART_SELECTED | LV_STATE_DEFAULT, LV_STYLE_BG_COLOR,
                                            _ui_theme_color_yellowDark);
     ui_object_set_themeable_style_property(ui_hourRoller, LV_PART_SELECTED | LV_STATE_DEFAULT, LV_STYLE_BG_OPA,
@@ -144,7 +147,11 @@ void ui_timerScreen_screen_init(void)
     lv_obj_set_style_text_color(ui_minuteRoller, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_minuteRoller, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_minuteRoller, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_minuteRoller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_minuteRoller, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_minuteRoller, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    lv_obj_set_style_radius(ui_minuteRoller, 10, LV_PART_SELECTED | LV_STATE_DEFAULT);
     ui_object_set_themeable_style_property(ui_minuteRoller, LV_PART_SELECTED | LV_STATE_DEFAULT, LV_STYLE_BG_COLOR,
                                            _ui_theme_color_yellowDark);
     ui_object_set_themeable_style_property(ui_minuteRoller, LV_PART_SELECTED | LV_STATE_DEFAULT, LV_STYLE_BG_OPA,
@@ -162,7 +169,11 @@ void ui_timerScreen_screen_init(void)
     lv_obj_set_style_text_color(ui_secondRoller, lv_color_hex(0x808080), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_secondRoller, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_secondRoller, &ui_font_mono40, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui_secondRoller, lv_color_hex(0x000000), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui_secondRoller, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui_secondRoller, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    lv_obj_set_style_radius(ui_secondRoller, 10, LV_PART_SELECTED | LV_STATE_DEFAULT);
     ui_object_set_themeable_style_property(ui_secondRoller, LV_PART_SELECTED | LV_STATE_DEFAULT, LV_STYLE_BG_COLOR,
                                            _ui_theme_color_yellowDark);
     ui_object_set_themeable_style_property(ui_secondRoller, LV_PART_SELECTED | LV_STATE_DEFAULT, LV_STYLE_BG_OPA,

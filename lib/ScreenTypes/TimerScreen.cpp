@@ -81,6 +81,8 @@ void TimerScreen::startTimer() {
 
     isRunning = true;
     isStopWatch = hour == 0 && minute == 0 && second == 0;
+
+    last_tick = millis() - 1000;
 }
 
 bool TimerScreen::updateTimerScreen(bool updateUI) {
@@ -95,33 +97,34 @@ bool TimerScreen::updateTimerScreen(bool updateUI) {
 bool TimerScreen::updateTimer(bool updateUI) {
     if (!isRunning || isPaused) {return false;}
 
-    static uint32_t last_tick = 0;
+    uint32_t currentMillis = millis();
 
-    if (millis() - last_tick > 1000) {
-        last_tick = millis();
+    if (currentMillis - last_tick >= 1000) {
+        int seconds_passed = (currentMillis - last_tick) / 1000;
+        last_tick += (seconds_passed * 1000);
 
-        second--;
-        if (second < 0) {
-            second = 59;
-            minute--;
-            if (minute < 0) {
-                minute = 59;
-                hour--;
-            }
+        int current_total = (hour * 3600) + (minute * 60) + second;
+        current_total -= seconds_passed;
+
+        hour = current_total / 3600;
+        minute = (current_total % 3600) / 60;
+        second = current_total % 60;
+       
+        if (current_total <= 0) {
+            hour = 0; minute = 0; second = 0;
+            if (updateUI) updateTimerUI();
+            
+            timerEndUIUpdate();
+            play_beep(1500, 400);
+            isPaused = true;
+            return true;
+        } else {
+            hour = current_total / 3600;
+            minute = (current_total % 3600) / 60;
+            second = current_total % 60;
         }
 
-        if (updateUI) {
-            updateTimerUI();
-        }
-    }
-
-    //check timer end
-    if (hour == 0 && minute == 0 && second == 0) {
-        timerEndUIUpdate();
-        play_beep(1500, 400);
-
-        isPaused = true;
-        return true;
+        if (updateUI) updateTimerUI();
     }
 
     return false;
@@ -152,24 +155,20 @@ void TimerScreen::updateTimerUI() {
 void TimerScreen::updateStopwatch(bool updateUI) {
     if (!isRunning || isPaused) return;
 
-    static uint32_t last_tick = 0;
+    uint32_t currentMillis = millis();
+    
+    if (currentMillis - last_tick >= 1000) {
+        int seconds_passed = (currentMillis - last_tick) / 1000;
+        last_tick += (seconds_passed * 1000);
 
-    if (millis() - last_tick > 1000) {
-        last_tick = millis();
+        int current_total = (hour * 3600) + (minute * 60) + second;
+        current_total += seconds_passed; // Add time for stopwatch
 
-        second++;
-        if (second > 59) {
-            second = 0;
-            minute++;
-            if (minute > 59) {
-                minute = 0;
-                hour++;
-            }
-        }
+        hour = current_total / 3600;
+        minute = (current_total % 3600) / 60;
+        second = current_total % 60;
 
-        if (updateUI) {
-            updateStopwatchUI();
-        }
+        if (updateUI) updateStopwatchUI();
     }
 }
 
@@ -193,6 +192,7 @@ void TimerScreen::updateStopwatchUI() {
 void TimerScreen::togglePauseTimer() {
     if (isPaused) {
         isPaused = false;
+        last_tick = millis();
         lv_obj_set_style_bg_img_src(ui_timerPlayPauseButton, ICON_PAUSE, LV_PART_MAIN);
     } else {
         isPaused = true;
