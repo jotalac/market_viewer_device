@@ -92,7 +92,7 @@ void StockScreen::parseData(JsonObject& data) {
     stockName = data["name"] | "";
     priceChange = data["priceChange"] | 0.0f;
     
-    // Parse graph data array manually
+    // parse graph data array manually
     graphData.clear();
     graphData.shrink_to_fit(); // Release memory
 
@@ -117,7 +117,6 @@ bool StockScreen::needsUpdate() {
 void StockScreen::renderGraph() {
     if (graphData.empty()) return;
 
-    // 1. Update the color based on logic
     lv_color_t graphColor = priceChange >= 0 ? lv_color_hex(greenColorGraph) : lv_color_hex(redColorGraph);
     draw_graph_on_canvas(ScreenType::STOCK, graphData, graphColor, graphType == GraphType::CANDLE);
 }

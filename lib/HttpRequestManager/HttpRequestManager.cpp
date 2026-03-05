@@ -2,7 +2,6 @@
 #include "WifiConfig.h"
 #include <HTTPClient.h>
 
-// static HTTPClient http;
 
 String get_base_url() {
     const char* backendUrl = get_backend_url();
@@ -21,7 +20,7 @@ String get_base_url() {
         url = "http://" + url;
     }
 
-    // Ensure URL ends with /
+    // ensure URL ends with /
     if (!url.endsWith("/")) {
         url += "/";
     }
@@ -37,15 +36,13 @@ if (!is_wifi_connected()) return false;
     HTTPClient http; 
     http.setTimeout(15000); 
 
-    //force HTTP/1.0 to disable chunked transfer encoding.
-    // This guarantees the stream will contain pure JSON without hex headers.
     http.useHTTP10(true); 
     
     http.begin(url);
     int httpCode = http.GET();
     
     if (httpCode == HTTP_CODE_OK) {
-        // Parse directly from the clean stream
+        // parse directly from the clean stream
         DeserializationError error = deserializeJson(doc, http.getStream());
         
         http.end(); 

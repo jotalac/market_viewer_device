@@ -2,15 +2,6 @@
 #include "ui.h"
 #include <time.h>
 
-// void ClockScreen::parseData(JsonObject& data) {
-//     timezone = data["timezone"] | "Europe/London";
-//     timezoneCode = data["timezoneCode"] | "GMT0BST,M3.5.0/1,M10.5.0";
-//     clockType = data["clockType"] == "ANALOG" ? ClockType::ANALOG_CLOCK : ClockType::DIGITAL_CLOCK;
-//     use24Hour = data["timeFormat"] == "TWENTY_FOUR_HOUR";
-
-//     configTzTime(timezoneCode.c_str(), "pool.ntp.org", "time.nist.gov");
-// }
-
 bool ClockScreen::needsUpdate() {    
     // update the data here, we dont want to fetch from our standart backend api
     if (millis() - lastFetchTime >= refreshIntervalMillis) {
@@ -23,15 +14,15 @@ bool ClockScreen::needsUpdate() {
 void ClockScreen::updateClockTimeDisplay() {
     static uint32_t last_tick = 0;
     
-    // Only update the math once a second to save CPU
+    // only update once a second
     if (millis() - last_tick > 1000) {
         last_tick = millis();
 
-        // 1. Get the raw time (This ALWAYS works, even before Wi-Fi connects)
+        // get raw time
         time_t now;
         time(&now);
 
-        // 2. Convert to local time safely based on the timezone code
+        // convert to local time safely based on the timezone code
         struct tm timeinfo;
         localtime_r(&now, &timeinfo); 
 

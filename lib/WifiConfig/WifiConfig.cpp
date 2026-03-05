@@ -32,12 +32,12 @@ void init_wifi_config() {
     Serial.println("WiFi Config initialized");
     Serial.println("Configured: " + String(wifiConfig.configured ? "Yes" : "No"));
     
-    // Try to auto-connect with saved credentials
+    // try to auto-connect with saved credentials
     WiFi.mode(WIFI_STA);
 
     WiFi.begin();
     
-    // Wait a bit for connection
+    // wait for connection
     int timeout = 10;
     while (WiFi.status() != WL_CONNECTED && timeout > 0) {
         delay(500);
@@ -77,9 +77,7 @@ void save_config_callback() {
 bool start_wifi_portal() {
     Serial.println("Starting WiFi configuration portal...");
     
-    // Create custom parameters
-    // backendUrlParam = new WiFiManagerParameter("backend_url", "Backend URL", wifiConfig.backendUrl, 256);
-    // deviceHashParam = new WiFiManagerParameter("device_hash", "Device hash", wifiConfig.deviceHash, 256);
+    // create custom parameters
     backendUrlParam.setValue(wifiConfig.backendUrl, 256);
     deviceHashParam.setValue(wifiConfig.deviceHash, 256);
 

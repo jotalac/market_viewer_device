@@ -9,27 +9,25 @@
 void setup() {
   Serial.begin(115200);
   
-  //Initialize Hardware (Screen, Touch, I2C)
+  //initialize Hardware (Screen, Touch, I2C)
   init_hardware();
 
-  //Initialize audio 
+  //initialize audio 
   init_audio_manager();
   
   //try to connect to saved wifi
   init_wifi_config();
   
-  //Initialize LVGL (Buffers, UI)
+  //initialize LVGL (Buffers, UI)
   init_lvgl_interface();
 
-  // Load saved hardware settings (brightness, volume, rotation)
+  // load saved hardware settings (brightness, volume, rotation)
   loadHardwareSettingsFromPreferences();
   
-  // add_test_screens();
   Serial.println("System Ready!");
 }
 
 void loop() {
-    // 1. Update GUI
     update_gui();
   
     updateScreen();

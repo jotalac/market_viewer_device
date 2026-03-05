@@ -111,7 +111,6 @@ bool CryptoScreen::needsUpdate() {
 void CryptoScreen::renderGraph() {
     if (graphData.empty()) return;
 
-    // 1. Update the color based on logic
     lv_color_t graphColor = priceChange >= 0 ? lv_color_hex(greenColorGraph) : lv_color_hex(redColorGraph);
     draw_graph_on_canvas(ScreenType::CRYPTO, graphData, graphColor, graphType == GraphType::CANDLE);
 }

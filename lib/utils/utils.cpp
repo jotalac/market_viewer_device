@@ -8,12 +8,11 @@ std::string format_market_price(double price) {
     if (price == 0) {
         return "???";
     }
-    // Use snprintf for float formatting with thousands separator
     char buffer[32];
     
-    // Format based on price size
+    // format based on price size
     if (price >= 1000) {
-        // Large prices: format with commas
+        // large prices: format with commas
         int whole = (int)price;
         std::string result = "";
         int count = 0;
@@ -80,7 +79,7 @@ const lv_font_t* select_correct_font_size(std::string priceLabel, int labelWidth
     for (int i = 0; i < fontCount; i++) {
         const lv_font_t* font = availableFonts[i];
         
-        // 1. Measure the text width with this specific font
+        // measure the text width with this specific font
         lv_point_t size_res;
         lv_txt_get_size(
             &size_res, 
@@ -92,9 +91,8 @@ const lv_font_t* select_correct_font_size(std::string priceLabel, int labelWidth
             LV_TEXT_FLAG_NONE
         );
 
-        // 2. Check if it fits
         if (size_res.x <= labelWidth) {
-            return font; // Found the biggest one that fits!
+            return font;
         }
     }
 

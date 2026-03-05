@@ -12,7 +12,6 @@
 // Double Buffering for smooth UI
 static lv_disp_draw_buf_t draw_buf;
 
-// --- 1. TICK TIMER (Essential for animations) ---
 void example_increase_lvgl_tick(void *arg) {
     lv_tick_inc(2); // Tell LVGL 2ms passed
 }
@@ -29,35 +28,11 @@ void example_lvgl_rounder_cb(struct _lv_disp_drv_t *disp_drv, lv_area_t *area)
     if(area->y2 % 2 == 0) area->y2++;
 }
 
-// void example_lvgl_rounder_cb(struct _lv_disp_drv_t *disp_drv, lv_area_t *area)
-// {
-//     // --- X ALIGNMENT ---
-//     // 1. Round START down to nearest even number (0, 2, 4...)
-//     area->x1 = area->x1 & ~1;
-
-//     // 2. Round END up to nearest odd number (1, 3, 5...)
-//     // This ensures (x2 - x1 + 1) is always an EVEN number (Width divisible by 2)
-//     area->x2 = area->x2 | 1;
-
-//     // --- Y ALIGNMENT ---
-//     // Same logic for Y to keep memory pointers aligned
-//     area->y1 = area->y1 & ~1;
-//     area->y2 = area->y2 | 1;
-
-//     // --- SAFETY CLIPPING (Crucial!) ---
-//     // If your screen is 466px wide, the max index is 465.
-//     // If x2 rounds up to 467, it will cause distortion/wrapping.
-//     if (area->x2 >= disp_drv->hor_res) area->x2 = disp_drv->hor_res - 1;
-//     if (area->y2 >= disp_drv->ver_res) area->y2 = disp_drv->ver_res - 1;
-// }
-
-
-// --- 3. FLUSH CB (With Fix for Broken Pixels) ---
 void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color_p) {
     uint32_t w = (area->x2 - area->x1 + 1);
     uint32_t h = (area->y2 - area->y1 + 1);
 
-    // This block automatically handles the pixel swapping based on your Config file
+    // This block automatically handles the pixel swapping
     #if (LV_COLOR_16_SWAP != 0)
         gfx->draw16bitBeRGBBitmap(area->x1, area->y1, (uint16_t *)&color_p->full, w, h);
     #else
@@ -67,7 +42,6 @@ void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
     lv_disp_flush_ready(disp);
 }
 
-// --- 4. INPUT CB ---
 void my_touchpad_read(lv_indev_drv_t * drv, lv_indev_data_t * data) {
     int16_t x, y;
     if (get_touch(x, y)) {
@@ -116,7 +90,7 @@ void handle_screen_rotation() {
 void init_lvgl_interface() {
     lv_init();
 
-    // 1. Buffer Setup (Double Buffering in Fast RAM)
+    // buffer Setup (Double Buffering in Fast RAM)
     uint32_t buf_size = LCD_WIDTH * LCD_HEIGHT / 20;
     
     // Allocate Buffer 1
@@ -126,7 +100,7 @@ void init_lvgl_interface() {
 
     lv_disp_draw_buf_init(&draw_buf, buf1, buf2, buf_size);
 
-    // 2. Display Driver Setup
+    // display Driver Setup
     static lv_disp_drv_t disp_drv;
     lv_disp_drv_init(&disp_drv);
     disp_drv.hor_res = LCD_WIDTH;
@@ -174,7 +148,6 @@ void set_software_rotation(int rotation_code) {
 }
 
 static int activeScreenIndex = -1; // -1 = Home Screen
-// static int lastSwitchTime = 0;
 
 // --- NAVIGATION ACTIONS ---
 
@@ -234,8 +207,6 @@ void load_screen_by_index(int index, bool goingFromSettings) {
         case ScreenType::CRYPTO: targetScreenUI = ui_cryptoScreen; break;
         case ScreenType::CLOCK: targetScreenUI = ui_clockScreen; break;
         case ScreenType::TIMER: targetScreenUI = ui_timerScreen; break;
-        // case ScreenType::AI_TEXT: targetScreenUI = ui_aiTextScreen; break;
-        // Add others...
         default: return;
     }
 
